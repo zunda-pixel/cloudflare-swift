@@ -32,6 +32,9 @@ let package = Package(
       name: "ImagesTests",
       dependencies: [
         .target(name: "Images"),
+      ],
+      resources: [
+        .process("Resources")
       ]
     ),
   ]

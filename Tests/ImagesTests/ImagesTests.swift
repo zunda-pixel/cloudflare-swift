@@ -21,11 +21,8 @@ final class ImagesTests: XCTestCase {
   var coudflareLogoName: String { cloudflareLogoURL.lastPathComponent }
 
   var samplePng: Data {
-    let nsImage = NSImage(systemSymbolName: "house", accessibilityDescription: nil)!
-    let cgImage = nsImage.cgImage(forProposedRect: nil, context: nil, hints: nil)!
-    let rep = NSBitmapImageRep(cgImage: cgImage)
-    let data = rep.representation(using: .png, properties: [:])!
-    return data
+    let filePath = Bundle.module.url(forResource: "Swift_logo", withExtension: "svg")!
+    return try! Data(contentsOf: filePath)
   }
 
   func testUploadData() async throws {
