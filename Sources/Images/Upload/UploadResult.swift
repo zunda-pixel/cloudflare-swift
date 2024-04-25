@@ -7,7 +7,7 @@ public struct Image: Sendable, Codable, Hashable {
   public var uploadedDate: Date
   public var requireSignedURLs: Bool
   public var variants: [URL]
-  
+
   private enum CodingKeys: String, CodingKey {
     case id
     case fileName = "filename"

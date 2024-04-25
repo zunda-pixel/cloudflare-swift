@@ -8,10 +8,10 @@ extension JSONDecoder {
       let string = try container.decode(String.self)
       let formatter = ISO8601DateFormatter()
       formatter.formatOptions.insert(.withFractionalSeconds)
-      
+
       return formatter.date(from: string)!
     }
-    
+
     return decoder
   }()
 }

@@ -1,15 +1,19 @@
-import XCTest
-@testable import Images
 import HTTPTypes
 import HTTPTypesFoundation
+import XCTest
+
+@testable import Images
 
 final class ImagesTests: XCTestCase {
   let client = ImageClient(
     token: ProcessInfo.processInfo.environment["token"]!,
     accountId: ProcessInfo.processInfo.environment["accountId"]!
   )
-  
-  let cloudflareLogoURL: URL = URL(string: "https://cf-assets.www.cloudflare.com/slt3lc6tev37/7bIgGp4hk4SFO0o3SBbOKJ/b48185dcf20c579960afad879b25ea11/CF_logo_stacked_blktype.jpg")!
+
+  let cloudflareLogoURL: URL = URL(
+    string:
+      "https://cf-assets.www.cloudflare.com/slt3lc6tev37/7bIgGp4hk4SFO0o3SBbOKJ/b48185dcf20c579960afad879b25ea11/CF_logo_stacked_blktype.jpg"
+  )!
   var coudflareLogoName: String { cloudflareLogoURL.lastPathComponent }
 
   var samplePng: Data {
@@ -19,7 +23,7 @@ final class ImagesTests: XCTestCase {
     let data = rep.representation(using: .png, properties: [:])!
     return data
   }
-  
+
   func testUploadData() async throws {
     let metadatas = ["test1": "test2"]
     let response = try await client.upload(
@@ -31,7 +35,7 @@ final class ImagesTests: XCTestCase {
     XCTAssertEqual(response.requireSignedURLs, false)
     XCTAssertTrue(!response.variants.isEmpty)
   }
-  
+
   func testUploadURL() async throws {
     let metadatas = ["test1": "test2"]
     let response = try await client.upload(
@@ -43,7 +47,7 @@ final class ImagesTests: XCTestCase {
     XCTAssertEqual(response.requireSignedURLs, false)
     XCTAssertTrue(!response.variants.isEmpty)
   }
-  
+
   func testUploadDataWithId() async throws {
     let id = String(Int.random(in: Int.min..<Int.max))
     let response = try await client.upload(imageData: samplePng, id: id)
@@ -53,7 +57,7 @@ final class ImagesTests: XCTestCase {
     XCTAssertEqual(response.requireSignedURLs, false)
     XCTAssertTrue(!response.variants.isEmpty)
   }
-  
+
   func testUploadURLWithId() async throws {
     let id = String(Int.random(in: Int.min..<Int.max))
     let response = try await client.upload(imageURL: cloudflareLogoURL, id: id)
@@ -63,7 +67,7 @@ final class ImagesTests: XCTestCase {
     XCTAssertEqual(response.requireSignedURLs, false)
     XCTAssertTrue(!response.variants.isEmpty)
   }
-  
+
   func testUploadDataWithRequireSignedURLs() async throws {
     let response = try await client.upload(
       imageData: samplePng,
@@ -74,7 +78,7 @@ final class ImagesTests: XCTestCase {
     XCTAssertEqual(response.requireSignedURLs, true)
     XCTAssertTrue(!response.variants.isEmpty)
   }
-  
+
   func testUploadURLWithRequireSignedURLs() async throws {
     let response = try await client.upload(
       imageURL: cloudflareLogoURL,
@@ -85,19 +89,22 @@ final class ImagesTests: XCTestCase {
     XCTAssertEqual(response.requireSignedURLs, true)
     XCTAssertTrue(!response.variants.isEmpty)
   }
-  
+
   func testDeleteImage() async throws {
     let response = try await client.upload(imageURL: cloudflareLogoURL)
     try await client.delete(id: response.id)
   }
-  
+
   func testFetchImages() async throws {
     let response1 = try await client.images(perPage: 10)
     XCTAssertEqual(response1.images.count, 10)
-    let response2 = try await client.images(continuationToken: response1.continuationToken, perPage: 10)
-    XCTAssertEqual(response2.images.count,  10)
+    let response2 = try await client.images(
+      continuationToken: response1.continuationToken,
+      perPage: 10
+    )
+    XCTAssertEqual(response2.images.count, 10)
   }
-  
+
   func testFetchImage() async throws {
     let uploadedImage = try await client.upload(imageData: samplePng)
     let image = try await client.image(id: uploadedImage.id)
@@ -111,48 +118,54 @@ final class ImagesTests: XCTestCase {
     XCTAssertEqual(image.requireSignedURLs, uploadedImage.requireSignedURLs)
     XCTAssertEqual(image.variants, uploadedImage.variants)
   }
-  
+
   func testUpdateImage() async throws {
     let metadatas = ["key1": "value1"]
     let requireSignedURLs = true
-    
+
     let uploadedImage = try await client.upload(imageData: samplePng, requireSignedURLs: false)
     let image = try await client.update(
       id: uploadedImage.id,
       metadatas: metadatas,
       requireSignedURLs: requireSignedURLs
     )
-    
+
     XCTAssertEqual(image.metadatas, metadatas)
     XCTAssertEqual(image.requireSignedURLs, requireSignedURLs)
   }
-  
+
   func testUsageStats() async throws {
     let (allowedImageCount, currentImageCount) = try await client.usageStats()
     XCTAssertTrue(allowedImageCount > 0)
     XCTAssertTrue(currentImageCount > 0)
   }
-  
+
   func testBaseImage() async throws {
     let uploadedImage = try await client.upload(imageData: samplePng, requireSignedURLs: false)
     let baseImage = try await client.baseImage(id: uploadedImage.id)
     XCTAssertNotNil(NSImage(data: baseImage))
   }
-  
+
   func testCreateAuthenticatedUploadURLWithURL() async throws {
     let metadatas = ["key1": "value1"]
     let requireSignedURLs = true
-    let (id, uploadURL) = try await client.createAuthenticatedUploadURL(metadatas: metadatas, requireSignedURLs: requireSignedURLs)
+    let (id, uploadURL) = try await client.createAuthenticatedUploadURL(
+      metadatas: metadatas,
+      requireSignedURLs: requireSignedURLs
+    )
     let result = try await ImageClient.upload(uploadURL: uploadURL, imageURL: cloudflareLogoURL)
     XCTAssertEqual(result.id, id)
     XCTAssertEqual(result.metadatas, metadatas)
     XCTAssertEqual(result.requireSignedURLs, requireSignedURLs)
   }
-  
+
   func testCreateAuthenticatedUploadURLWithData() async throws {
     let metadatas = ["key1": "value1"]
     let requireSignedURLs = true
-    let (id, uploadURL) = try await client.createAuthenticatedUploadURL(metadatas: metadatas, requireSignedURLs: requireSignedURLs)
+    let (id, uploadURL) = try await client.createAuthenticatedUploadURL(
+      metadatas: metadatas,
+      requireSignedURLs: requireSignedURLs
+    )
     let result = try await ImageClient.upload(uploadURL: uploadURL, imageData: samplePng)
     XCTAssertEqual(result.id, id)
     XCTAssertEqual(result.metadatas, metadatas)

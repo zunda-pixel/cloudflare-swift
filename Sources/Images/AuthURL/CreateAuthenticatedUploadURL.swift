@@ -17,29 +17,38 @@ extension ImageClient {
     metadatas: [String: String] = [:],
     requireSignedURLs: Bool? = nil
   ) async throws -> (id: String, uploadURL: URL) {
-    let url = URL(string: "https://api.cloudflare.com/client/v4/accounts/\(accountId)/images/v2/direct_upload")!
-    
+    let url = URL(
+      string: "https://api.cloudflare.com/client/v4/accounts/\(accountId)/images/v2/direct_upload"
+    )!
+
     let request = HTTPRequest(
       method: .post,
       url: url,
       headerFields: HTTPFields(dictionaryLiteral: (.authorization, "Bearer \(token)"))
     )
-    
+
     let metadatas = try! String(decoding: JSONEncoder().encode(metadatas), as: UTF8.self)
     var form = MultipartForm(parts: [
-      MultipartForm.Part(name: "metadata", value: metadatas),
+      MultipartForm.Part(name: "metadata", value: metadatas)
     ])
     imageId.map { form.parts.append(.init(name: "id", value: $0)) }
-    expiryDate.map { form.parts.append(.init(name: "expiry", value: ISO8601DateFormatter().string(from: $0))) }
-    requireSignedURLs.map { form.parts.append(.init(name: "requireSignedURLs", value: $0.description)) }
-    
+    expiryDate.map {
+      form.parts.append(.init(name: "expiry", value: ISO8601DateFormatter().string(from: $0)))
+    }
+    requireSignedURLs.map {
+      form.parts.append(.init(name: "requireSignedURLs", value: $0.description))
+    }
+
     var urlRequest = URLRequest(httpRequest: request)!
     urlRequest.setValue(form.contentType, forHTTPHeaderField: "Content-Type")
     urlRequest.httpBody = form.bodyData
 
     let (data, _) = try await URLSession.shared.data(for: urlRequest)
 
-    let response = try JSONDecoder.images.decode(ImagesResponse<AuthenticatedUploadURLResult>.self, from: data)
+    let response = try JSONDecoder.images.decode(
+      ImagesResponse<AuthenticatedUploadURLResult>.self,
+      from: data
+    )
     if let result = response.result, response.success {
       return (result.id, result.uploadURL)
     } else {
@@ -58,7 +67,7 @@ private struct AuthenticatedUploadURLBody: Sendable, Codable, Hashable {
   var expiryDate: Date?
   var metadatas: [String: String]
   var requireSignedURLs: Bool?
-  
+
   private enum CodingKeys: String, CodingKey {
     case expiryDate = "expiry"
     case id

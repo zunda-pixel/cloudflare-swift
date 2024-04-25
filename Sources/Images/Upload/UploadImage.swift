@@ -26,24 +26,26 @@ extension ImageClient {
       MultipartForm.Part(name: "requireSignedURLs", value: requireSignedURLs.description),
     ])
     imageId.map { form.parts.append(.init(name: "id", value: $0)) }
-    
+
     let request = HTTPRequest(
       method: .post,
       url: url,
-      headerFields: HTTPFields(dictionaryLiteral: (.authorization, "Bearer \(token)"), (.contentType, form.contentType))
+      headerFields: HTTPFields(
+        dictionaryLiteral: (.authorization, "Bearer \(token)"), (.contentType, form.contentType)
+      )
     )
 
     let (data, _) = try await URLSession.shared.upload(for: request, from: form.bodyData)
 
     let response = try JSONDecoder.images.decode(ImagesResponse<Image>.self, from: data)
-    
+
     if let result = response.result, response.success {
       return result
     } else {
       throw Self.handleError(errors: response.errors)
     }
   }
-  
+
   /// Upload Image Data to Cloudflare Images
   /// https://developers.cloudflare.com/api/operations/cloudflare-images-upload-an-image-via-url
   /// - Parameters:
@@ -65,7 +67,7 @@ extension ImageClient {
       requireSignedURLs: requireSignedURLs
     )
   }
-  
+
   /// Upload Image Data from URL to Cloudflare Images
   /// https://developers.cloudflare.com/api/operations/cloudflare-images-upload-an-image-via-url
   /// - Parameters:
@@ -87,27 +89,22 @@ extension ImageClient {
       requireSignedURLs: requireSignedURLs
     )
   }
-  
+
   static func handleError(errors: [MessageContent]) -> RequestError {
     if errors.map(\.code).contains(5410) {
       return RequestError.privateImageCantSetCustomID
     }
     if errors.map(\.code).contains(5411) {
       return RequestError.invalidCustomId
-    }
-    else if errors.map(\.code).contains(5455) {
+    } else if errors.map(\.code).contains(5455) {
       return RequestError.invalidContentType
-    }
-    else if let error = errors.first(where: { $0.code == 5454 }) {
+    } else if let error = errors.first(where: { $0.code == 5454 }) {
       return RequestError.failedFetch(message: error.message)
-    }
-    else if let error = errors.first(where: { $0.code == 7003 }) {
+    } else if let error = errors.first(where: { $0.code == 7003 }) {
       return RequestError.couldNotRoute(message: error.message)
-    }
-    else if errors.map(\.code).contains(10000) {
+    } else if errors.map(\.code).contains(10000) {
       return RequestError.invalidAuthentication
-    }
-    else {
+    } else {
       return RequestError.unknown(errors: errors)
     }
   }

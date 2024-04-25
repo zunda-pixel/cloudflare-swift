@@ -8,7 +8,9 @@ extension ImageClient {
   /// - Parameter imageId: Image ID
   /// - Returns: ``Image``
   public func baseImage(id imageId: String) async throws -> Data {
-    let url = URL(string: "https://api.cloudflare.com/client/v4/accounts/\(accountId)/images/v1/\(imageId)/blob")!
+    let url = URL(
+      string: "https://api.cloudflare.com/client/v4/accounts/\(accountId)/images/v1/\(imageId)/blob"
+    )!
 
     let request = HTTPRequest(
       method: .get,

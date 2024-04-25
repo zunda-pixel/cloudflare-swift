@@ -1,6 +1,6 @@
 import Foundation
 
-public struct ImagesResponse<Result>: Sendable, Codable, Hashable where Result: Sendable, Result: Codable, Result: Hashable {
+public struct ImagesResponse<Result: Sendable & Codable & Hashable>: Sendable, Codable, Hashable {
   public var result: Result?
   public var success: Bool
   public var errors: [MessageContent]
