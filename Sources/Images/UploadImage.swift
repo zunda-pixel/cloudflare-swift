@@ -14,7 +14,7 @@ extension ImageClient {
   /// - Returns: ``ImageResponse.Result``
   private func upload(
     imageData: MultipartForm.Part,
-    id: String?,
+    id imageId: String?,
     metadatas: [String: String],
     requireSignedURLs: Bool
   ) async throws -> ImagesResponse.Result {
@@ -31,7 +31,7 @@ extension ImageClient {
       MultipartForm.Part(name: "metadata", value: metadatas),
       MultipartForm.Part(name: "requireSignedURLs", value: requireSignedURLs.description),
     ])
-    id.map { form.parts.append(.init(name: "id", value: $0)) }
+    imageId.map { form.parts.append(.init(name: "id", value: $0)) }
 
     var urlReqeust = URLRequest(httpRequest: request)!
     urlReqeust.setValue(form.contentType, forHTTPHeaderField: "Content-Type")
@@ -57,13 +57,13 @@ extension ImageClient {
   /// - Returns: ``ImageResponse.Result``
   public func upload(
     imageData: Data,
-    id: String? = nil,
+    id imageId: String? = nil,
     metadatas: [String: String] = [:],
     requireSignedURLs: Bool = false
   ) async throws -> ImagesResponse.Result {
     return try await self.upload(
       imageData: MultipartForm.Part(name: "file", data: imageData),
-      id: id,
+      id: imageId,
       metadatas: metadatas,
       requireSignedURLs: requireSignedURLs
     )
@@ -79,13 +79,13 @@ extension ImageClient {
   /// - Returns: ``ImageResponse.Result``
   public func upload(
     url: URL,
-    id: String? = nil,
+    id imageId: String? = nil,
     metadatas: [String: String] = [:],
     requireSignedURLs: Bool = false
   ) async throws -> ImagesResponse.Result {
     return try await self.upload(
       imageData: MultipartForm.Part(name: "url", value: url.absoluteString),
-      id: id,
+      id: imageId,
       metadatas: metadatas,
       requireSignedURLs: requireSignedURLs
     )
