@@ -9,7 +9,7 @@ https://developers.cloudflare.com/api
 ### Cloudflare Images
 
 ```swift
-import Images
+import ImagesClient
 
 let client = ImageClient(apiToken: "1234567890", accountId: "1234567890")
 
