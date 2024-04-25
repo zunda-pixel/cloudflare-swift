@@ -8,7 +8,8 @@ final class ImagesTests: XCTestCase {
   )
   
   let cloudflareLogoURL: URL = URL(string: "https://cf-assets.www.cloudflare.com/slt3lc6tev37/7bIgGp4hk4SFO0o3SBbOKJ/b48185dcf20c579960afad879b25ea11/CF_logo_stacked_blktype.jpg")!
-  
+  var coudflareLogoName: String { cloudflareLogoURL.lastPathComponent }
+
   var samplePng: Data {
     let nsImage = NSImage(systemSymbolName: "house", accessibilityDescription: nil)!
     let cgImage = nsImage.cgImage(forProposedRect: nil, context: nil, hints: nil)!
@@ -20,7 +21,7 @@ final class ImagesTests: XCTestCase {
   func testUploadData() async throws {
     let metadatas = ["test1": "test2"]
     let response = try await client.upload(
-      data: samplePng,
+      imageData: samplePng,
       metadatas: metadatas
     )
     XCTAssertEqual(response.metadatas, metadatas)
@@ -36,14 +37,14 @@ final class ImagesTests: XCTestCase {
       metadatas: metadatas
     )
     XCTAssertEqual(response.metadatas, metadatas)
-    XCTAssertEqual(response.fileName, "CF_logo_stacked_blktype.jpg")
+    XCTAssertEqual(response.fileName, coudflareLogoName)
     XCTAssertEqual(response.requireSignedURLs, false)
     XCTAssertTrue(!response.variants.isEmpty)
   }
   
   func testUploadDataWithId() async throws {
     let id = String(Int.random(in: Int.min..<Int.max))
-    let response = try await client.upload(data: samplePng, id: id)
+    let response = try await client.upload(imageData: samplePng, id: id)
     XCTAssertEqual(id, response.id)
     XCTAssertEqual(response.metadatas, [:])
     XCTAssertNil(response.fileName)
@@ -56,13 +57,16 @@ final class ImagesTests: XCTestCase {
     let response = try await client.upload(url: cloudflareLogoURL, id: id)
     XCTAssertEqual(id, response.id)
     XCTAssertEqual(response.metadatas, [:])
-    XCTAssertEqual(response.fileName, "CF_logo_stacked_blktype.jpg")
+    XCTAssertEqual(response.fileName, coudflareLogoName)
     XCTAssertEqual(response.requireSignedURLs, false)
     XCTAssertTrue(!response.variants.isEmpty)
   }
   
   func testUploadDataWithRequireSignedURLs() async throws {
-    let response = try await client.upload(data: samplePng, requireSignedURLs: true)
+    let response = try await client.upload(
+      imageData: samplePng,
+      requireSignedURLs: true
+    )
     XCTAssertEqual(response.metadatas, [:])
     XCTAssertNil(response.fileName)
     XCTAssertEqual(response.requireSignedURLs, true)
@@ -70,9 +74,12 @@ final class ImagesTests: XCTestCase {
   }
   
   func testUploadURLWithRequireSignedURLs() async throws {
-    let response = try await client.upload(url: cloudflareLogoURL, requireSignedURLs: true)
+    let response = try await client.upload(
+      url: cloudflareLogoURL,
+      requireSignedURLs: true
+    )
     XCTAssertEqual(response.metadatas, [:])
-    XCTAssertEqual(response.fileName, "CF_logo_stacked_blktype.jpg")
+    XCTAssertEqual(response.fileName, coudflareLogoName)
     XCTAssertEqual(response.requireSignedURLs, true)
     XCTAssertTrue(!response.variants.isEmpty)
   }
