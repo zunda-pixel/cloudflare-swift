@@ -1,5 +1,7 @@
 import XCTest
 @testable import Images
+import HTTPTypes
+import HTTPTypesFoundation
 
 final class ImagesTests: XCTestCase {
   let client = ImageClient(
@@ -135,5 +137,25 @@ final class ImagesTests: XCTestCase {
     let uploadedImage = try await client.upload(imageData: samplePng, requireSignedURLs: false)
     let baseImage = try await client.baseImage(id: uploadedImage.id)
     XCTAssertNotNil(NSImage(data: baseImage))
+  }
+  
+  func testCreateAuthenticatedUploadURLWithURL() async throws {
+    let metadatas = ["key1": "value1"]
+    let requireSignedURLs = true
+    let (id, uploadURL) = try await client.createAuthenticatedUploadURL(metadatas: metadatas, requireSignedURLs: requireSignedURLs)
+    let result = try await ImageClient.upload(uploadURL: uploadURL, imageURL: cloudflareLogoURL)
+    XCTAssertEqual(result.id, id)
+    XCTAssertEqual(result.metadatas, metadatas)
+    XCTAssertEqual(result.requireSignedURLs, requireSignedURLs)
+  }
+  
+  func testCreateAuthenticatedUploadURLWithData() async throws {
+    let metadatas = ["key1": "value1"]
+    let requireSignedURLs = true
+    let (id, uploadURL) = try await client.createAuthenticatedUploadURL(metadatas: metadatas, requireSignedURLs: requireSignedURLs)
+    let result = try await ImageClient.upload(uploadURL: uploadURL, imageData: samplePng)
+    XCTAssertEqual(result.id, id)
+    XCTAssertEqual(result.metadatas, metadatas)
+    XCTAssertEqual(result.requireSignedURLs, requireSignedURLs)
   }
 }
