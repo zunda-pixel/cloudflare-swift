@@ -3,8 +3,8 @@ import Foundation
 public struct ImagesResponse: Sendable, Codable, Hashable {
   public var result: Result?
   public var success: Bool
-  public var errors: [ErrorContent]
-  public var messages: [String]
+  public var errors: [MessageContent]
+  public var messages: [MessageContent]
   
   public struct Result: Sendable, Codable, Hashable {
     public var id: String

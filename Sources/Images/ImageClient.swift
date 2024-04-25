@@ -50,7 +50,6 @@ public struct ImageClient {
     }
   }
   
-  
   /// Upload Image Data to Cloudflare Images
   /// - Parameters:
   ///   - imageData: Image Data. Uploaded image must have image/jpeg, image/png, image/webp, image/gif or image/svg+xml content-type
@@ -93,7 +92,7 @@ public struct ImageClient {
     )
   }
   
-  private func handleError(errors: [ErrorContent]) -> RequestError {
+  private func handleError(errors: [MessageContent]) -> RequestError {
     if errors.map(\.code).contains(5410) {
       return RequestError.privateImageCantSetCustomID
     }
@@ -113,7 +112,7 @@ public struct ImageClient {
       return RequestError.invalidAuthentication
     }
     else {
-      return RequestError.unknown(contents: errors)
+      return RequestError.unknown(errors: errors)
     }
   }
 }
