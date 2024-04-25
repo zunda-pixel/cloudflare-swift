@@ -15,6 +15,14 @@ public struct ImageClient {
     self.accountId = accountId
   }
   
+  /// Upload Image Data to Cloudflare Images
+  /// https://developers.cloudflare.com/api/operations/cloudflare-images-upload-an-image-via-url
+  /// - Parameters:
+  ///   - imageData: MultipartForm Image Data. Uploaded image must have image/jpeg, image/png, image/webp, image/gif or image/svg+xml content-type
+  ///   - id: Image ID
+  ///   - metadatas: Metadatas
+  ///   - requireSignedURLs: Set to True for making the image private. If Set to True, Dont set Custom Image ID
+  /// - Returns: ``ImageResponse.Result``
   private func upload(
     imageData: MultipartForm.Part,
     id: String?,
@@ -51,6 +59,7 @@ public struct ImageClient {
   }
   
   /// Upload Image Data to Cloudflare Images
+  /// https://developers.cloudflare.com/api/operations/cloudflare-images-upload-an-image-via-url
   /// - Parameters:
   ///   - imageData: Image Data. Uploaded image must have image/jpeg, image/png, image/webp, image/gif or image/svg+xml content-type
   ///   - id: Image ID
@@ -71,7 +80,8 @@ public struct ImageClient {
     )
   }
   
-  // Upload Image Data from URL to Cloudflare Images
+  /// Upload Image Data from URL to Cloudflare Images
+  /// https://developers.cloudflare.com/api/operations/cloudflare-images-upload-an-image-via-url
   /// - Parameters:
   ///   - url: Image URL. Uploaded image must have image/jpeg, image/png, image/webp, image/gif or image/svg+xml content-type
   ///   - id: Image ID
