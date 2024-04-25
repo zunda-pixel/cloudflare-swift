@@ -15,10 +15,14 @@ extension ImageClient {
     )
     
     let (data, _) = try await URLSession.shared.data(for: request)
-    
-    let response = try JSONDecoder().decode(ImagesResponse.self, from: data)
+
+    let response = try JSONDecoder().decode(ImagesResponse<DeleteResult>.self, from: data)
     if !response.success {
       throw RequestError.failedDelete
     }
   }
+}
+
+private struct DeleteResult: Sendable, Codable, Hashable {
+  
 }

@@ -83,4 +83,9 @@ final class ImagesTests: XCTestCase {
     XCTAssertEqual(response.requireSignedURLs, true)
     XCTAssertTrue(!response.variants.isEmpty)
   }
+  
+  func testDeleteImage() async throws {
+    let response = try await client.upload(url: cloudflareLogoURL)
+    try await client.delete(id: response.id)
+  }
 }

@@ -17,7 +17,7 @@ extension ImageClient {
     id imageId: String?,
     metadatas: [String: String],
     requireSignedURLs: Bool
-  ) async throws -> ImagesResponse.Result {
+  ) async throws -> UploadResult {
     let url = URL(string: "https://api.cloudflare.com/client/v4/accounts/\(accountId)/images/v1")!
     let request = HTTPRequest(
       method: .post,
@@ -38,7 +38,7 @@ extension ImageClient {
 
     let (data, _) = try await URLSession.shared.upload(for: urlReqeust, from: form.bodyData)
 
-    let response = try JSONDecoder.images.decode(ImagesResponse.self, from: data)
+    let response = try JSONDecoder.images.decode(ImagesResponse<UploadResult>.self, from: data)
     
     if response.success {
       return response.result!
@@ -60,7 +60,7 @@ extension ImageClient {
     id imageId: String? = nil,
     metadatas: [String: String] = [:],
     requireSignedURLs: Bool = false
-  ) async throws -> ImagesResponse.Result {
+  ) async throws -> UploadResult {
     return try await self.upload(
       imageData: MultipartForm.Part(name: "file", data: imageData),
       id: imageId,
@@ -82,7 +82,7 @@ extension ImageClient {
     id imageId: String? = nil,
     metadatas: [String: String] = [:],
     requireSignedURLs: Bool = false
-  ) async throws -> ImagesResponse.Result {
+  ) async throws -> UploadResult {
     return try await self.upload(
       imageData: MultipartForm.Part(name: "url", value: url.absoluteString),
       id: imageId,
