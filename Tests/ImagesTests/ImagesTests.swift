@@ -6,8 +6,8 @@ import XCTest
 
 final class ImagesTests: XCTestCase {
   let client = ImageClient(
-    token: ProcessInfo.processInfo.environment["token"]!,
-    accountId: ProcessInfo.processInfo.environment["accountId"]!
+    apiToken: ProcessInfo.processInfo.environment["IMAGES_API_TOKEN"]!,
+    accountId: ProcessInfo.processInfo.environment["ACCOUNT_ID"]!
   )
 
   let cloudflareLogoURL: URL = URL(

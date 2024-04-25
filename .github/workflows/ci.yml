@@ -1,0 +1,40 @@
+name: Lint & Test
+
+on: pull_request
+
+jobs:
+  lint:
+    name: Lint Swift
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        swift: [latest]
+    steps:
+    - name: Install swiftly
+      run: curl -L https://swift-server.github.io/swiftly/swiftly-install.sh | bash -s -- --disable-confirmation
+    - name: Install Swift
+      run: swiftly install ${{ matrix.swift }}
+    - uses: actions/checkout@v4
+    - name: Lint
+      run: swift package plugin lint-source-code
+  test:
+    name: Test Swift
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        swift: [latest]
+    steps:
+    - name: Install swiftly
+      run: curl -L https://swift-server.github.io/swiftly/swiftly-install.sh | bash -s -- --disable-confirmation
+    - name: Install Swift
+      run: swiftly install
+    - uses: actions/checkout@v4
+    - name: Build
+      run: swift build -v
+    - name: Test Swift
+      run: swift test -v
+      env:
+        IMAGES_API_TOKEN: ${{ secrets.IMAGES_API_TOKEN }}
+        ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
