@@ -130,4 +130,10 @@ final class ImagesTests: XCTestCase {
     XCTAssertTrue(allowedImageCount > 0)
     XCTAssertTrue(currentImageCount > 0)
   }
+  
+  func testBaseImage() async throws {
+    let uploadedImage = try await client.upload(imageData: samplePng, requireSignedURLs: false)
+    let baseImage = try await client.baseImage(id: uploadedImage.id)
+    XCTAssertNotNil(NSImage(data: baseImage))
+  }
 }
