@@ -124,4 +124,10 @@ final class ImagesTests: XCTestCase {
     XCTAssertEqual(image.metadatas, metadatas)
     XCTAssertEqual(image.requireSignedURLs, requireSignedURLs)
   }
+  
+  func testUsageStats() async throws {
+    let (allowedImageCount, currentImageCount) = try await client.usageStats()
+    XCTAssertTrue(allowedImageCount > 0)
+    XCTAssertTrue(currentImageCount > 0)
+  }
 }
