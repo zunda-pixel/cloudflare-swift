@@ -33,7 +33,7 @@ final class ImagesTests: XCTestCase {
   func testUploadURL() async throws {
     let metadatas = ["test1": "test2"]
     let response = try await client.upload(
-      url: cloudflareLogoURL,
+      imageURL: cloudflareLogoURL,
       metadatas: metadatas
     )
     XCTAssertEqual(response.metadatas, metadatas)
@@ -54,7 +54,7 @@ final class ImagesTests: XCTestCase {
   
   func testUploadURLWithId() async throws {
     let id = String(Int.random(in: Int.min..<Int.max))
-    let response = try await client.upload(url: cloudflareLogoURL, id: id)
+    let response = try await client.upload(imageURL: cloudflareLogoURL, id: id)
     XCTAssertEqual(id, response.id)
     XCTAssertEqual(response.metadatas, [:])
     XCTAssertEqual(response.fileName, coudflareLogoName)
@@ -75,7 +75,7 @@ final class ImagesTests: XCTestCase {
   
   func testUploadURLWithRequireSignedURLs() async throws {
     let response = try await client.upload(
-      url: cloudflareLogoURL,
+      imageURL: cloudflareLogoURL,
       requireSignedURLs: true
     )
     XCTAssertEqual(response.metadatas, [:])
@@ -85,7 +85,7 @@ final class ImagesTests: XCTestCase {
   }
   
   func testDeleteImage() async throws {
-    let response = try await client.upload(url: cloudflareLogoURL)
+    let response = try await client.upload(imageURL: cloudflareLogoURL)
     try await client.delete(id: response.id)
   }
   

@@ -75,13 +75,13 @@ extension ImageClient {
   ///   - requireSignedURLs: Set to True for making the image private. If Set to True, Dont set Custom Image ID
   /// - Returns: ``ImageResponse.Result``
   public func upload(
-    url: URL,
+    imageURL: URL,
     id imageId: String? = nil,
     metadatas: [String: String] = [:],
     requireSignedURLs: Bool = false
   ) async throws -> Image {
     return try await self.upload(
-      imageData: MultipartForm.Part(name: "url", value: url.absoluteString),
+      imageData: MultipartForm.Part(name: "url", value: imageURL.absoluteString),
       id: imageId,
       metadatas: metadatas,
       requireSignedURLs: requireSignedURLs
