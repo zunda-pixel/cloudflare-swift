@@ -98,7 +98,7 @@ final class ImagesTests: XCTestCase {
   
   func testFetchImage() async throws {
     let uploadedImage = try await client.upload(imageData: samplePng)
-    let image = try await client.image(id: "98c9054e-15c7-4cc7-4ec1-9ffb3883b400")
+    let image = try await client.image(id: uploadedImage.id)
     // TODO need to fix Cloudflare Images API.
     // Upload Images's response uploaded date thas has one second more.
     // XCTAssertEqual(uploadedImage, image)

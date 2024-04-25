@@ -19,12 +19,6 @@ extension ImageClient {
     requireSignedURLs: Bool
   ) async throws -> Image {
     let url = URL(string: "https://api.cloudflare.com/client/v4/accounts/\(accountId)/images/v1")!
-    let request = HTTPRequest(
-      method: .post,
-      url: url,
-      headerFields: HTTPFields(dictionaryLiteral: (.authorization, "Bearer \(token)"), (.contentType, "multipart/form-data"))
-    )
-
     let metadatas = try! String(decoding: JSONEncoder().encode(metadatas), as: UTF8.self)
     var form = MultipartForm(parts: [
       imageData,
@@ -32,11 +26,14 @@ extension ImageClient {
       MultipartForm.Part(name: "requireSignedURLs", value: requireSignedURLs.description),
     ])
     imageId.map { form.parts.append(.init(name: "id", value: $0)) }
+    
+    let request = HTTPRequest(
+      method: .post,
+      url: url,
+      headerFields: HTTPFields(dictionaryLiteral: (.authorization, "Bearer \(token)"), (.contentType, form.contentType))
+    )
 
-    var urlReqeust = URLRequest(httpRequest: request)!
-    urlReqeust.setValue(form.contentType, forHTTPHeaderField: "Content-Type")
-
-    let (data, _) = try await URLSession.shared.upload(for: urlReqeust, from: form.bodyData)
+    let (data, _) = try await URLSession.shared.upload(for: request, from: form.bodyData)
 
     let response = try JSONDecoder.images.decode(ImagesResponse<Image>.self, from: data)
     
