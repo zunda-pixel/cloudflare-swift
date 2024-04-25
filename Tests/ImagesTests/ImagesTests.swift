@@ -2,11 +2,11 @@ import HTTPTypes
 import HTTPTypesFoundation
 import XCTest
 
+@testable import Images
+
 #if canImport(FoundationNetworking)
   import FoundationNetworking
 #endif
-
-@testable import Images
 
 final class ImagesTests: XCTestCase {
   let client = ImageClient(
