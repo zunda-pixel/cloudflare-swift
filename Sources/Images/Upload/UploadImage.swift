@@ -17,7 +17,7 @@ extension ImageClient {
     id imageId: String?,
     metadatas: [String: String],
     requireSignedURLs: Bool
-  ) async throws -> UploadResult {
+  ) async throws -> Image {
     let url = URL(string: "https://api.cloudflare.com/client/v4/accounts/\(accountId)/images/v1")!
     let request = HTTPRequest(
       method: .post,
@@ -38,10 +38,10 @@ extension ImageClient {
 
     let (data, _) = try await URLSession.shared.upload(for: urlReqeust, from: form.bodyData)
 
-    let response = try JSONDecoder.images.decode(ImagesResponse<UploadResult>.self, from: data)
+    let response = try JSONDecoder.images.decode(ImagesResponse<Image>.self, from: data)
     
-    if response.success {
-      return response.result!
+    if let result = response.result, response.success {
+      return result
     } else {
       throw handleError(errors: response.errors)
     }
@@ -60,7 +60,7 @@ extension ImageClient {
     id imageId: String? = nil,
     metadatas: [String: String] = [:],
     requireSignedURLs: Bool = false
-  ) async throws -> UploadResult {
+  ) async throws -> Image {
     return try await self.upload(
       imageData: MultipartForm.Part(name: "file", data: imageData),
       id: imageId,
@@ -82,7 +82,7 @@ extension ImageClient {
     id imageId: String? = nil,
     metadatas: [String: String] = [:],
     requireSignedURLs: Bool = false
-  ) async throws -> UploadResult {
+  ) async throws -> Image {
     return try await self.upload(
       imageData: MultipartForm.Part(name: "url", value: url.absoluteString),
       id: imageId,
@@ -91,7 +91,7 @@ extension ImageClient {
     )
   }
   
-  private func handleError(errors: [MessageContent]) -> RequestError {
+  func handleError(errors: [MessageContent]) -> RequestError {
     if errors.map(\.code).contains(5410) {
       return RequestError.privateImageCantSetCustomID
     }

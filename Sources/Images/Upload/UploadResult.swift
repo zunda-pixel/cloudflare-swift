@@ -1,6 +1,6 @@
 import Foundation
 
-public struct UploadResult: Sendable, Codable, Hashable {
+public struct Image: Sendable, Codable, Hashable {
   public var id: String
   public var fileName: String?
   public var metadatas: [String: String]?

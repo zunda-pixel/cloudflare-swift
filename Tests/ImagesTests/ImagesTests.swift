@@ -88,4 +88,11 @@ final class ImagesTests: XCTestCase {
     let response = try await client.upload(url: cloudflareLogoURL)
     try await client.delete(id: response.id)
   }
+  
+  func testFetchImages() async throws {
+    let response1 = try await client.images(perPage: 10)
+    XCTAssertEqual(response1.images.count, 10)
+    let response2 = try await client.images(continuationToken: response1.continuationToken, perPage: 10)
+    XCTAssertEqual(response2.images.count,  10)
+  }
 }
