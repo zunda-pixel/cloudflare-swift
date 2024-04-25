@@ -1,12 +1,12 @@
 public struct ImageClient {
-  public let token: String
+  public let apiToken: String
   public let accountId: String
 
   public init(
-    token: String,
+    apiToken: String,
     accountId: String
   ) {
-    self.token = token
+    self.apiToken = apiToken
     self.accountId = accountId
   }
 }

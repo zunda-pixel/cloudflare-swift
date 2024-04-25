@@ -31,7 +31,7 @@ extension ImageClient {
       method: .post,
       url: url,
       headerFields: HTTPFields(
-        dictionaryLiteral: (.authorization, "Bearer \(token)"), (.contentType, form.contentType)
+        dictionaryLiteral: (.authorization, "Bearer \(apiToken)"), (.contentType, form.contentType)
       )
     )
 

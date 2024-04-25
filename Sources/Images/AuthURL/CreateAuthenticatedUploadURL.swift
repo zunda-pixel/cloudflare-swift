@@ -24,7 +24,7 @@ extension ImageClient {
     let request = HTTPRequest(
       method: .post,
       url: url,
-      headerFields: HTTPFields(dictionaryLiteral: (.authorization, "Bearer \(token)"))
+      headerFields: HTTPFields(dictionaryLiteral: (.authorization, "Bearer \(apiToken)"))
     )
 
     let metadatas = try! String(decoding: JSONEncoder().encode(metadatas), as: UTF8.self)

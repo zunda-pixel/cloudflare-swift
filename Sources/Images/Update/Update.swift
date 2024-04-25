@@ -19,7 +19,7 @@ extension ImageClient {
     let request = HTTPRequest(
       method: .patch,
       url: url,
-      headerFields: HTTPFields(dictionaryLiteral: (.authorization, "Bearer \(token)"))
+      headerFields: HTTPFields(dictionaryLiteral: (.authorization, "Bearer \(apiToken)"))
     )
 
     let body = UpdateBody(metadatas: metadatas, requireSignedURLs: requireSignedURLs)
