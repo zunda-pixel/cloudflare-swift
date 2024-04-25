@@ -3,6 +3,10 @@ import HTTPTypes
 import HTTPTypesFoundation
 import MultipartForm
 
+#if canImport(FoundationNetworking)
+  import FoundationNetworking
+#endif
+
 extension ImageClient {
   /// Create Authenticated Upload URL
   /// - Parameters:
@@ -24,7 +28,7 @@ extension ImageClient {
     let request = HTTPRequest(
       method: .post,
       url: url,
-      headerFields: HTTPFields(dictionaryLiteral: (.authorization, "Bearer \(token)"))
+      headerFields: HTTPFields(dictionaryLiteral: (.authorization, "Bearer \(apiToken)"))
     )
 
     let metadatas = try! String(decoding: JSONEncoder().encode(metadatas), as: UTF8.self)

@@ -2,6 +2,10 @@ import Foundation
 import HTTPTypes
 import HTTPTypesFoundation
 
+#if canImport(FoundationNetworking)
+  import FoundationNetworking
+#endif
+
 extension ImageClient {
   /// Delete Image
   /// https://developers.cloudflare.com/api/operations/cloudflare-images-delete-image
@@ -13,7 +17,7 @@ extension ImageClient {
     let request = HTTPRequest(
       method: .delete,
       url: url,
-      headerFields: HTTPFields(dictionaryLiteral: (.authorization, "Bearer \(token)"))
+      headerFields: HTTPFields(dictionaryLiteral: (.authorization, "Bearer \(apiToken)"))
     )
 
     let (data, _) = try await URLSession.shared.data(for: request)

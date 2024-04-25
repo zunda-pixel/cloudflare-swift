@@ -3,6 +3,10 @@ import HTTPTypes
 import HTTPTypesFoundation
 import MultipartForm
 
+#if canImport(FoundationNetworking)
+  import FoundationNetworking
+#endif
+
 extension ImageClient {
   /// Upload Image Data to Cloudflare Images
   /// https://developers.cloudflare.com/api/operations/cloudflare-images-upload-an-image-via-url
@@ -31,7 +35,7 @@ extension ImageClient {
       method: .post,
       url: url,
       headerFields: HTTPFields(
-        dictionaryLiteral: (.authorization, "Bearer \(token)"), (.contentType, form.contentType)
+        dictionaryLiteral: (.authorization, "Bearer \(apiToken)"), (.contentType, form.contentType)
       )
     )
 

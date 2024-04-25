@@ -4,10 +4,14 @@ import XCTest
 
 @testable import Images
 
+#if canImport(FoundationNetworking)
+  import FoundationNetworking
+#endif
+
 final class ImagesTests: XCTestCase {
   let client = ImageClient(
-    token: ProcessInfo.processInfo.environment["token"]!,
-    accountId: ProcessInfo.processInfo.environment["accountId"]!
+    apiToken: ProcessInfo.processInfo.environment["IMAGES_API_TOKEN"]!,
+    accountId: ProcessInfo.processInfo.environment["ACCOUNT_ID"]!
   )
 
   let cloudflareLogoURL: URL = URL(
@@ -17,11 +21,8 @@ final class ImagesTests: XCTestCase {
   var coudflareLogoName: String { cloudflareLogoURL.lastPathComponent }
 
   var samplePng: Data {
-    let nsImage = NSImage(systemSymbolName: "house", accessibilityDescription: nil)!
-    let cgImage = nsImage.cgImage(forProposedRect: nil, context: nil, hints: nil)!
-    let rep = NSBitmapImageRep(cgImage: cgImage)
-    let data = rep.representation(using: .png, properties: [:])!
-    return data
+    let filePath = Bundle.module.url(forResource: "Swift_logo", withExtension: "svg")!
+    return try! Data(contentsOf: filePath)
   }
 
   func testUploadData() async throws {
@@ -142,8 +143,7 @@ final class ImagesTests: XCTestCase {
 
   func testBaseImage() async throws {
     let uploadedImage = try await client.upload(imageData: samplePng, requireSignedURLs: false)
-    let baseImage = try await client.baseImage(id: uploadedImage.id)
-    XCTAssertNotNil(NSImage(data: baseImage))
+    _ = try await client.baseImage(id: uploadedImage.id)
   }
 
   func testCreateAuthenticatedUploadURLWithURL() async throws {

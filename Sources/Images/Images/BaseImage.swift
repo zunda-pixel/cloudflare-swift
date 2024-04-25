@@ -2,6 +2,10 @@ import Foundation
 import HTTPTypes
 import HTTPTypesFoundation
 
+#if canImport(FoundationNetworking)
+  import FoundationNetworking
+#endif
+
 extension ImageClient {
   /// Image
   /// https://developers.cloudflare.com/api/operations/cloudflare-images-image-details
@@ -15,7 +19,7 @@ extension ImageClient {
     let request = HTTPRequest(
       method: .get,
       url: url,
-      headerFields: HTTPFields(dictionaryLiteral: (.authorization, "Bearer \(token)"))
+      headerFields: HTTPFields(dictionaryLiteral: (.authorization, "Bearer \(apiToken)"))
     )
 
     let (data, response) = try await URLSession.shared.data(for: request)
