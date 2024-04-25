@@ -17,6 +17,7 @@ let package = Package(
   dependencies: [
     .package(url: "https://github.com/apple/swift-http-types", from: "1.0.3"),
     .package(url: "https://github.com/davbeck/MultipartForm", from: "0.1.0"),
+    .package(url: "https://github.com/apple/swift-format", from: "510.1.0"),
   ],
   targets: [
     .target(
