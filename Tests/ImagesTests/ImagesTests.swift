@@ -109,4 +109,19 @@ final class ImagesTests: XCTestCase {
     XCTAssertEqual(image.requireSignedURLs, uploadedImage.requireSignedURLs)
     XCTAssertEqual(image.variants, uploadedImage.variants)
   }
+  
+  func testUpdateImage() async throws {
+    let metadatas = ["key1": "value1"]
+    let requireSignedURLs = true
+    
+    let uploadedImage = try await client.upload(imageData: samplePng, requireSignedURLs: false)
+    let image = try await client.update(
+      id: uploadedImage.id,
+      metadatas: metadatas,
+      requireSignedURLs: requireSignedURLs
+    )
+    
+    XCTAssertEqual(image.metadatas, metadatas)
+    XCTAssertEqual(image.requireSignedURLs, requireSignedURLs)
+  }
 }
