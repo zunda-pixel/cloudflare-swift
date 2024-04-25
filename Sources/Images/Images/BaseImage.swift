@@ -22,7 +22,7 @@ extension ImageClient {
       return data
     } else {
       let response = try JSONDecoder.images.decode(ImagesResponse<EmptyResult>.self, from: data)
-      throw handleError(errors: response.errors)
+      throw Self.handleError(errors: response.errors)
     }
   }
 }

@@ -21,7 +21,7 @@ extension ImageClient {
     if let result = response.result, response.success {
       return (result.count.allowedImageCount, result.count.currentImageCount)
     } else {
-      throw handleError(errors: response.errors)
+      throw Self.handleError(errors: response.errors)
     }
   }
 }
