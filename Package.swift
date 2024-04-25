@@ -3,14 +3,14 @@
 import PackageDescription
 
 let package = Package(
-  name: "cloudflare-swift",
+  name: "CloudflareKit",
   defaultLocalization: "en",
   platforms: [.macOS(.v14)],
   products: [
     .library(
-      name: "Images",
+      name: "ImagesClient",
       targets: [
-        "Images",
+        "ImagesClient",
       ]
     ),
   ],
@@ -21,7 +21,7 @@ let package = Package(
   ],
   targets: [
     .target(
-      name: "Images",
+      name: "ImagesClient",
       dependencies: [
         .product(name: "HTTPTypes", package: "swift-http-types"),
         .product(name: "HTTPTypesFoundation", package: "swift-http-types"),
@@ -29,9 +29,9 @@ let package = Package(
       ]
     ),
     .testTarget(
-      name: "ImagesTests",
+      name: "ImagesClientTests",
       dependencies: [
-        .target(name: "Images"),
+        .target(name: "ImagesClient"),
       ],
       resources: [
         .process("Resources")
