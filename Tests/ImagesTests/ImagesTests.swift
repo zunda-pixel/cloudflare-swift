@@ -2,6 +2,10 @@ import HTTPTypes
 import HTTPTypesFoundation
 import XCTest
 
+#if canImport(FoundationNetworking)
+  import FoundationNetworking
+#endif
+
 @testable import Images
 
 final class ImagesTests: XCTestCase {

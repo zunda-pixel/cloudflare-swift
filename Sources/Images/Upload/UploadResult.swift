@@ -1,5 +1,9 @@
 import Foundation
 
+#if canImport(FoundationNetworking)
+  import FoundationNetworking
+#endif
+
 public struct Image: Sendable, Codable, Hashable {
   public var id: String
   public var fileName: String?

@@ -3,6 +3,10 @@ import HTTPTypes
 import HTTPTypesFoundation
 import MultipartForm
 
+#if canImport(FoundationNetworking)
+  import FoundationNetworking
+#endif
+
 extension ImageClient {
   /// Create Authenticated Upload URL
   /// - Parameters:

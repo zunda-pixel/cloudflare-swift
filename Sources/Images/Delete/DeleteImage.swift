@@ -2,6 +2,10 @@ import Foundation
 import HTTPTypes
 import HTTPTypesFoundation
 
+#if canImport(FoundationNetworking)
+  import FoundationNetworking
+#endif
+
 extension ImageClient {
   /// Delete Image
   /// https://developers.cloudflare.com/api/operations/cloudflare-images-delete-image

@@ -3,6 +3,10 @@ import HTTPTypes
 import HTTPTypesFoundation
 import MultipartForm
 
+#if canImport(FoundationNetworking)
+  import FoundationNetworking
+#endif
+
 extension ImageClient {
   /// Upload Image Data to Cloudflare Images with Upload URL
   /// https://developers.cloudflare.com/api/operations/cloudflare-images-create-authenticated-direct-upload-url-v-2

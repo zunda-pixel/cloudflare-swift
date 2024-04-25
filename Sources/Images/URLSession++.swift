@@ -36,6 +36,38 @@ import HTTPTypesFoundation
       }
       return (data, response)
     }
+
+    public func upload(
+      for request: URLRequest,
+      from data: Data,
+      delegate: (any URLSessionTaskDelegate)? = nil
+    ) async throws -> (Data, URLResponse) {
+      return try await withCheckedThrowingContinuation { continuation in
+        self.uploadTask(with: request, from: data) { data, response, error in
+          if let error {
+            continuation.resume(throwing: error)
+          } else {
+            continuation.resume(returning: (data!, response!))
+          }
+        }
+        .resume()
+      }
+    }
+
+    public func upload(
+      for request: HTTPRequest,
+      from data: Data,
+      delegate: (any URLSessionTaskDelegate)? = nil
+    ) async throws -> (Data, HTTPResponse) {
+      guard let urlRequest = URLRequest(httpRequest: request) else {
+        throw HTTPTypeConversionError.failedToConvertHTTPRequestToURLRequest
+      }
+      let (data, urlResponse) = try await self.upload(for: urlRequest, from: data)
+      guard let response = (urlResponse as? HTTPURLResponse)?.httpResponse else {
+        throw HTTPTypeConversionError.failedToConvertURLResponseToHTTPResponse
+      }
+      return (data, response)
+    }
   }
 
   enum HTTPTypeConversionError: Error {
