@@ -2,13 +2,13 @@ import HTTPTypes
 import HTTPTypesFoundation
 import XCTest
 
-@testable import Images
+@testable import ImagesClient
 
 #if canImport(FoundationNetworking)
   import FoundationNetworking
 #endif
 
-final class ImagesTests: XCTestCase {
+final class ImagesClientTests: XCTestCase {
   let client = ImageClient(
     apiToken: ProcessInfo.processInfo.environment["IMAGES_API_TOKEN"]!,
     accountId: ProcessInfo.processInfo.environment["ACCOUNT_ID"]!
