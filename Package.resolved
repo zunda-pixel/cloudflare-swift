@@ -1,0 +1,24 @@
+{
+  "originHash" : "dbce5e24c9a19b8071a6405c6841cc94fe00e23f048492b2c9788fdcd9c19c53",
+  "pins" : [
+    {
+      "identity" : "multipartform",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/davbeck/MultipartForm",
+      "state" : {
+        "revision" : "c91979ea956a360bf84f0cc480afbcc7c946c753",
+        "version" : "0.1.0"
+      }
+    },
+    {
+      "identity" : "swift-http-types",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-http-types",
+      "state" : {
+        "revision" : "12358d55a3824bd5fed310b999ea8cf83a9a1a65",
+        "version" : "1.0.3"
+      }
+    }
+  ],
+  "version" : 3
+}
