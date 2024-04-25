@@ -8,5 +8,6 @@ public enum RequestError: Error {
   case failedFetch(message: String)
   /// The Custom ID is invalid. Custom IDs can include 1024 characters or less, any number of subpaths, and support the UTF-8 encoding standard for characters. Enter a new Custom ID and try again: Must not be UUID
   case invalidCustomId
+  case failedDelete
   case unknown(errors: [MessageContent])
 }
