@@ -4,8 +4,13 @@ import PackageDescription
 
 let package = Package(
   name: "CloudflareKit",
-  defaultLocalization: "en",
-  platforms: [.macOS(.v14)],
+  platforms: [
+    .macOS(.v10_15),
+    .iOS(.v13),
+    .watchOS(.v6),
+    .tvOS(.v13),
+    .visionOS(.v1),
+  ],
   products: [
     .library(
       name: "ImagesClient",
