@@ -7,7 +7,7 @@ import MultipartForm
   import FoundationNetworking
 #endif
 
-extension ImageClient {
+extension ImagesClient {
   /// Upload Image Data to Cloudflare Images
   /// https://developers.cloudflare.com/api/operations/cloudflare-images-upload-an-image-via-url
   /// - Parameters:

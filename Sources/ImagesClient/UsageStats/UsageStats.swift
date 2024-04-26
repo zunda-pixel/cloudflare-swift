@@ -6,7 +6,7 @@ import HTTPTypesFoundation
   import FoundationNetworking
 #endif
 
-extension ImageClient {
+extension ImagesClient {
   /// Images usage statistics
   /// https://developers.cloudflare.com/api/operations/cloudflare-images-images-usage-statistics
   /// - Returns: (allowedImageCount: Int, currentImageCount: Int)

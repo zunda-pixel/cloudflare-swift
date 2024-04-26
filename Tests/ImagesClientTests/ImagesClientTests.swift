@@ -9,7 +9,7 @@ import XCTest
 #endif
 
 final class ImagesClientTests: XCTestCase {
-  let client = ImageClient(
+  let client = ImagesClient(
     apiToken: ProcessInfo.processInfo.environment["IMAGES_API_TOKEN"]!,
     accountId: ProcessInfo.processInfo.environment["ACCOUNT_ID"]!
   )
@@ -153,7 +153,7 @@ final class ImagesClientTests: XCTestCase {
       metadatas: metadatas,
       requireSignedURLs: requireSignedURLs
     )
-    let result = try await ImageClient.upload(uploadURL: uploadURL, imageURL: cloudflareLogoURL)
+    let result = try await ImagesClient.upload(uploadURL: uploadURL, imageURL: cloudflareLogoURL)
     XCTAssertEqual(result.id, id)
     XCTAssertEqual(result.metadatas, metadatas)
     XCTAssertEqual(result.requireSignedURLs, requireSignedURLs)
@@ -166,7 +166,7 @@ final class ImagesClientTests: XCTestCase {
       metadatas: metadatas,
       requireSignedURLs: requireSignedURLs
     )
-    let result = try await ImageClient.upload(uploadURL: uploadURL, imageData: samplePng)
+    let result = try await ImagesClient.upload(uploadURL: uploadURL, imageData: samplePng)
     XCTAssertEqual(result.id, id)
     XCTAssertEqual(result.metadatas, metadatas)
     XCTAssertEqual(result.requireSignedURLs, requireSignedURLs)

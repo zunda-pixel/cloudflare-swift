@@ -1,4 +1,4 @@
-public struct ImageClient {
+public struct ImagesClient {
   public let apiToken: String
   public let accountId: String
 
