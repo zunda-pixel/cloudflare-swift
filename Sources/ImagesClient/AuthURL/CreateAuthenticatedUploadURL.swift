@@ -7,7 +7,7 @@ import MultipartForm
   import FoundationNetworking
 #endif
 
-extension ImageClient {
+extension ImagesClient {
   /// Create Authenticated Upload URL
   /// - Parameters:
   ///   - id: Image ID

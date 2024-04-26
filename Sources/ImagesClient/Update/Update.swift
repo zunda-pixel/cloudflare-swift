@@ -6,7 +6,7 @@ import HTTPTypesFoundation
   import FoundationNetworking
 #endif
 
-extension ImageClient {
+extension ImagesClient {
   /// Update Image
   /// https://developers.cloudflare.com/api/operations/cloudflare-images-update-image
   /// - Parameter imageId: Image ID
