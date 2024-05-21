@@ -1,7 +1,7 @@
 import Foundation
 import HTTPTypes
 import HTTPTypesFoundation
-import MultipartForm
+import MultipartKit
 
 #if canImport(FoundationNetworking)
   import FoundationNetworking
@@ -16,17 +16,18 @@ extension ImagesClient {
   /// - Returns: ``Image``
   static private func upload(
     uploadURL: URL,
-    imageData: MultipartForm.Part
+    imageData: ImageBody
   ) async throws -> Image {
-    let form = MultipartForm(parts: [imageData])
+    let boundary = UUID().uuidString
+    let formData = try FormDataEncoder().encode(imageData, boundary: boundary)
 
     let request = HTTPRequest(
       method: .post,
       url: uploadURL,
-      headerFields: HTTPFields(dictionaryLiteral: (.contentType, form.contentType))
+      headerFields: HTTPFields(dictionaryLiteral: (.contentType, "multipart/form-data; boundary=\(boundary)"))
     )
 
-    let (data, _) = try await URLSession.shared.upload(for: request, from: form.bodyData)
+    let (data, _) = try await URLSession.shared.upload(for: request, from: Data(formData.utf8))
     let response = try JSONDecoder.images.decode(ImagesResponse<Image>.self, from: data)
 
     if let result = response.result, response.success {
@@ -48,7 +49,7 @@ extension ImagesClient {
   ) async throws -> Image {
     return try await self.upload(
       uploadURL: uploadURL,
-      imageData: MultipartForm.Part(name: "file", data: imageData)
+      imageData: .file(imageData)
     )
   }
 
@@ -64,7 +65,27 @@ extension ImagesClient {
   ) async throws -> Image {
     return try await self.upload(
       uploadURL: uploadURL,
-      imageData: MultipartForm.Part(name: "url", value: imageURL.absoluteString)
+      imageData: .url(imageURL)
     )
+  }
+}
+
+enum ImageBody: Encodable {
+  case url(URL)
+  case file(Data)
+  
+  private enum CodingKeys: CodingKey {
+    case url
+    case file
+  }
+  
+  func encode(to encoder: any Encoder) throws {
+    var container = encoder.container(keyedBy: CodingKeys.self)
+    switch self {
+    case .url(let url):
+      try container.encode(url.absoluteString, forKey: .url)
+    case .file(let file):
+      try container.encode(file, forKey: .file)
+    }
   }
 }
