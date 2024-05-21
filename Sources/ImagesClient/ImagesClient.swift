@@ -15,7 +15,7 @@ public struct ImagesClient<HTTPClient: HTTPClientProtocol> {
     self.accountId = accountId
     self.httpClient = httpClient
   }
-  
+
   func execute(_ request: HTTPRequest, body: Data? = nil) async throws -> (Data, HTTPResponse) {
     var request = request
     request.headerFields[.authorization] = "Bearer \(apiToken)"
