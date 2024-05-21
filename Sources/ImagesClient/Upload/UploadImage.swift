@@ -1,7 +1,7 @@
 import Foundation
 import HTTPTypes
 import HTTPTypesFoundation
-import MultipartForm
+import MultipartKit
 
 #if canImport(FoundationNetworking)
   import FoundationNetworking
@@ -17,29 +17,35 @@ extension ImagesClient {
   ///   - requireSignedURLs: Set to True for making the image private. If Set to True, Dont set Custom Image ID
   /// - Returns: ``ImageResponse.Result``
   private func upload(
-    imageData: MultipartForm.Part,
+    imageData: ImageBody,
     id imageId: String?,
     metadatas: [String: String],
     requireSignedURLs: Bool
   ) async throws -> Image {
     let url = URL(string: "https://api.cloudflare.com/client/v4/accounts/\(accountId)/images/v1")!
-    let metadatas = try! String(decoding: JSONEncoder().encode(metadatas), as: UTF8.self)
-    var form = MultipartForm(parts: [
-      imageData,
-      MultipartForm.Part(name: "metadata", value: metadatas),
-      MultipartForm.Part(name: "requireSignedURLs", value: requireSignedURLs.description),
-    ])
-    imageId.map { form.parts.append(.init(name: "id", value: $0)) }
+    let body = Body(
+      id: imageId,
+      imageData: imageData,
+      metadata: metadatas,
+      requireSignedURLs: requireSignedURLs
+    )
+    
+    let boundary = UUID().uuidString
+    
+    let formData = try FormDataEncoder().encode(body, boundary: boundary)
 
     let request = HTTPRequest(
       method: .post,
       url: url,
       headerFields: HTTPFields(
-        dictionaryLiteral: (.authorization, "Bearer \(apiToken)"), (.contentType, form.contentType)
+        dictionaryLiteral:
+          (.authorization, "Bearer \(apiToken)"),
+          (.contentType, "multipart/form-data; boundary=\(boundary)"
+        )
       )
     )
 
-    let (data, _) = try await URLSession.shared.upload(for: request, from: form.bodyData)
+    let (data, _) = try await URLSession.shared.upload(for: request, from: Data(formData.utf8))
 
     let response = try JSONDecoder.images.decode(ImagesResponse<Image>.self, from: data)
 
@@ -65,7 +71,7 @@ extension ImagesClient {
     requireSignedURLs: Bool = false
   ) async throws -> Image {
     return try await self.upload(
-      imageData: MultipartForm.Part(name: "file", data: imageData),
+      imageData: .file(imageData),
       id: imageId,
       metadatas: metadatas,
       requireSignedURLs: requireSignedURLs
@@ -87,10 +93,40 @@ extension ImagesClient {
     requireSignedURLs: Bool = false
   ) async throws -> Image {
     return try await self.upload(
-      imageData: MultipartForm.Part(name: "url", value: imageURL.absoluteString),
+      imageData: .url(imageURL),
       id: imageId,
       metadatas: metadatas,
       requireSignedURLs: requireSignedURLs
     )
+  }
+}
+
+
+private struct Body: Encodable {
+  var id: String?
+  var imageData: ImageBody
+  var metadata: [String: String]
+  var requireSignedURLs: Bool
+  
+  enum CodingKeys: CodingKey {
+    case id
+    case url
+    case file
+    case metadata
+    case requireSignedURLs
+  }
+  
+  func encode(to encoder: any Encoder) throws {
+    var container = encoder.container(keyedBy: CodingKeys.self)
+    try container.encodeIfPresent(self.id, forKey: .id)
+    switch imageData {
+    case .url(let url):
+      try container.encode(url, forKey: .url)
+    case .file(let imageData):
+      try container.encode(imageData, forKey: .file)
+    }
+    let rawMetadata = String(decoding: try! JSONEncoder().encode(metadata), as: UTF8.self)
+    try container.encode(rawMetadata, forKey: .metadata)
+    try container.encode(self.requireSignedURLs, forKey: .requireSignedURLs)
   }
 }

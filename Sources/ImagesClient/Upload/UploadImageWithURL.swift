@@ -19,7 +19,7 @@ extension ImagesClient {
     imageData: ImageBody
   ) async throws -> Image {
     let boundary = UUID().uuidString
-    let bodyData = try FormDataEncoder().encode(imageData, boundary: boundary)
+    let formData = try FormDataEncoder().encode(imageData, boundary: boundary)
 
     let request = HTTPRequest(
       method: .post,
@@ -27,7 +27,7 @@ extension ImagesClient {
       headerFields: HTTPFields(dictionaryLiteral: (.contentType, "multipart/form-data; boundary=\(boundary)"))
     )
 
-    let (data, _) = try await URLSession.shared.upload(for: request, from: Data(bodyData.utf8))
+    let (data, _) = try await URLSession.shared.upload(for: request, from: Data(formData.utf8))
     let response = try JSONDecoder.images.decode(ImagesResponse<Image>.self, from: data)
 
     if let result = response.result, response.success {
