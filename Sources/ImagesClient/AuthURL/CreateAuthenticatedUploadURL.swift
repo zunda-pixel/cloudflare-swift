@@ -39,7 +39,7 @@ extension ImagesClient {
       method: .post,
       url: url,
       headerFields: .init([
-        .init(name: .contentType, value: "multipart/form-data; boundary=\(boundary)"),
+        .init(name: .contentType, value: "multipart/form-data; boundary=\(boundary)")
       ])
     )
 
