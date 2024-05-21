@@ -11,9 +11,7 @@ extension ImagesClient {
   /// https://developers.cloudflare.com/api/operations/cloudflare-images-images-usage-statistics
   /// - Returns: (allowedImageCount: Int, currentImageCount: Int)
   public func usageStats() async throws -> (allowedImageCount: Int, currentImageCount: Int) {
-    let url = URL(
-      string: "https://api.cloudflare.com/client/v4/accounts/\(accountId)/images/v1/stats"
-    )!
+    let url = self.baseURL.appendingPathComponent("accounts/\(accountId)/images/v1/stats")
 
     let request = HTTPRequest(
       method: .get,

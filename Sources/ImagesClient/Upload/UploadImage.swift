@@ -22,7 +22,8 @@ extension ImagesClient {
     metadatas: [String: String],
     requireSignedURLs: Bool
   ) async throws -> Image {
-    let url = URL(string: "https://api.cloudflare.com/client/v4/accounts/\(accountId)/images/v1")!
+    let url = self.baseURL.appendingPathComponent("accounts/\(accountId)/images/v1")
+
     let body = Body(
       id: imageId,
       imageData: imageData,

@@ -22,9 +22,7 @@ extension ImagesClient {
     metadatas: [String: String] = [:],
     requireSignedURLs: Bool? = nil
   ) async throws -> (id: String, uploadURL: URL) {
-    let url = URL(
-      string: "https://api.cloudflare.com/client/v4/accounts/\(accountId)/images/v2/direct_upload"
-    )!
+    let url = self.baseURL.appendingPathComponent("accounts/\(accountId)/images/v2/direct_upload")
 
     let boundary = UUID().uuidString
 

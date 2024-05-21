@@ -17,7 +17,7 @@ extension ImagesClient {
   public func images(
     continuationToken: String? = nil, perPage: Int = 1000, sorOrder: SortOrder = .desc
   ) async throws -> ImagesResult {
-    let url = URL(string: "https://api.cloudflare.com/client/v4/accounts/\(accountId)/images/v2")!
+    let url = self.baseURL.appendingPathComponent("accounts/\(accountId)/images/v2")
 
     var queries: [String: String] = [
       "per_page": String(perPage),

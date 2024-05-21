@@ -16,9 +16,7 @@ extension ImagesClient {
   public func update(
     id imageId: String, metadatas: [String: String] = [:], requireSignedURLs: Bool? = nil
   ) async throws -> Image {
-    let url = URL(
-      string: "https://api.cloudflare.com/client/v4/accounts/\(accountId)/images/v1/\(imageId)"
-    )!
+    let url = self.baseURL.appendingPathComponent("accounts/\(accountId)/images/v1/\(imageId)")
 
     let request = HTTPRequest(
       method: .patch,

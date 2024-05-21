@@ -11,9 +11,8 @@ extension ImagesClient {
   /// https://developers.cloudflare.com/api/operations/cloudflare-images-delete-image
   /// - Parameter imageId: Image ID
   public func delete(id imageId: String) async throws {
-    let url = URL(
-      string: "https://api.cloudflare.com/client/v4/accounts/\(accountId)/images/v1/\(imageId)"
-    )!
+    let url = self.baseURL.appendingPathComponent("accounts/\(accountId)/images/v1/\(imageId)")
+
     let request = HTTPRequest(
       method: .delete,
       url: url

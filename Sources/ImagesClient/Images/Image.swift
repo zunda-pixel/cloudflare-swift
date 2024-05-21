@@ -12,9 +12,7 @@ extension ImagesClient {
   /// - Parameter imageId: Image ID
   /// - Returns: ``Image``
   public func image(id imageId: String) async throws -> Image {
-    let url = URL(
-      string: "https://api.cloudflare.com/client/v4/accounts/\(accountId)/images/v1/\(imageId)"
-    )!
+    let url = self.baseURL.appendingPathComponent("accounts/\(accountId)/images/v1/\(imageId)")
 
     let request = HTTPRequest(
       method: .get,

@@ -4,7 +4,8 @@ import HTTPTypes
 public struct ImagesClient<HTTPClient: HTTPClientProtocol> {
   public let apiToken: String
   public let accountId: String
-  public var httpClient: HTTPClient
+  public let httpClient: HTTPClient
+  public var baseURL = URL(string: "https://api.cloudflare.com/client/v4")!
 
   public init(
     apiToken: String,
