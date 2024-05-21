@@ -12,14 +12,14 @@ import HTTPTypesFoundation
       delegate: (any URLSessionTaskDelegate)? = nil
     ) async throws -> (Data, URLResponse) {
       return try await withCheckedThrowingContinuation { continuation in
-        self.dataTask(with: request) { data, response, error in
-          if let error {
-            continuation.resume(throwing: error)
-          } else {
-            continuation.resume(returning: (data!, response!))
+        let task = self.dataTask(with: request) { (data, response, error) in
+          guard let data = data, let response = response else {
+            let error = error ?? URLError(.badServerResponse)
+            return continuation.resume(throwing: error)
           }
+          continuation.resume(returning: (data, response))
         }
-        .resume()
+        task.resume()
       }
     }
 
@@ -42,15 +42,15 @@ import HTTPTypesFoundation
       from data: Data,
       delegate: (any URLSessionTaskDelegate)? = nil
     ) async throws -> (Data, URLResponse) {
-      return try await withCheckedThrowingContinuation { continuation in
-        self.uploadTask(with: request, from: data) { data, response, error in
-          if let error {
-            continuation.resume(throwing: error)
-          } else {
-            continuation.resume(returning: (data!, response!))
+      return try await withCheckedThrowingContinuation { continuation in        
+        let task = self.uploadTask(with: request, from: data) { (data, response, error) in
+          guard let data = data, let response = response else {
+            let error = error ?? URLError(.badServerResponse)
+            return continuation.resume(throwing: error)
           }
+          continuation.resume(returning: (data, response))
         }
-        .resume()
+        task.resume()
       }
     }
 
