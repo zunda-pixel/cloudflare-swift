@@ -1,7 +1,7 @@
 import Foundation
 import HTTPTypes
 import HTTPTypesFoundation
-import MultipartForm
+import MultipartKit
 
 #if canImport(FoundationNetworking)
   import FoundationNetworking
@@ -30,22 +30,21 @@ extension ImagesClient {
       url: url,
       headerFields: HTTPFields(dictionaryLiteral: (.authorization, "Bearer \(apiToken)"))
     )
+    
+    let boundary = UUID().uuidString
 
-    let metadatas = try! String(decoding: JSONEncoder().encode(metadatas), as: UTF8.self)
-    var form = MultipartForm(parts: [
-      MultipartForm.Part(name: "metadata", value: metadatas)
-    ])
-    imageId.map { form.parts.append(.init(name: "id", value: $0)) }
-    expiryDate.map {
-      form.parts.append(.init(name: "expiry", value: ISO8601DateFormatter().string(from: $0)))
-    }
-    requireSignedURLs.map {
-      form.parts.append(.init(name: "requireSignedURLs", value: $0.description))
-    }
+    let body = Body(
+      metadata: metadatas,
+      id: imageId,
+      expiryDate: expiryDate,
+      requireSignedURLs: requireSignedURLs
+    )
+
+    let bodyString = try! FormDataEncoder().encode(body, boundary: boundary)
 
     var urlRequest = URLRequest(httpRequest: request)!
-    urlRequest.setValue(form.contentType, forHTTPHeaderField: "Content-Type")
-    urlRequest.httpBody = form.bodyData
+    urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+    urlRequest.httpBody = Data(bodyString.utf8)
 
     let (data, _) = try await URLSession.shared.data(for: urlRequest)
 
@@ -77,5 +76,28 @@ private struct AuthenticatedUploadURLBody: Sendable, Codable, Hashable {
     case id
     case metadatas = "metadata"
     case requireSignedURLs
+  }
+}
+
+private struct Body: Encodable {
+  var metadata: [String: String]
+  var id: String?
+  var expiryDate: Date?
+  var requireSignedURLs: Bool?
+  
+  enum CodingKeys: CodingKey {
+    case metadata
+    case id
+    case expiryDate
+    case requireSignedURLs
+  }
+  
+  func encode(to encoder: any Encoder) throws {
+    var container = encoder.container(keyedBy: CodingKeys.self)
+    let rawMetadata = String(decoding: try! JSONEncoder().encode(metadata), as: UTF8.self)
+    try container.encode(rawMetadata, forKey: .metadata)
+    try container.encodeIfPresent(self.id, forKey: .id)
+    try container.encodeIfPresent(self.expiryDate, forKey: .expiryDate)
+    try container.encodeIfPresent(self.requireSignedURLs, forKey: .requireSignedURLs)
   }
 }
