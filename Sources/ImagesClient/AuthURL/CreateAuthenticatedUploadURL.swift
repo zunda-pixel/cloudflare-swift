@@ -9,6 +9,7 @@ import MultipartKit
 
 extension ImagesClient {
   /// Create Authenticated Upload URL
+  /// https://developers.cloudflare.com/api/operations/cloudflare-images-create-authenticated-direct-upload-url-v-2
   /// - Parameters:
   ///   - id: Image ID
   ///   - expiryDate: Expirly Date
