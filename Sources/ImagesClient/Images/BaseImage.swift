@@ -18,10 +18,7 @@ extension ImagesClient {
 
     let request = HTTPRequest(
       method: .get,
-      url: url,
-      headerFields: HTTPFields([
-        .init(name: .authorization, value: "Bearer \(apiToken)")
-      ])
+      url: url
     )
 
     let (data, response) = try await self.execute(request)
