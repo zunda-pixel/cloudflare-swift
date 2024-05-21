@@ -24,7 +24,9 @@ extension ImagesClient {
     let request = HTTPRequest(
       method: .post,
       url: uploadURL,
-      headerFields: HTTPFields(dictionaryLiteral: (.contentType, "multipart/form-data; boundary=\(boundary)"))
+      headerFields: HTTPFields([
+        .init(name: .contentType, value: "multipart/form-data; boundary=\(boundary)")
+      ])
     )
 
     let (data, _) = try await URLSession.shared.upload(for: request, from: Data(formData.utf8))
@@ -73,12 +75,12 @@ extension ImagesClient {
 enum ImageBody: Encodable {
   case url(URL)
   case file(Data)
-  
+
   private enum CodingKeys: CodingKey {
     case url
     case file
   }
-  
+
   func encode(to encoder: any Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     switch self {

@@ -29,20 +29,18 @@ extension ImagesClient {
       metadata: metadatas,
       requireSignedURLs: requireSignedURLs
     )
-    
+
     let boundary = UUID().uuidString
-    
+
     let formData = try! FormDataEncoder().encode(body, boundary: boundary)
 
     let request = HTTPRequest(
       method: .post,
       url: url,
-      headerFields: HTTPFields(
-        dictionaryLiteral:
-          (.authorization, "Bearer \(apiToken)"),
-          (.contentType, "multipart/form-data; boundary=\(boundary)"
-        )
-      )
+      headerFields: HTTPFields([
+        .init(name: .authorization, value: "Bearer \(apiToken)"),
+        .init(name: .contentType, value: "multipart/form-data; boundary=\(boundary)"),
+      ])
     )
 
     let (data, _) = try await URLSession.shared.upload(for: request, from: Data(formData.utf8))
@@ -106,7 +104,7 @@ private struct Body: Encodable {
   var imageData: ImageBody
   var metadata: [String: String]
   var requireSignedURLs: Bool
-  
+
   private enum CodingKeys: CodingKey {
     case id
     case url
@@ -114,7 +112,7 @@ private struct Body: Encodable {
     case metadata
     case requireSignedURLs
   }
-  
+
   func encode(to encoder: any Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encodeIfPresent(self.id, forKey: .id)

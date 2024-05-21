@@ -25,12 +25,6 @@ extension ImagesClient {
       string: "https://api.cloudflare.com/client/v4/accounts/\(accountId)/images/v2/direct_upload"
     )!
 
-    let request = HTTPRequest(
-      method: .post,
-      url: url,
-      headerFields: HTTPFields(dictionaryLiteral: (.authorization, "Bearer \(apiToken)"))
-    )
-    
     let boundary = UUID().uuidString
 
     let body = Body(
@@ -40,13 +34,18 @@ extension ImagesClient {
       requireSignedURLs: requireSignedURLs
     )
 
+    let request = HTTPRequest(
+      method: .post,
+      url: url,
+      headerFields: .init([
+        .init(name: .authorization, value: "Bearer \(apiToken)"),
+        .init(name: .contentType, value: "multipart/form-data; boundary=\(boundary)")
+      ])
+    )
+
     let bodyString = try! FormDataEncoder().encode(body, boundary: boundary)
 
-    var urlRequest = URLRequest(httpRequest: request)!
-    urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-    urlRequest.httpBody = Data(bodyString.utf8)
-
-    let (data, _) = try await URLSession.shared.data(for: urlRequest)
+    let (data, _) = try await URLSession.shared.upload(for: request, from: Data(bodyString.utf8))
 
     let response = try JSONDecoder.images.decode(
       ImagesResponse<AuthenticatedUploadURLResult>.self,
@@ -84,14 +83,14 @@ private struct Body: Encodable {
   var id: String?
   var expiryDate: Date?
   var requireSignedURLs: Bool?
-  
+
   private enum CodingKeys: CodingKey {
     case metadata
     case id
     case expiryDate
     case requireSignedURLs
   }
-  
+
   func encode(to encoder: any Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     let rawMetadata = String(decoding: try! JSONEncoder().encode(metadata), as: UTF8.self)
