@@ -22,7 +22,7 @@ extension ImagesClient {
       ])
     )
 
-    let (data, _) = try await URLSession.shared.data(for: request)
+    let (data, _) = try await self.execute(request)
 
     let response = try JSONDecoder().decode(ImagesResponse<EmptyResult>.self, from: data)
     if !response.success {

@@ -46,7 +46,7 @@ extension ImagesClient {
 
     let bodyString = try! FormDataEncoder().encode(body, boundary: boundary)
 
-    let (data, _) = try await URLSession.shared.upload(for: request, from: Data(bodyString.utf8))
+    let (data, _) = try await self.execute(request, body: Data(bodyString.utf8))
 
     let response = try JSONDecoder.images.decode(
       ImagesResponse<AuthenticatedUploadURLResult>.self,

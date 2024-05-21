@@ -24,7 +24,7 @@ extension ImagesClient {
       ])
     )
 
-    let (data, response) = try await URLSession.shared.data(for: request)
+    let (data, response) = try await self.execute(request)
 
     if response.status.code == 200 {
       return data

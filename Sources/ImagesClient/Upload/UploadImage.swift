@@ -38,12 +38,11 @@ extension ImagesClient {
       method: .post,
       url: url,
       headerFields: HTTPFields([
-        .init(name: .authorization, value: "Bearer \(apiToken)"),
         .init(name: .contentType, value: "multipart/form-data; boundary=\(boundary)"),
       ])
     )
 
-    let (data, _) = try await URLSession.shared.upload(for: request, from: Data(formData.utf8))
+    let (data, _) = try await self.execute(request, body: Data(formData.utf8))
 
     let response = try JSONDecoder.images.decode(ImagesResponse<Image>.self, from: data)
 

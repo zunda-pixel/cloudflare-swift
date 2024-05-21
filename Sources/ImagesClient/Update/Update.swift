@@ -22,16 +22,13 @@ extension ImagesClient {
 
     let request = HTTPRequest(
       method: .patch,
-      url: url,
-      headerFields: HTTPFields([
-        .init(name: .authorization, value: "Bearer \(apiToken)")
-      ])
+      url: url
     )
 
     let body = UpdateBody(metadatas: metadatas, requireSignedURLs: requireSignedURLs)
     let bodyData = try! JSONEncoder().encode(body)
 
-    let (data, _) = try await URLSession.shared.upload(for: request, from: bodyData)
+    let (data, _) = try await self.execute(request, body: bodyData)
 
     let response = try JSONDecoder.images.decode(ImagesResponse<Image>.self, from: data)
     if let result = response.result, response.success {

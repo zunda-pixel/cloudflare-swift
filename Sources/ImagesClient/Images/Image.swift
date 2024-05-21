@@ -18,13 +18,10 @@ extension ImagesClient {
 
     let request = HTTPRequest(
       method: .get,
-      url: url,
-      headerFields: HTTPFields([
-        .init(name: .authorization, value: "Bearer \(apiToken)")
-      ])
+      url: url
     )
 
-    let (data, _) = try await URLSession.shared.data(for: request)
+    let (data, _) = try await self.execute(request)
 
     let response = try JSONDecoder.images.decode(ImagesResponse<Image>.self, from: data)
     if let result = response.result, response.success {
