@@ -11,17 +11,14 @@ extension ImagesClient {
   /// https://developers.cloudflare.com/api/operations/cloudflare-images-images-usage-statistics
   /// - Returns: (allowedImageCount: Int, currentImageCount: Int)
   public func usageStats() async throws -> (allowedImageCount: Int, currentImageCount: Int) {
-    let url = URL(
-      string: "https://api.cloudflare.com/client/v4/accounts/\(accountId)/images/v1/stats"
-    )!
+    let url = self.baseURL.appendingPathComponent("accounts/\(accountId)/images/v1/stats")
 
     let request = HTTPRequest(
       method: .get,
-      url: url,
-      headerFields: HTTPFields(dictionaryLiteral: (.authorization, "Bearer \(apiToken)"))
+      url: url
     )
 
-    let (data, _) = try await URLSession.shared.data(for: request)
+    let (data, _) = try await self.execute(request)
 
     let response = try JSONDecoder.images.decode(ImagesResponse<ImageCount>.self, from: data)
     if let result = response.result, response.success {

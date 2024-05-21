@@ -12,17 +12,14 @@ extension ImagesClient {
   /// - Parameter imageId: Image ID
   /// - Returns: ``Image``
   public func image(id imageId: String) async throws -> Image {
-    let url = URL(
-      string: "https://api.cloudflare.com/client/v4/accounts/\(accountId)/images/v1/\(imageId)"
-    )!
+    let url = self.baseURL.appendingPathComponent("accounts/\(accountId)/images/v1/\(imageId)")
 
     let request = HTTPRequest(
       method: .get,
-      url: url,
-      headerFields: HTTPFields(dictionaryLiteral: (.authorization, "Bearer \(apiToken)"))
+      url: url
     )
 
-    let (data, _) = try await URLSession.shared.data(for: request)
+    let (data, _) = try await self.execute(request)
 
     let response = try JSONDecoder.images.decode(ImagesResponse<Image>.self, from: data)
     if let result = response.result, response.success {

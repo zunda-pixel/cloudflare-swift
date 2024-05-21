@@ -17,7 +17,7 @@ extension ImagesClient {
   public func images(
     continuationToken: String? = nil, perPage: Int = 1000, sorOrder: SortOrder = .desc
   ) async throws -> ImagesResult {
-    let url = URL(string: "https://api.cloudflare.com/client/v4/accounts/\(accountId)/images/v2")!
+    let url = self.baseURL.appendingPathComponent("accounts/\(accountId)/images/v2")
 
     var queries: [String: String] = [
       "per_page": String(perPage),
@@ -31,11 +31,10 @@ extension ImagesClient {
 
     let request = HTTPRequest(
       method: .get,
-      url: components.url!,
-      headerFields: HTTPFields(dictionaryLiteral: (.authorization, "Bearer \(apiToken)"))
+      url: components.url!
     )
 
-    let (data, _) = try await URLSession.shared.data(for: request)
+    let (data, _) = try await self.execute(request)
 
     let response = try JSONDecoder.images.decode(ImagesResponse<ImagesResult>.self, from: data)
     if let result = response.result, response.success {

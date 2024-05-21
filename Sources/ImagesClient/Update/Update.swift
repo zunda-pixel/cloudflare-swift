@@ -16,23 +16,17 @@ extension ImagesClient {
   public func update(
     id imageId: String, metadatas: [String: String] = [:], requireSignedURLs: Bool? = nil
   ) async throws -> Image {
-    let url = URL(
-      string: "https://api.cloudflare.com/client/v4/accounts/\(accountId)/images/v1/\(imageId)"
-    )!
+    let url = self.baseURL.appendingPathComponent("accounts/\(accountId)/images/v1/\(imageId)")
 
     let request = HTTPRequest(
       method: .patch,
-      url: url,
-      headerFields: HTTPFields(dictionaryLiteral: (.authorization, "Bearer \(apiToken)"))
+      url: url
     )
 
     let body = UpdateBody(metadatas: metadatas, requireSignedURLs: requireSignedURLs)
     let bodyData = try! JSONEncoder().encode(body)
 
-    var urlRequest = URLRequest(httpRequest: request)!
-    urlRequest.httpBody = bodyData
-
-    let (data, _) = try await URLSession.shared.data(for: urlRequest)
+    let (data, _) = try await self.execute(request, body: bodyData)
 
     let response = try JSONDecoder.images.decode(ImagesResponse<Image>.self, from: data)
     if let result = response.result, response.success {

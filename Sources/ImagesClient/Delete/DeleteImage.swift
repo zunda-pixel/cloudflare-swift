@@ -11,16 +11,14 @@ extension ImagesClient {
   /// https://developers.cloudflare.com/api/operations/cloudflare-images-delete-image
   /// - Parameter imageId: Image ID
   public func delete(id imageId: String) async throws {
-    let url = URL(
-      string: "https://api.cloudflare.com/client/v4/accounts/\(accountId)/images/v1/\(imageId)"
-    )!
+    let url = self.baseURL.appendingPathComponent("accounts/\(accountId)/images/v1/\(imageId)")
+
     let request = HTTPRequest(
       method: .delete,
-      url: url,
-      headerFields: HTTPFields(dictionaryLiteral: (.authorization, "Bearer \(apiToken)"))
+      url: url
     )
 
-    let (data, _) = try await URLSession.shared.data(for: request)
+    let (data, _) = try await self.execute(request)
 
     let response = try JSONDecoder().decode(ImagesResponse<EmptyResult>.self, from: data)
     if !response.success {
