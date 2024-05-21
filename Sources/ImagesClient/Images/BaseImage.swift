@@ -19,7 +19,9 @@ extension ImagesClient {
     let request = HTTPRequest(
       method: .get,
       url: url,
-      headerFields: HTTPFields(dictionaryLiteral: (.authorization, "Bearer \(apiToken)"))
+      headerFields: HTTPFields([
+        .init(name: .authorization, value: "Bearer \(apiToken)")
+      ])
     )
 
     let (data, response) = try await URLSession.shared.data(for: request)

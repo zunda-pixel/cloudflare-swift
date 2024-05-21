@@ -39,7 +39,7 @@ extension ImagesClient {
       url: url,
       headerFields: .init([
         .init(name: .authorization, value: "Bearer \(apiToken)"),
-        .init(name: .contentType, value: "multipart/form-data; boundary=\(boundary)")
+        .init(name: .contentType, value: "multipart/form-data; boundary=\(boundary)"),
       ])
     )
 
