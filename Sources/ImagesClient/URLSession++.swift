@@ -2,6 +2,22 @@ import Foundation
 import HTTPTypes
 import HTTPTypesFoundation
 
+extension URLSession: HTTPClientProtocol {
+  public func execute(_ request: HTTPRequest, body: Data?) async throws -> (Data, HTTPResponse) {
+    if let body {
+      try await self.upload(for: request, from: body)
+    } else {
+      try await self.data(for: request)
+    }
+  }
+}
+
+extension HTTPClientProtocol where Self == URLSession {
+  public static func urlSession(_ urlSession: Self) -> Self {
+    return urlSession
+  }
+}
+
 #if canImport(FoundationNetworking)
   import FoundationNetworking
   @preconcurrency import Foundation
@@ -42,7 +58,7 @@ import HTTPTypesFoundation
       from data: Data,
       delegate: (any URLSessionTaskDelegate)? = nil
     ) async throws -> (Data, URLResponse) {
-      return try await withCheckedThrowingContinuation { continuation in        
+      return try await withCheckedThrowingContinuation { continuation in
         let task = self.uploadTask(with: request, from: data) { (data, response, error) in
           guard let data = data, let response = response else {
             let error = error ?? URLError(.badServerResponse)
