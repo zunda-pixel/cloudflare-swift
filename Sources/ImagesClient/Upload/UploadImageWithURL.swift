@@ -73,4 +73,19 @@ extension ImagesClient {
 enum ImageBody: Encodable {
   case url(URL)
   case file(Data)
+  
+  private enum CodingKeys: CodingKey {
+    case url
+    case file
+  }
+  
+  func encode(to encoder: any Encoder) throws {
+    var container = encoder.container(keyedBy: CodingKeys.self)
+    switch self {
+    case .url(let url):
+      try container.encode(url.absoluteString, forKey: .url)
+    case .file(let file):
+      try container.encode(file, forKey: .file)
+    }
+  }
 }

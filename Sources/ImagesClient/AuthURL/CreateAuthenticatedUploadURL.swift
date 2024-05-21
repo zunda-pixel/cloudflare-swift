@@ -85,7 +85,7 @@ private struct Body: Encodable {
   var expiryDate: Date?
   var requireSignedURLs: Bool?
   
-  enum CodingKeys: CodingKey {
+  private enum CodingKeys: CodingKey {
     case metadata
     case id
     case expiryDate

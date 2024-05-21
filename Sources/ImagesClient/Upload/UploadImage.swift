@@ -32,7 +32,7 @@ extension ImagesClient {
     
     let boundary = UUID().uuidString
     
-    let formData = try FormDataEncoder().encode(body, boundary: boundary)
+    let formData = try! FormDataEncoder().encode(body, boundary: boundary)
 
     let request = HTTPRequest(
       method: .post,
@@ -101,14 +101,13 @@ extension ImagesClient {
   }
 }
 
-
 private struct Body: Encodable {
   var id: String?
   var imageData: ImageBody
   var metadata: [String: String]
   var requireSignedURLs: Bool
   
-  enum CodingKeys: CodingKey {
+  private enum CodingKeys: CodingKey {
     case id
     case url
     case file
@@ -121,7 +120,7 @@ private struct Body: Encodable {
     try container.encodeIfPresent(self.id, forKey: .id)
     switch imageData {
     case .url(let url):
-      try container.encode(url, forKey: .url)
+      try container.encode(url.absoluteString, forKey: .url)
     case .file(let imageData):
       try container.encode(imageData, forKey: .file)
     }
