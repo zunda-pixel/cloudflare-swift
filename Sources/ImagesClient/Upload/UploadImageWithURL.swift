@@ -90,7 +90,7 @@ enum ImageBody: Encodable {
     var container = encoder.container(keyedBy: CodingKeys.self)
     switch self {
     case .url(let url):
-      try container.encode(url.absoluteString, forKey: .url)
+      try container.encode(url, forKey: .url)
     case .file(let file):
       try container.encode(file, forKey: .file)
     }

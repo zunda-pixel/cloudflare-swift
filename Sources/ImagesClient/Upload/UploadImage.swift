@@ -118,7 +118,7 @@ private struct Body: Encodable {
     try container.encodeIfPresent(self.id, forKey: .id)
     switch imageData {
     case .url(let url):
-      try container.encode(url.absoluteString, forKey: .url)
+      try container.encode(url, forKey: .url)
     case .file(let imageData):
       try container.encode(imageData, forKey: .file)
     }
