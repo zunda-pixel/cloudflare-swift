@@ -12,7 +12,7 @@ jobs:
         swift: [latest]
     steps:
     - name: Install swiftly
-      run: curl -L https://swift-server.github.io/swiftly/swiftly-install.sh | bash -s -- --disable-confirmation
+      run: curl -L https://swiftlang.github.io/swiftly/swiftly-install.sh | bash -s -- --disable-confirmation
     - name: Install Swift
       run: swiftly install ${{ matrix.swift }}
     - uses: actions/checkout@v4
@@ -27,7 +27,7 @@ jobs:
         swift: [latest]
     steps:
     - name: Install swiftly
-      run: curl -L https://swift-server.github.io/swiftly/swiftly-install.sh | bash -s -- --disable-confirmation
+      run: curl -L https://swiftlang.github.io/swiftly/swiftly-install.sh | bash -s -- --disable-confirmation
     - name: Install Swift
       run: swiftly install ${{ matrix.swift }}
     - uses: actions/checkout@v4
