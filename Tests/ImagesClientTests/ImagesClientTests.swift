@@ -1,7 +1,7 @@
+import Foundation
 import HTTPTypes
 import HTTPTypesFoundation
 import ImagesClient
-import Foundation
 import Testing
 
 #if canImport(FoundationNetworking)
@@ -48,7 +48,7 @@ func uploadURL() async throws {
   #expect(response.metadatas == metadatas)
   #expect(response.fileName == coudflareLogoName)
   #expect(response.requireSignedURLs == false)
-  #expect(response.variants.isEmpty ==  false)
+  #expect(response.variants.isEmpty == false)
 }
 
 @Test
@@ -69,7 +69,7 @@ func uploadURLWithId() async throws {
   #expect(id == response.id)
   #expect(response.metadatas == [:])
   #expect(response.fileName == coudflareLogoName)
-  #expect(response.requireSignedURLs ==  false)
+  #expect(response.requireSignedURLs == false)
   #expect(response.variants.isEmpty == false)
 }
 

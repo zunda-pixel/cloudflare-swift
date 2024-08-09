@@ -15,9 +15,9 @@ let package = Package(
     .library(
       name: "ImagesClient",
       targets: [
-        "ImagesClient",
+        "ImagesClient"
       ]
-    ),
+    )
   ],
   dependencies: [
     .package(url: "https://github.com/apple/swift-http-types", from: "1.0.3"),
