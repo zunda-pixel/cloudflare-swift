@@ -15,14 +15,14 @@ let package = Package(
     .library(
       name: "ImagesClient",
       targets: [
-        "ImagesClient",
+        "ImagesClient"
       ]
-    ),
+    )
   ],
   dependencies: [
     .package(url: "https://github.com/apple/swift-http-types", from: "1.0.3"),
     .package(url: "https://github.com/vapor/multipart-kit", from: "4.7.0"),
-    .package(url: "https://github.com/apple/swift-format", from: "510.1.0"),
+    .package(url: "https://github.com/swiftlang/swift-testing", from: "0.11.0"),
   ],
   targets: [
     .target(
@@ -37,6 +37,7 @@ let package = Package(
       name: "ImagesClientTests",
       dependencies: [
         .target(name: "ImagesClient"),
+        .product(name: "Testing", package: "swift-testing"),
       ],
       resources: [
         .process("Resources")
