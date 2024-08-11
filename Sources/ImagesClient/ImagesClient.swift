@@ -1,7 +1,8 @@
 import Foundation
 import HTTPTypes
+import HTTPClient
 
-public struct ImagesClient<HTTPClient: HTTPClientProtocol> {
+public struct ImagesClient<HTTPClient: HTTPClientProtocol>: Sendable, Hashable where HTTPClient.Data == Foundation.Data, HTTPClient.Body == Foundation.Data, HTTPClient: Hashable {
   public let apiToken: String
   public let accountId: String
   public let httpClient: HTTPClient
@@ -20,6 +21,6 @@ public struct ImagesClient<HTTPClient: HTTPClientProtocol> {
   func execute(_ request: HTTPRequest, body: Data? = nil) async throws -> (Data, HTTPResponse) {
     var request = request
     request.headerFields[.authorization] = "Bearer \(apiToken)"
-    return try await httpClient.execute(request, body: body)
+    return try await httpClient.execute(for: request, from: body)
   }
 }
