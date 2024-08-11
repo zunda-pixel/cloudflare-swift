@@ -30,7 +30,7 @@ extension ImagesClient {
       ])
     )
 
-    let (data, _) = try await httpClient.execute(request, body: Data(formData.utf8))
+    let (data, _) = try await httpClient.execute(for: request, from: Data(formData.utf8))
     let response = try JSONDecoder.images.decode(ImagesResponse<Image>.self, from: data)
 
     if let result = response.result, response.success {

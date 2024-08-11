@@ -3,6 +3,7 @@ import HTTPTypes
 import HTTPTypesFoundation
 import ImagesClient
 import Testing
+import HTTPClientFoundation
 
 #if canImport(FoundationNetworking)
   import FoundationNetworking
