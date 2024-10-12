@@ -2,7 +2,7 @@ import Foundation
 import HTTPTypes
 import HTTPClient
 
-public struct ImagesClient<HTTPClient: HTTPClientProtocol>: Sendable, Hashable where HTTPClient.Data == Foundation.Data, HTTPClient.Body == Foundation.Data, HTTPClient: Hashable {
+public struct ImagesClient<HTTPClient: HTTPClientProtocol & Sendable>: Sendable {
   public let apiToken: String
   public let accountId: String
   public let httpClient: HTTPClient

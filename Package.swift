@@ -20,8 +20,7 @@ let package = Package(
   dependencies: [
     .package(url: "https://github.com/apple/swift-http-types", from: "1.3.0"),
     .package(url: "https://github.com/vapor/multipart-kit", from: "4.7.0"),
-    .package(url: "https://github.com/swiftlang/swift-testing", from: "0.11.0"),
-    .package(url: "https://github.com/zunda-pixel/http-client", from: "0.1.3"),
+    .package(url: "https://github.com/zunda-pixel/http-client", from: "0.3.0"),
   ],
   targets: [
     .target(
@@ -37,8 +36,6 @@ let package = Package(
       name: "ImagesClientTests",
       dependencies: [
         .target(name: "ImagesClient"),
-        .product(name: "Testing", package: "swift-testing"),
-        .product(name: "HTTPClientFoundation", package: "http-client"),
       ],
       resources: [
         .process("Resources")
