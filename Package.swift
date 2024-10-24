@@ -5,10 +5,10 @@ import PackageDescription
 let package = Package(
   name: "CloudflareKit",
   platforms: [
-    .macOS(.v10_15),
-    .iOS(.v13),
-    .watchOS(.v6),
-    .tvOS(.v13),
+    .macOS(.v13),
+    .iOS(.v15),
+    .tvOS(.v15),
+    .watchOS(.v8),
     .visionOS(.v1),
   ],
   products: [
@@ -35,7 +35,7 @@ let package = Package(
     .testTarget(
       name: "ImagesClientTests",
       dependencies: [
-        .target(name: "ImagesClient"),
+        .target(name: "ImagesClient")
       ],
       resources: [
         .process("Resources")
