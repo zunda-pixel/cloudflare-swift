@@ -1,6 +1,6 @@
 import Foundation
-import HTTPTypes
 import HTTPClient
+import HTTPTypes
 
 public struct ImagesClient<HTTPClient: HTTPClientProtocol & Sendable>: Sendable {
   public let apiToken: String
