@@ -15,7 +15,7 @@ jobs:
         ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
   lint:
     runs-on: ubuntu-latest
-    container: swiftlang/swift:nightly-main-jammy
+    container: swift:latest
     steps:
       - uses: actions/checkout@v4
       - run: swift format lint -r -p -s .
