@@ -19,7 +19,7 @@ let package = Package(
   ],
   dependencies: [
     .package(url: "https://github.com/apple/swift-http-types", from: "1.3.0"),
-    .package(url: "https://github.com/vapor/multipart-kit", from: "4.7.0"),
+    .package(url: "https://github.com/vapor/multipart-kit", branch: "v5"),
     .package(url: "https://github.com/zunda-pixel/http-client", from: "0.3.0"),
   ],
   targets: [
