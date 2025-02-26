@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-  name: "CloudflareKit",
+  name: "cloudflare-swift",
   platforms: [
     .macOS(.v13),
     .iOS(.v15),
