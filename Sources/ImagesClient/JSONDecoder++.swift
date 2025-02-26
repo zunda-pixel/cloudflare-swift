@@ -8,7 +8,7 @@ extension JSONDecoder {
       let string = try container.decode(String.self)
       return try Date(
         string,
-        strategy: .iso8601.year().month().day().time(includingFractionalSeconds: true)
+        strategy: Date.ISO8601FormatStyle(includingFractionalSeconds: true)
       )
     }
 
