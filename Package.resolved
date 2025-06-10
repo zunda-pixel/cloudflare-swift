@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/http-client",
       "state" : {
-        "revision" : "88acdc5c925661d7a53017dfc9cccae6554b02a0",
-        "version" : "0.3.0"
+        "revision" : "2a073b058e4c2ffc2810373ac98dc2eeb5974e5e",
+        "version" : "0.3.1"
       }
     },
     {
