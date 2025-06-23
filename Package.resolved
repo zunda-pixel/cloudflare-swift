@@ -1,5 +1,5 @@
 {
-  "originHash" : "d8dc06125bd11803e2c9479f6b9f3878541ead10a50a2d1085d752506fcbcf00",
+  "originHash" : "d48555459b920452def716185acab2521f884e2f2394b7f6bffdc633de1cab12",
   "pins" : [
     {
       "identity" : "async-http-client",
@@ -13,7 +13,7 @@
     {
       "identity" : "http-client",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/zunda-pixel/http-client",
+      "location" : "https://github.com/zunda-pixel/http-client.git",
       "state" : {
         "revision" : "0d115da7b3746bad0c6c8856087651e19d4bbaba",
         "version" : "0.4.0"
@@ -137,6 +137,15 @@
       }
     },
     {
+      "identity" : "swift-memberwise-init-macro",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/gohanlon/swift-memberwise-init-macro.git",
+      "state" : {
+        "revision" : "d0fb82bb6638051524214fb54524bfcd876735a1",
+        "version" : "0.6.0"
+      }
+    },
+    {
       "identity" : "swift-nio",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-nio.git",
@@ -206,6 +215,15 @@
       "state" : {
         "revision" : "9829955b385e5bb88128b73f1b8389e9b9c3191a",
         "version" : "2.11.0"
+      }
+    },
+    {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-syntax",
+      "state" : {
+        "revision" : "2b59c0c741e9184ab057fd22950b491076d42e91",
+        "version" : "603.0.0"
       }
     },
     {
