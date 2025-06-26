@@ -11,8 +11,8 @@ import Testing
 @Suite
 struct RealtimeKitTests {
   let client = Client(
-    organizationId: ProcessInfo.processInfo.environment["ORGANIZATION_ID"]!,
-    apiKey: ProcessInfo.processInfo.environment["API_KEY"]!,
+    organizationId: ProcessInfo.processInfo.environment["REALTIMEKIT_ORGANIZATION_ID"]!,
+    apiKey: ProcessInfo.processInfo.environment["REALTIMEKIT_API_KEY"]!,
     httpClient: .urlSession(.shared)
   )
   
