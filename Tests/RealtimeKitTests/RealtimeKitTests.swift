@@ -50,4 +50,24 @@ struct RealtimeKitTests {
     let meetings = try await client.createMeeting(meeting)
     print(meetings)
   }
+  
+  @Test
+  func replaceMeeting() async throws {
+    let newMeting = NewMeeting(
+      title: "Title1",
+      preferredRegion: .apSoutheast1,
+      recordingConfig: .init(
+        maxSeconds: 60,
+        fileNamePrefix: "string",
+        realtimeKitBucketConfig: .init(enabled: true)
+      ),
+      aiConfig: .init(
+        transcription: .init(
+          keywords: ["string"]
+        )
+      )
+    )
+    let meeting1 = try await client.createMeeting(newMeting)
+    let meeting2 = try await client.replaceMeeting(for: meeting1.id, meeting: newMeting)
+  }
 }

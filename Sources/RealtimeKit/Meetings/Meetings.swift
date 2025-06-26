@@ -39,5 +39,20 @@ extension Client {
     let response = try JSONDecoder().decode(SingleResponse<Meeting>.self, from: data)
     return response.data
   }
+  
+  public func replaceMeeting(for meetingId: Meeting.ID, meeting: NewMeeting) async throws -> Meeting {
+    let url = baseURL.appendingPathComponent("meetings/\(meetingId)")
+    let request = HTTPRequest(
+      method: .put,
+      url: url,
+      headerFields: [
+        .contentType: "application/json"
+      ]
+    )
+    let bodyData = try JSONEncoder().encode(meeting)
+    let (data, _) = try await execute(request, body: bodyData)
+    let response = try JSONDecoder().decode(SingleResponse<Meeting>.self, from: data)
+    return response.data
+  }
 }
 
