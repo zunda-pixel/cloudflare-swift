@@ -2,7 +2,7 @@ import Foundation
 import MemberwiseInit
 
 @MemberwiseInit(.public)
-public struct Meeting: Codable, Sendable {
+public struct Meeting: Codable, Sendable, Identifiable {
   public var id: UUID
   public var title: String
   public var status: Status

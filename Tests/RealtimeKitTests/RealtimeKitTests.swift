@@ -22,6 +22,15 @@ struct RealtimeKitTests {
     print(meetings)
   }
   
+  @Test(
+    arguments: [
+    UUID(uuidString: "bbbb1a07-43f7-4d91-956c-8fca958ca6e7")!]
+  )
+  func meeting(meetingId: Meeting.ID) async throws {
+    let meeting = try await client.meeting(for: meetingId)
+    print(meeting)
+  }
+
   @Test
   func createMeeting() async throws {
     let meeting = CreateMeeting(
