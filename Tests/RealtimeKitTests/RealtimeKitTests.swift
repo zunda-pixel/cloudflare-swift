@@ -33,7 +33,7 @@ struct RealtimeKitTests {
 
   @Test
   func createMeeting() async throws {
-    let meeting = CreateMeeting(
+    let meeting = NewMeeting(
       title: "Title1",
       preferredRegion: .apSoutheast1,
       recordingConfig: .init(

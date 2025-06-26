@@ -25,7 +25,7 @@ extension Client {
     return response.data
   }
   
-  public func createMeeting(_ meeting: CreateMeeting) async throws -> Meeting {
+  public func createMeeting(_ meeting: NewMeeting) async throws -> Meeting {
     let url = baseURL.appendingPathComponent("meetings")
     let request = HTTPRequest(
       method: .post,

@@ -2,7 +2,7 @@ import Foundation
 import MemberwiseInit
 
 @MemberwiseInit(.public)
-public struct CreateMeeting: Encodable, Sendable {
+public struct NewMeeting: Encodable, Sendable {
   public var title: String
   public var preferredRegion: Meeting.PreferredRegion
   public var recordOnStart: Bool = false
