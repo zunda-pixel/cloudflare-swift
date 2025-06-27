@@ -100,8 +100,31 @@ struct RealtimeKitTests {
       (UUID(uuidString: "bbb3043e-557a-41b6-93c7-33273ed8e739")!, UUID(uuidString: "AAA22103-8303-424F-9073-906E4E59B392")!)
     ]
   )
-  func participants(meetingId: Meeting.ID, participantId: User.ID) async throws {
-    let participants = try await client.participant(for: meetingId, participantId: participantId)
-    print(participants)
+  func participant(meetingId: Meeting.ID, participantId: User.ID) async throws {
+    let participant = try await client.participant(for: meetingId, participantId: participantId)
+    print(participant)
+  }
+  
+  @Test(
+    arguments: [
+      (UUID(uuidString: "bbb3043e-557a-41b6-93c7-33273ed8e739")!, UUID(uuidString: "AAA22103-8303-424F-9073-906E4E59B392")!)
+    ]
+  )
+  func updateParticipant(meetingId: Meeting.ID, participantId: User.ID) async throws {
+    let updateUser = UpdateUser(
+      name: "NewName",
+      picture: URL(string: "https://i.imgur.com/new.jpg")!,
+      preset: .groupCallHost
+    )
+    let participant = try await client.updateParticipant(
+      for: meetingId,
+      participantId: participantId,
+      user: updateUser
+    )
+    
+    #expect(updateUser.name == participant.name)
+    #expect(updateUser.picture == participant.picture)
+    // paticipant has no preset(_name)
+    // #expect(updateUser.preset == participant.preset)
   }
 }

@@ -114,5 +114,26 @@ extension Client {
     let response = try JSONDecoder().decode(SingleResponse<User>.self, from: data)
     return response.data
   }
+  
+  
+  public func updateParticipant(
+    for meetingId: Meeting.ID,
+    participantId: User.ID,
+    user: UpdateUser
+  )  async throws -> User {
+    let url = baseURL.appendingPathComponent("meetings/\(meetingId)/participants/\(participantId)")
+
+    let request = HTTPRequest(
+      method: .patch,
+      url: url,
+      headerFields: [
+        .contentType: "application/json"
+      ]
+    )
+    let bodyData = try JSONEncoder().encode(user)
+    let (data, _) = try await execute(request, body: bodyData)
+    let response = try JSONDecoder().decode(SingleResponse<User>.self, from: data)
+    return response.data
+  }
 }
 
