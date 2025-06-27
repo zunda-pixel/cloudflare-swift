@@ -3,14 +3,14 @@ import HTTPTypes
 import HTTPTypesFoundation
 
 extension Client {
-  public func meetings() async throws -> ListResponse<Meeting> {
+  public func meetings() async throws -> PagableResponse<[Meeting]> {
     let url = baseURL.appendingPathComponent("meetings")
     let request = HTTPRequest(
       method: .get,
       url: url
     )
     let (data, _) = try await execute(request)
-    let list = try JSONDecoder().decode(ListResponse<Meeting>.self, from: data)
+    let list = try JSONDecoder().decode(PagableResponse<[Meeting]>.self, from: data)
     return list
   }
 
@@ -60,7 +60,7 @@ extension Client {
     for meetingId: Meeting.ID,
     pageNo: Int? = nil,
     perPage: Int? = nil
-  )  async throws -> ListResponse<User> {
+  )  async throws -> PagableResponse<[User]> {
     let url = baseURL
       .appendingPathComponent("meetings/\(meetingId)/participants")
       .appending(queryItems: [
@@ -75,7 +75,7 @@ extension Client {
       ]
     )
     let (data, _) = try await execute(request)
-    let response = try JSONDecoder().decode(ListResponse<User>.self, from: data)
+    let response = try JSONDecoder().decode(PagableResponse<[User]>.self, from: data)
     return response
   }
   
