@@ -40,6 +40,7 @@ extension Client {
     return response.data
   }
   
+  @discardableResult
   public func replaceMeeting(for meetingId: Meeting.ID, meeting: NewMeeting) async throws -> Meeting {
     let url = baseURL.appendingPathComponent("meetings/\(meetingId)")
     let request = HTTPRequest(
@@ -78,6 +79,7 @@ extension Client {
     return response
   }
   
+  @discardableResult
   public func addParticipant(
     for meetingId: Meeting.ID,
     participant: NewUser
@@ -115,7 +117,7 @@ extension Client {
     return response.data
   }
   
-  
+  @discardableResult
   public func updateParticipant(
     for meetingId: Meeting.ID,
     participantId: User.ID,
