@@ -127,4 +127,17 @@ struct RealtimeKitTests {
     // paticipant has no preset(_name)
     // #expect(updateUser.preset == participant.preset)
   }
+  
+  @Test(
+    arguments: [
+      (UUID(uuidString: "bbb3043e-557a-41b6-93c7-33273ed8e739")!, UUID(uuidString: "AAADE067-28E7-47A4-A6DA-381922D217B7")!)
+    ]
+  )
+  func deleteParticipant(meetingId: Meeting.ID, participantId: User.ID) async throws {
+    let deletedParticipant = try await client.deleteParticipant(
+      for: meetingId,
+      participantId: participantId
+    )
+    print(deletedParticipant)
+  }
 }
