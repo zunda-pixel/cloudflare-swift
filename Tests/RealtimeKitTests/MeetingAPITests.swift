@@ -9,7 +9,7 @@ import Testing
 #endif
 
 @Suite
-struct RealtimeKitTests {
+struct MeetingAPITests {
   let client = Client(
     organizationId: ProcessInfo.processInfo.environment["REALTIMEKIT_ORGANIZATION_ID"]!,
     apiKey: ProcessInfo.processInfo.environment["REALTIMEKIT_API_KEY"]!,
