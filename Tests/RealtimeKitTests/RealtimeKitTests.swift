@@ -84,7 +84,7 @@ struct RealtimeKitTests {
     arguments: [
     UUID(uuidString: "bbb3043e-557a-41b6-93c7-33273ed8e739")!]
   )
-  func addParticipants(meetingId: Meeting.ID) async throws {
+  func addParticipant(meetingId: Meeting.ID) async throws {
     let newUser = NewUser(
       name: "NewUser",
       customParticipantId: "CustomParticipantId",
@@ -139,5 +139,18 @@ struct RealtimeKitTests {
       participantId: participantId
     )
     print(deletedParticipant)
+  }
+  
+  @Test(
+    arguments: [
+      (UUID(uuidString: "bbb3043e-557a-41b6-93c7-33273ed8e739")!, UUID(uuidString: "AAA35254-6C6F-4853-AC2A-82BEE7F8F365")!)
+    ]
+  )
+  func refreshParticipantToekn(meetingId: Meeting.ID, participantId: User.ID) async throws {
+    let newToken = try await client.refreshParticipantToken(
+      for: meetingId,
+      participantId: participantId
+    )
+    print(newToken)
   }
 }
