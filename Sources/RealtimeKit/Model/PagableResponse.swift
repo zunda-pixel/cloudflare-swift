@@ -1,12 +1,12 @@
 import Foundation
 
-public struct ListResponse<Element: Codable>: Codable {
+public struct PagableResponse<Content: Decodable>: Decodable {
   public var success: Bool
-  public var data: [Element]
+  public var data: Content
   public var paging: Paging
 }
 
-extension ListResponse {
+extension PagableResponse {
   public struct Paging: Codable {
     public var totalCount: Int
     public var startOffset: Int
