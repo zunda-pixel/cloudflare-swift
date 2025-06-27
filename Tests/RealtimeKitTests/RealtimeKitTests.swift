@@ -70,4 +70,38 @@ struct RealtimeKitTests {
     let meeting1 = try await client.createMeeting(newMeting)
     let meeting2 = try await client.replaceMeeting(for: meeting1.id, meeting: newMeting)
   }
+  
+  @Test(
+    arguments: [
+    UUID(uuidString: "bbb3043e-557a-41b6-93c7-33273ed8e739")!]
+  )
+  func meetingParticipants(meetingId: Meeting.ID) async throws {
+    let participants = try await client.participants(for: meetingId)
+    print(participants)
+  }
+  
+  @Test(
+    arguments: [
+    UUID(uuidString: "bbb3043e-557a-41b6-93c7-33273ed8e739")!]
+  )
+  func addParticipants(meetingId: Meeting.ID) async throws {
+    let newUser = NewUser(
+      name: "NewUser",
+      customParticipantId: "CustomParticipantId",
+      preset: .livestreamHost,
+      picture: URL(string: "https://i.imgur.com/test.jpg")!
+    )
+    let participants = try await client.addParticipant(for: meetingId, participant: newUser)
+    print(participants)
+  }
+  
+  @Test(
+    arguments: [
+      (UUID(uuidString: "bbb3043e-557a-41b6-93c7-33273ed8e739")!, UUID(uuidString: "AAA22103-8303-424F-9073-906E4E59B392")!)
+    ]
+  )
+  func participants(meetingId: Meeting.ID, participantId: User.ID) async throws {
+    let participants = try await client.participant(for: meetingId, participantId: participantId)
+    print(participants)
+  }
 }
