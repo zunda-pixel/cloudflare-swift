@@ -135,5 +135,23 @@ extension Client {
     let response = try JSONDecoder().decode(SingleResponse<User>.self, from: data)
     return response.data
   }
-}
+  
+  @discardableResult
+  public func deleteParticipant(
+    for meetingId: Meeting.ID,
+    participantId: User.ID
+  )  async throws -> User {
+    let url = baseURL.appendingPathComponent("meetings/\(meetingId)/participants/\(participantId)")
 
+    let request = HTTPRequest(
+      method: .delete,
+      url: url,
+      headerFields: [
+        .contentType: "application/json"
+      ]
+    )
+    let (data, _) = try await execute(request)
+    let response = try JSONDecoder().decode(SingleResponse<User>.self, from: data)
+    return response.data
+  }
+}
