@@ -85,7 +85,7 @@ struct MeetingAPITests {
     UUID(uuidString: "bbb3043e-557a-41b6-93c7-33273ed8e739")!]
   )
   func addParticipant(meetingId: Meeting.ID) async throws {
-    let newUser = NewUser(
+    let newUser = Meeting.NewUser(
       name: "NewUser",
       customParticipantId: "CustomParticipantId",
       preset: .livestreamHost,
@@ -100,7 +100,7 @@ struct MeetingAPITests {
       (UUID(uuidString: "bbb3043e-557a-41b6-93c7-33273ed8e739")!, UUID(uuidString: "AAA22103-8303-424F-9073-906E4E59B392")!)
     ]
   )
-  func participant(meetingId: Meeting.ID, participantId: User.ID) async throws {
+  func participant(meetingId: Meeting.ID, participantId: Meeting.User.ID) async throws {
     let participant = try await client.participant(for: meetingId, participantId: participantId)
     print(participant)
   }
@@ -110,7 +110,7 @@ struct MeetingAPITests {
       (UUID(uuidString: "bbb3043e-557a-41b6-93c7-33273ed8e739")!, UUID(uuidString: "AAA22103-8303-424F-9073-906E4E59B392")!)
     ]
   )
-  func updateParticipant(meetingId: Meeting.ID, participantId: User.ID) async throws {
+  func updateParticipant(meetingId: Meeting.ID, participantId: Meeting.User.ID) async throws {
     let updateUser = UpdateUser(
       name: "NewName",
       picture: URL(string: "https://i.imgur.com/new.jpg")!,
@@ -133,7 +133,7 @@ struct MeetingAPITests {
       (UUID(uuidString: "bbb3043e-557a-41b6-93c7-33273ed8e739")!, UUID(uuidString: "AAADE067-28E7-47A4-A6DA-381922D217B7")!)
     ]
   )
-  func deleteParticipant(meetingId: Meeting.ID, participantId: User.ID) async throws {
+  func deleteParticipant(meetingId: Meeting.ID, participantId: Meeting.User.ID) async throws {
     let deletedParticipant = try await client.deleteParticipant(
       for: meetingId,
       participantId: participantId
@@ -146,7 +146,7 @@ struct MeetingAPITests {
       (UUID(uuidString: "bbb3043e-557a-41b6-93c7-33273ed8e739")!, UUID(uuidString: "AAA35254-6C6F-4853-AC2A-82BEE7F8F365")!)
     ]
   )
-  func refreshParticipantToekn(meetingId: Meeting.ID, participantId: User.ID) async throws {
+  func refreshParticipantToekn(meetingId: Meeting.ID, participantId: Meeting.User.ID) async throws {
     let newToken = try await client.refreshParticipantToken(
       for: meetingId,
       participantId: participantId

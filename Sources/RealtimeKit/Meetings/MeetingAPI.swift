@@ -60,7 +60,7 @@ extension Client {
     for meetingId: Meeting.ID,
     pageNo: Int? = nil,
     perPage: Int? = nil
-  )  async throws -> PagableResponse<[User]> {
+  )  async throws -> PagableResponse<[Meeting.User]> {
     let url = baseURL
       .appendingPathComponent("meetings/\(meetingId)/participants")
       .appending(queryItems: [
@@ -75,15 +75,15 @@ extension Client {
       ]
     )
     let (data, _) = try await execute(request)
-    let response = try JSONDecoder().decode(PagableResponse<[User]>.self, from: data)
+    let response = try JSONDecoder().decode(PagableResponse<[Meeting.User]>.self, from: data)
     return response
   }
   
   @discardableResult
   public func addParticipant(
     for meetingId: Meeting.ID,
-    participant: NewUser
-  )  async throws -> User {
+    participant: Meeting.NewUser
+  )  async throws -> Meeting.User {
     let url = baseURL.appendingPathComponent("meetings/\(meetingId)/participants")
 
     let request = HTTPRequest(
@@ -95,14 +95,14 @@ extension Client {
     )
     let bodyData = try JSONEncoder().encode(participant)
     let (data, _) = try await execute(request, body: bodyData)
-    let response = try JSONDecoder().decode(SingleResponse<User>.self, from: data)
+    let response = try JSONDecoder().decode(SingleResponse<Meeting.User>.self, from: data)
     return response.data
   }
   
   public func participant(
     for meetingId: Meeting.ID,
-    participantId: User.ID
-  )  async throws -> User {
+    participantId: Meeting.User.ID
+  )  async throws -> Meeting.User {
     let url = baseURL.appendingPathComponent("meetings/\(meetingId)/participants/\(participantId)")
 
     let request = HTTPRequest(
@@ -113,16 +113,16 @@ extension Client {
       ]
     )
     let (data, _) = try await execute(request)
-    let response = try JSONDecoder().decode(SingleResponse<User>.self, from: data)
+    let response = try JSONDecoder().decode(SingleResponse<Meeting.User>.self, from: data)
     return response.data
   }
   
   @discardableResult
   public func updateParticipant(
     for meetingId: Meeting.ID,
-    participantId: User.ID,
+    participantId: Meeting.User.ID,
     user: UpdateUser
-  )  async throws -> User {
+  )  async throws -> Meeting.User {
     let url = baseURL.appendingPathComponent("meetings/\(meetingId)/participants/\(participantId)")
 
     let request = HTTPRequest(
@@ -134,15 +134,15 @@ extension Client {
     )
     let bodyData = try JSONEncoder().encode(user)
     let (data, _) = try await execute(request, body: bodyData)
-    let response = try JSONDecoder().decode(SingleResponse<User>.self, from: data)
+    let response = try JSONDecoder().decode(SingleResponse<Meeting.User>.self, from: data)
     return response.data
   }
   
   @discardableResult
   public func deleteParticipant(
     for meetingId: Meeting.ID,
-    participantId: User.ID
-  )  async throws -> User {
+    participantId: Meeting.User.ID
+  )  async throws -> Meeting.User {
     let url = baseURL.appendingPathComponent("meetings/\(meetingId)/participants/\(participantId)")
 
     let request = HTTPRequest(
@@ -153,13 +153,13 @@ extension Client {
       ]
     )
     let (data, _) = try await execute(request)
-    let response = try JSONDecoder().decode(SingleResponse<User>.self, from: data)
+    let response = try JSONDecoder().decode(SingleResponse<Meeting.User>.self, from: data)
     return response.data
   }
   
   public func refreshParticipantToken(
     for meetingId: Meeting.ID,
-    participantId: User.ID
+    participantId: Meeting.User.ID
   )  async throws -> String {
     let url = baseURL.appendingPathComponent("meetings/\(meetingId)/participants/\(participantId)/token")
 
