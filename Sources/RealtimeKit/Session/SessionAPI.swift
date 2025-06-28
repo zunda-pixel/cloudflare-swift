@@ -45,6 +45,17 @@ extension Client {
     let response = try JSONDecoder().decode(SingleResponse<PaticipantResponse>.self, from: data)
     return response.data.participant
   }
+  
+  public func sessionChat(for sessionId: Session.ID) async throws -> ChatResponse {
+    let url = baseURL.appendingPathComponent("sessions/\(sessionId)/chat")
+    let request = HTTPRequest(
+      method: .get,
+      url: url
+    )
+    let (data, _) = try await execute(request)
+    let response = try JSONDecoder().decode(SingleResponse<ChatResponse>.self, from: data)
+    return response.data
+  }
 }
 
 private struct SessionsResponse: Decodable {
