@@ -67,6 +67,17 @@ extension Client {
     let response = try JSONDecoder().decode(SingleResponse<TranscriptResponse>.self, from: data)
     return response.data
   }
+  
+  public func sessionSummaryTranscript(for sessionId: Session.ID) async throws -> SummaryTranscriptResponse {
+    let url = baseURL.appendingPathComponent("sessions/\(sessionId)/summary")
+    let request = HTTPRequest(
+      method: .get,
+      url: url
+    )
+    let (data, _) = try await execute(request)
+    let response = try JSONDecoder().decode(SingleResponse<SummaryTranscriptResponse>.self, from: data)
+    return response.data
+  }
 }
 
 private struct SessionsResponse: Decodable {

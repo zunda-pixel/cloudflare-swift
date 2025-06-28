@@ -127,6 +127,7 @@ public struct Session: Codable, Hashable, Sendable, Identifiable {
   public enum RecodingStatus: String, Codable, Hashable, Sendable {
     case notRecoded = "NOT_RECORDED"
     case uploaded = "UPLOADED"
+    case recording = "RECORDING"
   }
   
   public enum LiveStreamStatus: String, Codable, Hashable, Sendable {
