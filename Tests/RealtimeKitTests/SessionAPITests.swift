@@ -51,4 +51,12 @@ struct SessionAPITests {
     let chat = try await client.sessionChat(for: sessionId)
     print(chat)
   }
+  
+  @Test(arguments: [
+    UUID(uuidString: "8c377089-cede-4335-8489-89ab39a9cc88")!
+  ])
+  func sessionTranscript(sessionId: Session.ID) async throws {
+    let chat = try await client.sessionTranscript(for: sessionId)
+    print(chat)
+  }
 }
