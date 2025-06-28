@@ -151,6 +151,10 @@ public struct Session: Codable, Hashable, Sendable, Identifiable {
   
   @MemberwiseInit(.public)
   public struct Meta: Codable, Sendable, Hashable {
+    public var roomName: UUID
     
+    private enum CodingKeys: String, CodingKey {
+      case roomName = "room_name"
+    }
   }
 }
