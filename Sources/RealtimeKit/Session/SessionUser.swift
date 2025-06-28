@@ -15,7 +15,7 @@ extension Session {
     public var createdAt: Date
     public var updatedAt: Date
     public var peerStats: PeerStats?
-   
+
     private enum CodingKeys: String, CodingKey {
       case id
       case userId = "user_id"
@@ -29,7 +29,7 @@ extension Session {
       case updatedAt = "updated_at"
       case peerStats = "peer_stats"
     }
-    
+
     public init(from decoder: any Decoder) throws {
       let container = try decoder.container(keyedBy: CodingKeys.self)
       self.id = try container.decode(UUID.self, forKey: .id)
@@ -37,14 +37,26 @@ extension Session {
       self.customParticipantId = try container.decode(String.self, forKey: .customParticipantId)
       self.displayName = try container.decode(String.self, forKey: .displayName)
       self.preset = try container.decodeIfPresent(Preset.self, forKey: .preset)
-      self.joinedAt = try Date(container.decode(String.self, forKey: .joinedAt), strategy: .iso8601WithFractionalSeconds)
-      self.leftAt = try Date(container.decode(String.self, forKey: .leftAt), strategy: .iso8601WithFractionalSeconds)
+      self.joinedAt = try Date(
+        container.decode(String.self, forKey: .joinedAt),
+        strategy: .iso8601WithFractionalSeconds
+      )
+      self.leftAt = try Date(
+        container.decode(String.self, forKey: .leftAt),
+        strategy: .iso8601WithFractionalSeconds
+      )
       self.duration = try container.decode(TimeInterval.self, forKey: .duration)
-      self.createdAt = try Date(container.decode(String.self, forKey: .createdAt), strategy: .iso8601WithFractionalSeconds)
-      self.updatedAt = try Date(container.decode(String.self, forKey: .updatedAt), strategy: .iso8601WithFractionalSeconds)
+      self.createdAt = try Date(
+        container.decode(String.self, forKey: .createdAt),
+        strategy: .iso8601WithFractionalSeconds
+      )
+      self.updatedAt = try Date(
+        container.decode(String.self, forKey: .updatedAt),
+        strategy: .iso8601WithFractionalSeconds
+      )
       self.peerStats = try container.decodeIfPresent(PeerStats.self, forKey: .peerStats)
     }
-    
+
     public func encode(to encoder: any Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
       try container.encode(self.id, forKey: .id)
@@ -52,14 +64,23 @@ extension Session {
       try container.encode(self.customParticipantId, forKey: .customParticipantId)
       try container.encode(self.displayName, forKey: .displayName)
       try container.encodeIfPresent(self.preset, forKey: .preset)
-      try container.encode(self.joinedAt.formatted(.iso8601WithFractionalSeconds), forKey: .joinedAt)
+      try container.encode(
+        self.joinedAt.formatted(.iso8601WithFractionalSeconds),
+        forKey: .joinedAt
+      )
       try container.encode(self.leftAt.formatted(.iso8601WithFractionalSeconds), forKey: .leftAt)
       try container.encode(self.duration, forKey: .duration)
-      try container.encode(self.createdAt.formatted(.iso8601WithFractionalSeconds), forKey: .createdAt)
-      try container.encode(self.updatedAt.formatted(.iso8601WithFractionalSeconds), forKey: .updatedAt)
+      try container.encode(
+        self.createdAt.formatted(.iso8601WithFractionalSeconds),
+        forKey: .createdAt
+      )
+      try container.encode(
+        self.updatedAt.formatted(.iso8601WithFractionalSeconds),
+        forKey: .updatedAt
+      )
       try container.encodeIfPresent(self.peerStats, forKey: .peerStats)
     }
-    
+
     @MemberwiseInit(.public)
     public struct PeerStats: Codable, Sendable, Hashable {
       public var config: String?
@@ -68,7 +89,7 @@ extension Session {
       public var events: [Event]
       public var ipInformation: IPInformation
       public var precallNetworkInformation: PrecallNetwokInformation
-      
+
       private enum CodingKeys: String, CodingKey {
         case config
         case status
@@ -77,7 +98,7 @@ extension Session {
         case ipInformation = "ip_information"
         case precallNetworkInformation = "precall_network_information"
       }
-      
+
       @MemberwiseInit(.public)
       public struct DeviceInformation: Codable, Sendable, Hashable {
         public var browser: String
@@ -92,7 +113,7 @@ extension Session {
         public var sdkVersion: String
         public var userAgent: String
         public var webGLSupport: String?
-        
+
         private enum CodingKeys: String, CodingKey {
           case browser
           case browserVersion = "browser_version"
@@ -108,13 +129,13 @@ extension Session {
           case webGLSupport = "webgl_support"
         }
       }
-      
+
       @MemberwiseInit(.public)
       public struct Event: Codable, Sendable, Hashable {
         public var type: EventType
         public var timestamp: Date
         public var metadata: Metadata?
-        
+
         public enum EventType: String, Codable, Sendable, Hashable {
           case audioOn = "audio_on"
           case videoOn = "video_on"
@@ -138,46 +159,49 @@ extension Session {
           case screenshareStopped = "screenshare_stopped"
           case disconnect
         }
-        
+
         private enum CodingKeys: CodingKey {
           case type
           case timestamp
           case metadata
         }
-        
+
         public init(from decoder: any Decoder) throws {
           let container = try decoder.container(keyedBy: CodingKeys.self)
           self.type = try container.decode(EventType.self, forKey: .type)
-          self.timestamp = try Date(container.decode(String.self, forKey: .timestamp), strategy: .iso8601WithFractionalSeconds)
+          self.timestamp = try Date(
+            container.decode(String.self, forKey: .timestamp),
+            strategy: .iso8601WithFractionalSeconds)
           self.metadata = try container.decodeIfPresent(Metadata.self, forKey: .metadata)
         }
-        
+
         public func encode(to encoder: any Encoder) throws {
           var container = encoder.container(keyedBy: CodingKeys.self)
           try container.encode(self.type, forKey: .type)
-          try container.encode(self.timestamp.formatted(.iso8601WithFractionalSeconds), forKey: .timestamp)
+          try container.encode(
+            self.timestamp.formatted(.iso8601WithFractionalSeconds), forKey: .timestamp)
           try container.encodeIfPresent(self.metadata, forKey: .metadata)
         }
-        
+
         @MemberwiseInit(.public)
         public struct Metadata: Codable, Sendable, Hashable {
           public var deviceType: String?
           public var permission: String?
           public var device: Device?
-          
+
           private enum CodingKeys: String, CodingKey {
             case deviceType = "device_type"
             case permission
             case device
           }
-          
+
           @MemberwiseInit(.public)
           public struct Device: Codable, Sendable, Hashable {
             public var deviceId: String
             public var kind: String
             public var label: String
             public var groupId: String
-            
+
             private enum CodingKeys: String, CodingKey {
               case deviceId = "device_id"
               case kind
@@ -187,7 +211,7 @@ extension Session {
           }
         }
       }
-      
+
       @MemberwiseInit(.public)
       public struct IPInformation: Codable, Sendable, Hashable {
         public var city: String
@@ -198,7 +222,7 @@ extension Session {
         public var portal: String?
         public var region: String
         public var timezone: String
-        
+
         private enum CodingKeys: String, CodingKey {
           case city
           case country
@@ -210,7 +234,7 @@ extension Session {
           case timezone
         }
       }
-      
+
       @MemberwiseInit(.public)
       public struct PrecallNetwokInformation: Codable, Sendable, Hashable {
         public var backendRTT: Int?
@@ -222,7 +246,7 @@ extension Session {
         public var reflexiveConnectivity: Bool?
         public var relayConnectivity: Bool?
         public var fractionalLoss: Int?
-        
+
         private enum CodingKeys: String, CodingKey {
           case backendRTT = "backend_rtt"
           case turnConnectivity = "turn_connectivity"

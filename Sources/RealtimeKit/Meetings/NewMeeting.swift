@@ -11,7 +11,7 @@ public struct NewMeeting: Encodable, Sendable {
   public var summarizeOnEnd: Bool = false
   public var recordingConfig: RecordConfig
   public var aiConfig: AIConfig = AIConfig()
-  
+
   private enum CodingKeys: String, CodingKey {
     case title
     case preferredRegion = "preferred_region"
@@ -22,7 +22,7 @@ public struct NewMeeting: Encodable, Sendable {
     case recordingConfig = "recording_config"
     case aiConfig = "ai_config"
   }
-  
+
   public func encode(to encoder: any Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(self.title, forKey: .title)
@@ -35,4 +35,3 @@ public struct NewMeeting: Encodable, Sendable {
     try container.encode(self.aiConfig, forKey: .aiConfig)
   }
 }
-

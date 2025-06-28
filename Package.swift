@@ -23,8 +23,7 @@ let package = Package(
     .library(
       name: "RealtimeKit",
       targets: ["RealtimeKit"]
-    )
-
+    ),
   ],
   dependencies: [
     .package(url: "https://github.com/apple/swift-http-types.git", from: "1.3.0"),

@@ -14,7 +14,7 @@ public struct Client<HTTPClient: HTTPClientProtocol & Sendable>: Sendable {
     self.apiToken = apiToken
     self.httpClient = httpClient
   }
-  
+
   public init(
     organizationId: String,
     apiKey: String,
