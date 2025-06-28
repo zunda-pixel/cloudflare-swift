@@ -21,4 +21,26 @@ struct SessionAPITests {
     let sessions = try await client.sessions()
     print(sessions)
   }
+  
+  @Test(arguments: [UUID(uuidString: "8c377089-cede-4335-8489-89ab39a9cc88")!])
+  func sessions(sessionId: Session.ID) async throws {
+    let sessions = try await client.session(for: sessionId)
+    print(sessions)
+  }
+  
+  @Test(arguments: [
+    UUID(uuidString: "8c377089-cede-4335-8489-89ab39a9cc88")!
+  ])
+  func sessionParticipants(sessionId: Session.ID) async throws {
+    let sessions = try await client.sessionParticipants(for: sessionId)
+    print(sessions)
+  }
+  
+  @Test(arguments: [
+    (UUID(uuidString: "8c377089-cede-4335-8489-89ab39a9cc88")!, UUID(uuidString: "7b417b23-5cd0-461b-8a71-82d9532e2e78")!)
+  ])
+  func sessionParticipant(sessionId: Session.ID, participantId: Session.User.ID) async throws {
+    let participant = try await client.sessionParticipant(for: sessionId, participantId: participantId)
+    print(participant)
+  }
 }
