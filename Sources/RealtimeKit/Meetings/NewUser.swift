@@ -8,7 +8,7 @@ extension Meeting {
     public var customParticipantId: String
     public var preset: Preset
     public var picture: URL?
-    
+
     private enum CodingKeys: String, CodingKey {
       case name
       case customParticipantId = "custom_participant_id"

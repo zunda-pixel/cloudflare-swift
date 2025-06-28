@@ -11,7 +11,7 @@ extension PagableResponse {
     public var totalCount: Int
     public var startOffset: Int
     public var endOffset: Int
-    
+
     private enum CodingKeys: String, CodingKey {
       case totalCount = "total_count"
       case startOffset = "start_offset"

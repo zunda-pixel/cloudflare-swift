@@ -13,7 +13,7 @@ public struct RecordConfig: Codable, Sendable {
   public var storageConfig: StorageConfig? = nil
   public var realtimeKitBucketConfig: RealtimeKitBucketConfig? = nil
   public var liveStreamingConfig: LiveStreamingConfig? = nil
-  
+
   public enum CodingKeys: String, CodingKey {
     case maxSeconds = "max_seconds"
     case fileNamePrefix = "file_name_prefix"
@@ -40,7 +40,7 @@ extension RecordConfig {
     public var watermark: Watermask? = nil
     /// Controls whether to export video file seperately
     public var exportFile: Bool = true
-    
+
     private enum CodingKeys: String, CodingKey {
       case codec
       case width
@@ -48,7 +48,7 @@ extension RecordConfig {
       case watermark
       case exportFile = "export_file"
     }
-    
+
     @MemberwiseInit(.public)
     public struct Watermask: Codable, Sendable {
       /// URL of the watermark image.
@@ -58,12 +58,12 @@ extension RecordConfig {
       /// Position of the watermark.∫
       public var position: Position = .leftTop
     }
-    
+
     public enum Codec: String, Codable, Sendable {
       case h264 = "H264"
       case vp8 = "VP8"
     }
-    
+
     public enum Position: String, Codable, Sendable {
       case leftTop
       case rightTop
@@ -71,7 +71,7 @@ extension RecordConfig {
       case rightBottom
     }
   }
-  
+
   @MemberwiseInit(.public)
   public struct AudioConfig: Codable, Sendable {
     /// Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.
@@ -80,24 +80,24 @@ extension RecordConfig {
     public var channel: Channel = .stereo
     /// Controls whether to export audio file seperately
     public var exportFile: Bool = true
-    
+
     enum CodingKeys: String, CodingKey {
       case codec
       case channel
       case exportFile = "export_file"
     }
-    
+
     public enum Codec: String, Codable, Sendable {
       case acc = "AAC"
       case mp3 = "MP3"
     }
-    
+
     public enum Channel: String, Codable, Sendable {
       case mono
       case stereo
     }
   }
-  
+
   @MemberwiseInit(.public)
   public struct StorageConfig: Codable, Sendable {
     public var type: StorageType
@@ -124,7 +124,7 @@ extension RecordConfig {
     public var port: Int?
     /// Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY"
     public var privateKey: String?
-    
+
     enum CodingKeys: String, CodingKey {
       case type
       case accessKey = "access_key"
@@ -139,7 +139,7 @@ extension RecordConfig {
       case port
       case privateKey = "private_key"
     }
-    
+
     public enum StorageType: String, Codable, Sendable {
       case aws
       case azure
@@ -147,25 +147,24 @@ extension RecordConfig {
       case gcs
       case sftp
     }
-    
+
     public enum AuthMethod: String, Codable, Sendable {
       case key = "KEY"
       case password = "PASSWORD"
     }
   }
-  
+
   @MemberwiseInit(.public)
   public struct RealtimeKitBucketConfig: Codable, Sendable {
     public var enabled: Bool
   }
-  
+
   @MemberwiseInit(.public)
   public struct LiveStreamingConfig: Codable, Sendable {
     public var rtmpURL: URL
-    
+
     enum CodingKeys: String, CodingKey {
       case rtmpURL = "rtmp_url"
     }
   }
 }
-
