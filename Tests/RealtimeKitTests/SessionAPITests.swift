@@ -75,4 +75,12 @@ struct SessionAPITests {
     let chat = try await client.sessionSummaryTranscript(for: sessionId)
     print(chat)
   }
+  
+  @Test(arguments: [
+    UUID(uuidString: "5BDE0F17-0BAE-4F42-853F-B3A1414F8AC7")!
+  ])
+  func peer(peerId: Session.User.ID) async throws {
+    let peer = try await client.peer(for: peerId)
+    print(peer)
+  }
 }

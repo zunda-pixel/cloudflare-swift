@@ -89,6 +89,17 @@ extension Client {
     let response = try JSONDecoder().decode(SingleResponse<GenerateSessionSummaryTranscriptResponse>.self, from: data)
     return response.data
   }
+
+  public func peer(for peerId: Session.User.ID) async throws -> Session.User {
+    let url = baseURL.appendingPathComponent("sessions/peer-report/\(peerId)")
+    let request = HTTPRequest(
+      method: .get,
+      url: url
+    )
+    let (data, _) = try await execute(request)
+    let response = try JSONDecoder().decode(SingleResponse<PaticipantResponse>.self, from: data)
+    return response.data.participant
+  }
 }
 
 private struct SessionsResponse: Decodable {
