@@ -5,7 +5,7 @@ import MemberwiseInit
 public struct UpdateUser: Codable, Sendable, Hashable {
   public var name: String?
   public var picture: URL?
-  public var preset: User.Preset?
+  public var preset: Preset?
   
   private enum CodingKeys: String, CodingKey {
     case name
