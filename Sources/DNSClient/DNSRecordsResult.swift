@@ -95,6 +95,103 @@ public struct AnyDNSRecord: Sendable, Codable, Hashable {
         return _record.id
     }
     
+    /// Get the zone ID
+    public var zoneId: String? {
+        return _record.zoneId
+    }
+    
+    /// Get the zone name
+    public var zoneName: String? {
+        return _record.zoneName
+    }
+    
+    /// Get the TTL
+    public var ttl: TTL {
+        return _record.ttl
+    }
+    
+    /// Get whether the record is proxiable
+    public var proxiable: Bool? {
+        return _record.proxiable
+    }
+    
+    /// Get whether the record is proxied
+    public var proxied: Bool? {
+        return _record.proxied
+    }
+    
+    /// Get whether the record is locked
+    public var locked: Bool? {
+        return _record.locked
+    }
+    
+    /// Get the record comment
+    public var comment: String? {
+        return _record.comment
+    }
+    
+    /// Get the record tags
+    public var tags: [String]? {
+        return _record.tags
+    }
+    
+    /// Get when the record was created
+    public var createdOn: Date? {
+        return _record.createdOn
+    }
+    
+    /// Get when the record was last modified
+    public var modifiedOn: Date? {
+        return _record.modifiedOn
+    }
+    
+    // MARK: - Type-specific casting helpers
+    
+    /// Cast to ARecord if this is an A record
+    public var asARecord: ARecord? {
+        return `as`(ARecord.self)
+    }
+    
+    /// Cast to AAAARecord if this is an AAAA record
+    public var asAAAARecord: AAAARecord? {
+        return `as`(AAAARecord.self)
+    }
+    
+    /// Cast to CNAMERecord if this is a CNAME record
+    public var asCNAMERecord: CNAMERecord? {
+        return `as`(CNAMERecord.self)
+    }
+    
+    /// Cast to MXRecord if this is an MX record
+    public var asMXRecord: MXRecord? {
+        return `as`(MXRecord.self)
+    }
+    
+    /// Cast to TXTRecord if this is a TXT record
+    public var asTXTRecord: TXTRecord? {
+        return `as`(TXTRecord.self)
+    }
+    
+    /// Cast to SRVRecord if this is an SRV record
+    public var asSRVRecord: SRVRecord? {
+        return `as`(SRVRecord.self)
+    }
+    
+    /// Cast to CAARecord if this is a CAA record
+    public var asCAARecord: CAARecord? {
+        return `as`(CAARecord.self)
+    }
+    
+    /// Cast to NSRecord if this is an NS record
+    public var asNSRecord: NSRecord? {
+        return `as`(NSRecord.self)
+    }
+    
+    /// Cast to PTRRecord if this is a PTR record
+    public var asPTRRecord: PTRRecord? {
+        return `as`(PTRRecord.self)
+    }
+    
     // MARK: - Codable Implementation
     
     public init(from decoder: Decoder) throws {
@@ -109,13 +206,24 @@ public struct AnyDNSRecord: Sendable, Codable, Hashable {
             self._record = try AAAARecord(from: decoder)
         case .cname:
             self._record = try CNAMERecord(from: decoder)
+        case .mx:
+            self._record = try MXRecord(from: decoder)
+        case .txt:
+            self._record = try TXTRecord(from: decoder)
+        case .srv:
+            self._record = try SRVRecord(from: decoder)
+        case .caa:
+            self._record = try CAARecord(from: decoder)
+        case .ns:
+            self._record = try NSRecord(from: decoder)
+        case .ptr:
+            self._record = try PTRRecord(from: decoder)
         default:
-            // For now, we'll throw an error for unsupported types
-            // This will be expanded as we implement more record types
+            // For unsupported record types, we'll throw a descriptive error
             throw DecodingError.dataCorrupted(
                 DecodingError.Context(
                     codingPath: decoder.codingPath,
-                    debugDescription: "Unsupported DNS record type: \(type.rawValue)"
+                    debugDescription: "Unsupported DNS record type: \(type.rawValue). Supported types are: A, AAAA, CNAME, MX, TXT, SRV, CAA, NS, PTR"
                 )
             )
         }

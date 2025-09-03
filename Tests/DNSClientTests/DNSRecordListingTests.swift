@@ -343,6 +343,346 @@ struct DNSRecordListingTests {
         #expect(result.resultInfo == nil)
     }
     
+    // MARK: - Mixed Record Type Tests
+    
+    @Test("List DNS records with mixed record types")
+    func testListDNSRecords_MixedRecordTypes() async throws {
+        let client = createMockClient()
+        
+        let mockRecords = [
+            // A Record
+            [
+                "id": "record1",
+                "zone_id": "zone123",
+                "zone_name": "example.com",
+                "name": "example.com",
+                "type": "A",
+                "content": "192.168.1.1",
+                "ttl": 300,
+                "proxiable": true,
+                "proxied": false,
+                "locked": false,
+                "created_on": "2023-01-01T00:00:00.000000Z",
+                "modified_on": "2023-01-01T00:00:00.000000Z"
+            ],
+            // AAAA Record
+            [
+                "id": "record2",
+                "zone_id": "zone123",
+                "zone_name": "example.com",
+                "name": "example.com",
+                "type": "AAAA",
+                "content": "2001:db8::1",
+                "ttl": 300,
+                "proxiable": true,
+                "proxied": false,
+                "locked": false,
+                "created_on": "2023-01-01T00:00:00.000000Z",
+                "modified_on": "2023-01-01T00:00:00.000000Z"
+            ],
+            // CNAME Record
+            [
+                "id": "record3",
+                "zone_id": "zone123",
+                "zone_name": "example.com",
+                "name": "www.example.com",
+                "type": "CNAME",
+                "content": "example.com",
+                "ttl": 1,
+                "proxiable": true,
+                "proxied": true,
+                "locked": false,
+                "created_on": "2023-01-01T00:00:00.000000Z",
+                "modified_on": "2023-01-01T00:00:00.000000Z"
+            ],
+            // MX Record
+            [
+                "id": "record4",
+                "zone_id": "zone123",
+                "zone_name": "example.com",
+                "name": "example.com",
+                "type": "MX",
+                "content": "mail.example.com",
+                "priority": 10,
+                "data": [
+                    "priority": 10,
+                    "target": "mail.example.com"
+                ],
+                "ttl": 300,
+                "proxiable": false,
+                "proxied": false,
+                "locked": false,
+                "created_on": "2023-01-01T00:00:00.000000Z",
+                "modified_on": "2023-01-01T00:00:00.000000Z"
+            ],
+            // TXT Record
+            [
+                "id": "record5",
+                "zone_id": "zone123",
+                "zone_name": "example.com",
+                "name": "example.com",
+                "type": "TXT",
+                "content": "v=spf1 include:_spf.google.com ~all",
+                "ttl": 300,
+                "proxiable": false,
+                "proxied": false,
+                "locked": false,
+                "created_on": "2023-01-01T00:00:00.000000Z",
+                "modified_on": "2023-01-01T00:00:00.000000Z"
+            ],
+            // SRV Record
+            [
+                "id": "record6",
+                "zone_id": "zone123",
+                "zone_name": "example.com",
+                "name": "_sip._tcp.example.com",
+                "type": "SRV",
+                "content": "sip.example.com",
+                "priority": 10,
+                "weight": 5,
+                "port": 5060,
+                "data": [
+                    "priority": 10,
+                    "weight": 5,
+                    "port": 5060,
+                    "target": "sip.example.com"
+                ],
+                "ttl": 300,
+                "proxiable": false,
+                "proxied": false,
+                "locked": false,
+                "created_on": "2023-01-01T00:00:00.000000Z",
+                "modified_on": "2023-01-01T00:00:00.000000Z"
+            ],
+            // CAA Record
+            [
+                "id": "record7",
+                "zone_id": "zone123",
+                "zone_name": "example.com",
+                "name": "example.com",
+                "type": "CAA",
+                "content": "0 issue letsencrypt.org",
+                "flags": 0,
+                "tag": "issue",
+                "value": "letsencrypt.org",
+                "data": [
+                    "flags": 0,
+                    "tag": "issue",
+                    "value": "letsencrypt.org"
+                ],
+                "ttl": 300,
+                "proxiable": false,
+                "proxied": false,
+                "locked": false,
+                "created_on": "2023-01-01T00:00:00.000000Z",
+                "modified_on": "2023-01-01T00:00:00.000000Z"
+            ],
+            // NS Record
+            [
+                "id": "record8",
+                "zone_id": "zone123",
+                "zone_name": "example.com",
+                "name": "subdomain.example.com",
+                "type": "NS",
+                "content": "ns1.example.com",
+                "ttl": 86400,
+                "proxiable": false,
+                "proxied": false,
+                "locked": false,
+                "created_on": "2023-01-01T00:00:00.000000Z",
+                "modified_on": "2023-01-01T00:00:00.000000Z"
+            ],
+            // PTR Record
+            [
+                "id": "record9",
+                "zone_id": "zone123",
+                "zone_name": "example.com",
+                "name": "1.1.168.192.in-addr.arpa",
+                "type": "PTR",
+                "content": "example.com",
+                "ttl": 300,
+                "proxiable": false,
+                "proxied": false,
+                "locked": false,
+                "created_on": "2023-01-01T00:00:00.000000Z",
+                "modified_on": "2023-01-01T00:00:00.000000Z"
+            ]
+        ]
+        
+        client.httpClient.mockResponse = (
+            createSuccessResponse(records: mockRecords),
+            HTTPResponse(status: .ok)
+        )
+        
+        let result = try await client.listDNSRecords(zoneId: "zone123")
+        
+        #expect(result.records.count == 9)
+        
+        // Test type-specific casting
+        let aRecord = result.records[0].asARecord
+        #expect(aRecord != nil)
+        #expect(aRecord?.content == "192.168.1.1")
+        #expect(aRecord?.type == .a)
+        
+        let aaaaRecord = result.records[1].asAAAARecord
+        #expect(aaaaRecord != nil)
+        #expect(aaaaRecord?.content == "2001:db8::1")
+        #expect(aaaaRecord?.type == .aaaa)
+        
+        let cnameRecord = result.records[2].asCNAMERecord
+        #expect(cnameRecord != nil)
+        #expect(cnameRecord?.content == "example.com")
+        #expect(cnameRecord?.type == .cname)
+        
+        let mxRecord = result.records[3].asMXRecord
+        #expect(mxRecord != nil)
+        #expect(mxRecord?.content == "mail.example.com")
+        #expect(mxRecord?.priority == 10)
+        #expect(mxRecord?.type == .mx)
+        
+        let txtRecord = result.records[4].asTXTRecord
+        #expect(txtRecord != nil)
+        #expect(txtRecord?.content == "v=spf1 include:_spf.google.com ~all")
+        #expect(txtRecord?.type == .txt)
+        
+        let srvRecord = result.records[5].asSRVRecord
+        #expect(srvRecord != nil)
+        #expect(srvRecord?.content == "sip.example.com")
+        #expect(srvRecord?.priority == 10)
+        #expect(srvRecord?.weight == 5)
+        #expect(srvRecord?.port == 5060)
+        #expect(srvRecord?.type == .srv)
+        
+        let caaRecord = result.records[6].asCAARecord
+        #expect(caaRecord != nil)
+        #expect(caaRecord?.content == "0 issue letsencrypt.org")
+        #expect(caaRecord?.flags == 0)
+        #expect(caaRecord?.tag == "issue")
+        #expect(caaRecord?.value == "letsencrypt.org")
+        #expect(caaRecord?.type == .caa)
+        
+        let nsRecord = result.records[7].asNSRecord
+        #expect(nsRecord != nil)
+        #expect(nsRecord?.content == "ns1.example.com")
+        #expect(nsRecord?.type == .ns)
+        
+        let ptrRecord = result.records[8].asPTRRecord
+        #expect(ptrRecord != nil)
+        #expect(ptrRecord?.content == "example.com")
+        #expect(ptrRecord?.type == .ptr)
+        
+        // Test generic access through AnyDNSRecord
+        for (index, record) in result.records.enumerated() {
+            #expect(record.id == "record\(index + 1)")
+            #expect(record.zoneId == "zone123")
+            #expect(record.zoneName == "example.com")
+            #expect(record.createdOn != nil)
+            #expect(record.modifiedOn != nil)
+        }
+        
+        // Test type filtering through AnyDNSRecord
+        let aRecords = result.records.filter { $0.type == .a }
+        #expect(aRecords.count == 1)
+        
+        let mxRecords = result.records.filter { $0.type == .mx }
+        #expect(mxRecords.count == 1)
+        
+        let proxiableRecords = result.records.filter { $0.proxiable == true }
+        #expect(proxiableRecords.count == 3) // A, AAAA, CNAME
+        
+        let proxiedRecords = result.records.filter { $0.proxied == true }
+        #expect(proxiedRecords.count == 1) // Only CNAME
+    }
+    
+    @Test("AnyDNSRecord type casting")
+    func testAnyDNSRecord_TypeCasting() async throws {
+        let client = createMockClient()
+        
+        let mockRecords = [
+            [
+                "id": "record1",
+                "zone_id": "zone123",
+                "zone_name": "example.com",
+                "name": "example.com",
+                "type": "A",
+                "content": "192.168.1.1",
+                "ttl": 300,
+                "proxiable": true,
+                "proxied": false,
+                "locked": false,
+                "created_on": "2023-01-01T00:00:00.000000Z",
+                "modified_on": "2023-01-01T00:00:00.000000Z"
+            ]
+        ]
+        
+        client.httpClient.mockResponse = (
+            createSuccessResponse(records: mockRecords),
+            HTTPResponse(status: .ok)
+        )
+        
+        let result = try await client.listDNSRecords(zoneId: "zone123")
+        let anyRecord = result.records[0]
+        
+        // Test successful casting
+        let aRecord = anyRecord.as(ARecord.self)
+        #expect(aRecord != nil)
+        #expect(aRecord?.content == "192.168.1.1")
+        
+        // Test failed casting
+        let mxRecord = anyRecord.as(MXRecord.self)
+        #expect(mxRecord == nil)
+        
+        // Test convenience properties
+        #expect(anyRecord.asARecord != nil)
+        #expect(anyRecord.asMXRecord == nil)
+        #expect(anyRecord.asCNAMERecord == nil)
+        #expect(anyRecord.asTXTRecord == nil)
+        #expect(anyRecord.asSRVRecord == nil)
+        #expect(anyRecord.asCAARecord == nil)
+        #expect(anyRecord.asNSRecord == nil)
+        #expect(anyRecord.asPTRRecord == nil)
+    }
+    
+    @Test("Handle unsupported DNS record type")
+    func testListDNSRecords_UnsupportedRecordType() async throws {
+        let client = createMockClient()
+        
+        let mockRecords = [
+            [
+                "id": "record1",
+                "zone_id": "zone123",
+                "zone_name": "example.com",
+                "name": "example.com",
+                "type": "SOA", // Unsupported type
+                "content": "ns1.example.com admin.example.com 2023010101 3600 1800 604800 86400",
+                "ttl": 86400,
+                "proxiable": false,
+                "proxied": false,
+                "locked": false,
+                "created_on": "2023-01-01T00:00:00.000000Z",
+                "modified_on": "2023-01-01T00:00:00.000000Z"
+            ]
+        ]
+        
+        client.httpClient.mockResponse = (
+            createSuccessResponse(records: mockRecords),
+            HTTPResponse(status: .ok)
+        )
+        
+        do {
+            _ = try await client.listDNSRecords(zoneId: "zone123")
+            Issue.record("Expected error for unsupported record type")
+        } catch DNSRequestError.networkError(let underlyingError) {
+            if case DecodingError.dataCorrupted(let context) = underlyingError {
+                #expect(context.debugDescription.contains("Unsupported DNS record type: SOA"))
+            } else {
+                Issue.record("Unexpected underlying error: \(underlyingError)")
+            }
+        } catch {
+            Issue.record("Unexpected error: \(error)")
+        }
+    }
+    
     // MARK: - Combined Filter Tests
     
     @Test("List DNS records with combined filters")

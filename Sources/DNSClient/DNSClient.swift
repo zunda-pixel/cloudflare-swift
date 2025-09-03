@@ -102,9 +102,10 @@ extension DNSClient {
             if dnsResponse.success, let records = dnsResponse.result {
                 // Parse result_info from the response if present
                 let resultInfo: ResultInfo?
-                if let data = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-                   let resultInfoData = data["result_info"] as? [String: Any] {
-                    resultInfo = try? JSONDecoder.dns.decode(ResultInfo.self, from: JSONSerialization.data(withJSONObject: resultInfoData))
+                if let responseDict = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                   let resultInfoData = responseDict["result_info"] as? [String: Any] {
+                    let resultInfoJSON = try JSONSerialization.data(withJSONObject: resultInfoData)
+                    resultInfo = try? JSONDecoder.dns.decode(ResultInfo.self, from: resultInfoJSON)
                 } else {
                     resultInfo = nil
                 }
@@ -284,15 +285,3 @@ extension DNSClient {
     }
 }
 
-// MARK: - Internal Response Models
-
-/// Internal response model for DNS records listing
-private struct DNSListResponse: Sendable, Codable, Hashable {
-    let records: [AnyDNSRecord]
-    let resultInfo: ResultInfo?
-    
-    private enum CodingKeys: String, CodingKey {
-        case records = "result"
-        case resultInfo = "result_info"
-    }
-}
