@@ -9,7 +9,7 @@ let package = Package(
     .iOS(.v15),
     .tvOS(.v15),
     .watchOS(.v8),
-    .visionOS(.v1),
+    .visionOS(.v1)
   ],
   products: [
     .library(
@@ -24,7 +24,7 @@ let package = Package(
   dependencies: [
     .package(url: "https://github.com/apple/swift-http-types", from: "1.3.0"),
     .package(url: "https://github.com/vapor/multipart-kit", from: "5.0.0-alpha.5"),
-    .package(url: "https://github.com/zunda-pixel/http-client", from: "0.3.0"),
+    .package(url: "https://github.com/zunda-pixel/http-client", from: "0.3.0")
   ],
   targets: [
     .target(
@@ -33,7 +33,7 @@ let package = Package(
         .product(name: "HTTPTypes", package: "swift-http-types"),
         .product(name: "HTTPTypesFoundation", package: "swift-http-types"),
         .product(name: "MultipartKit", package: "multipart-kit"),
-        .product(name: "HTTPClient", package: "http-client"),
+        .product(name: "HTTPClient", package: "http-client")
       ]
     ),
     .target(
@@ -41,7 +41,7 @@ let package = Package(
       dependencies: [
         .product(name: "HTTPTypes", package: "swift-http-types"),
         .product(name: "HTTPTypesFoundation", package: "swift-http-types"),
-        .product(name: "HTTPClient", package: "http-client"),
+        .product(name: "HTTPClient", package: "http-client")
       ]
     ),
     .testTarget(
@@ -58,6 +58,6 @@ let package = Package(
       dependencies: [
         .target(name: "DNSClient")
       ]
-    ),
+    )
   ]
 )

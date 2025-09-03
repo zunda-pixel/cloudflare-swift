@@ -21,7 +21,7 @@ extension ImagesClient {
 
     var queries: [String: String] = [
       "per_page": String(perPage),
-      "sort_order": sorOrder.rawValue,
+      "sort_order": sorOrder.rawValue
     ]
 
     continuationToken.map { queries["continuation_token"] = $0 }
