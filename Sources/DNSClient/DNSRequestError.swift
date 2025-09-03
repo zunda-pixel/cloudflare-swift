@@ -29,6 +29,15 @@ public enum DNSRequestError: Error, Equatable {
     /// One or more operations in a batch request failed
     case batchOperationFailed(errors: [BatchError])
     
+    /// Batch size exceeds the maximum allowed limit
+    case batchSizeExceeded(count: Int, maximum: Int)
+    
+    /// Batch operation contains no records
+    case emptyBatch
+    
+    /// Validation failed for a record in a batch operation
+    case batchValidationFailed(index: Int, error: DNSMessageContent)
+    
     /// Authentication failed - invalid API token or insufficient permissions
     case invalidAuthentication
     
@@ -78,6 +87,12 @@ public enum DNSRequestError: Error, Equatable {
             return lhsCode == rhsCode
         case (.batchOperationFailed(let lhsErrors), .batchOperationFailed(let rhsErrors)):
             return lhsErrors == rhsErrors
+        case (.batchSizeExceeded(let lhsCount, let lhsMax), .batchSizeExceeded(let rhsCount, let rhsMax)):
+            return lhsCount == rhsCount && lhsMax == rhsMax
+        case (.emptyBatch, .emptyBatch):
+            return true
+        case (.batchValidationFailed(let lhsIndex, let lhsError), .batchValidationFailed(let rhsIndex, let rhsError)):
+            return lhsIndex == rhsIndex && lhsError == rhsError
         case (.unknown(let lhsErrors), .unknown(let rhsErrors)):
             return lhsErrors == rhsErrors
         case (.networkError(_), .networkError(_)):
