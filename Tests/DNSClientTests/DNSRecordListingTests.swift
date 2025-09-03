@@ -308,20 +308,21 @@ struct DNSRecordListingTests {
         }
     }
     
-    @Test("List DNS records with HTTP error")
-    func testListDNSRecords_HTTPError() async throws {
+    @Test("List DNS records with network error")
+    func testListDNSRecords_NetworkError() async throws {
         let client = createMockClient()
         
+        // Return invalid JSON to simulate network/parsing error
         client.httpClient.mockResponse = (
-            Data(),
+            Data("invalid json".utf8),
             HTTPResponse(status: .internalServerError)
         )
         
         do {
             _ = try await client.listDNSRecords(zoneId: "zone123")
-            Issue.record("Expected error for HTTP failure")
-        } catch DNSRequestError.httpError(let statusCode) {
-            #expect(statusCode == 500)
+            Issue.record("Expected error for network failure")
+        } catch DNSRequestError.networkError {
+            // Expected error for JSON parsing failure
         } catch {
             Issue.record("Unexpected error: \(error)")
         }
@@ -393,19 +394,3 @@ struct DNSRecordListingTests {
     }
 }
 
-// MARK: - Mock HTTP Client
-
-final class MockHTTPClient: HTTPClientProtocol, @unchecked Sendable {
-    var mockResponse: (Data, HTTPResponse)?
-    var lastRequest: HTTPRequest?
-    
-    func execute(for request: HTTPRequest, from body: Data?) async throws -> (Data, HTTPResponse) {
-        lastRequest = request
-        
-        guard let response = mockResponse else {
-            throw NSError(domain: "MockError", code: 0, userInfo: [NSLocalizedDescriptionKey: "No mock response set"])
-        }
-        
-        return response
-    }
-}

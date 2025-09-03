@@ -94,14 +94,9 @@ extension DNSClient {
         let request = HTTPRequest(method: .get, url: url)
         
         do {
-            let (data, response) = try await execute(request)
+            let (data, _) = try await execute(request)
             
-            // Check HTTP status
-            guard response.status.kind == .successful else {
-                throw DNSRequestError.httpError(statusCode: response.status.code)
-            }
-            
-            // Parse response
+            // Parse response first to get DNS-specific errors
             let dnsResponse = try JSONDecoder.dns.decode(DNSResponse<[AnyDNSRecord]>.self, from: data)
             
             if dnsResponse.success, let records = dnsResponse.result {
@@ -118,6 +113,154 @@ extension DNSClient {
                     records: records,
                     resultInfo: resultInfo
                 )
+            } else {
+                throw Self.handleError(errors: dnsResponse.errors)
+            }
+            
+        } catch let error as DNSRequestError {
+            throw error
+        } catch {
+            throw DNSRequestError.networkError(error)
+        }
+    }
+    
+    /// Create a new DNS record
+    /// - Parameters:
+    ///   - zoneId: The zone identifier to create the record in
+    ///   - record: The DNS record to create
+    /// - Returns: The created DNS record with server-assigned values
+    /// - Throws: DNSRequestError for various failure scenarios
+    public func createDNSRecord<T: DNSRecordProtocol>(
+        zoneId: String,
+        record: T
+    ) async throws -> T {
+        // Validate parameters
+        guard !zoneId.isEmpty else {
+            throw DNSRequestError.invalidZoneId
+        }
+        
+        // Validate TTL
+        guard record.ttl.isValid else {
+            throw DNSRequestError.invalidTTL
+        }
+        
+        // Build URL
+        let url = baseURL.appendingPathComponent("zones/\(zoneId)/dns_records")
+        
+        // Create request body
+        let requestBody = try JSONEncoder().encode(record)
+        
+        // Create and execute request
+        var request = HTTPRequest(method: .post, url: url)
+        request.headerFields[.contentType] = "application/json"
+        
+        do {
+            let (data, _) = try await execute(request, body: requestBody)
+            
+            // Parse response first to get DNS-specific errors
+            let dnsResponse = try JSONDecoder.dns.decode(DNSResponse<T>.self, from: data)
+            
+            if dnsResponse.success, let createdRecord = dnsResponse.result {
+                return createdRecord
+            } else {
+                throw Self.handleError(errors: dnsResponse.errors)
+            }
+            
+        } catch let error as DNSRequestError {
+            throw error
+        } catch {
+            throw DNSRequestError.networkError(error)
+        }
+    }
+    
+    /// Update an existing DNS record
+    /// - Parameters:
+    ///   - zoneId: The zone identifier containing the record
+    ///   - recordId: The identifier of the record to update
+    ///   - record: The updated DNS record data
+    /// - Returns: The updated DNS record with server-assigned values
+    /// - Throws: DNSRequestError for various failure scenarios
+    public func updateDNSRecord<T: DNSRecordProtocol>(
+        zoneId: String,
+        recordId: String,
+        record: T
+    ) async throws -> T {
+        // Validate parameters
+        guard !zoneId.isEmpty else {
+            throw DNSRequestError.invalidZoneId
+        }
+        
+        guard !recordId.isEmpty else {
+            throw DNSRequestError.recordNotFound
+        }
+        
+        // Validate TTL
+        guard record.ttl.isValid else {
+            throw DNSRequestError.invalidTTL
+        }
+        
+        // Build URL
+        let url = baseURL.appendingPathComponent("zones/\(zoneId)/dns_records/\(recordId)")
+        
+        // Create request body
+        let requestBody = try JSONEncoder().encode(record)
+        
+        // Create and execute request
+        var request = HTTPRequest(method: .put, url: url)
+        request.headerFields[.contentType] = "application/json"
+        
+        do {
+            let (data, _) = try await execute(request, body: requestBody)
+            
+            // Parse response first to get DNS-specific errors
+            let dnsResponse = try JSONDecoder.dns.decode(DNSResponse<T>.self, from: data)
+            
+            if dnsResponse.success, let updatedRecord = dnsResponse.result {
+                return updatedRecord
+            } else {
+                throw Self.handleError(errors: dnsResponse.errors)
+            }
+            
+        } catch let error as DNSRequestError {
+            throw error
+        } catch {
+            throw DNSRequestError.networkError(error)
+        }
+    }
+    
+    /// Delete a DNS record
+    /// - Parameters:
+    ///   - zoneId: The zone identifier containing the record
+    ///   - recordId: The identifier of the record to delete
+    /// - Returns: Confirmation of the deletion with the record ID
+    /// - Throws: DNSRequestError for various failure scenarios
+    public func deleteDNSRecord(
+        zoneId: String,
+        recordId: String
+    ) async throws -> DNSDeleteResult {
+        // Validate parameters
+        guard !zoneId.isEmpty else {
+            throw DNSRequestError.invalidZoneId
+        }
+        
+        guard !recordId.isEmpty else {
+            throw DNSRequestError.recordNotFound
+        }
+        
+        // Build URL
+        let url = baseURL.appendingPathComponent("zones/\(zoneId)/dns_records/\(recordId)")
+        
+        // Create and execute request
+        let request = HTTPRequest(method: .delete, url: url)
+        
+        do {
+            let (data, _) = try await execute(request)
+            
+            // Parse response
+            let dnsResponse = try JSONDecoder.dns.decode(DNSResponse<DNSDeleteResult>.self, from: data)
+            
+            if dnsResponse.success, let deleteResult = dnsResponse.result {
+                return deleteResult
             } else {
                 throw Self.handleError(errors: dnsResponse.errors)
             }
