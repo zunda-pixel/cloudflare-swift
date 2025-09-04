@@ -62,7 +62,7 @@ struct ARecordTests {
       "172.16.0.1",
       "8.8.8.8",
       "255.255.255.255",
-      "1.2.3.4"
+      "1.2.3.4",
     ]
 
     for address in validAddresses {
@@ -93,7 +93,7 @@ struct ARecordTests {
       "192.168.1",  // Too few octets
       "abc.def.ghi.jkl",  // All non-numeric
       "192.168.1.1/24",  // CIDR notation
-      "192.168.1.1:80"  // With port
+      "192.168.1.1:80",  // With port
     ]
 
     for address in invalidAddresses {

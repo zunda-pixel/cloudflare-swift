@@ -102,7 +102,7 @@ struct MXRecordTests {
       "mail.sub.domain.example.com",
       "mx-server.example.com",
       "1mail.example.com",
-      "mail1.example.com"
+      "mail1.example.com",
     ]
 
     for hostname in validHostnames {
@@ -133,7 +133,7 @@ struct MXRecordTests {
       "mail@example.com",  // Invalid character
       "mail example.com",  // Space
       "mail.example.com/path",  // Slash
-      "mail.example.com:25"  // Port number
+      "mail.example.com:25",  // Port number
     ]
 
     for hostname in invalidHostnames {

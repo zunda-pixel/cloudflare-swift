@@ -142,7 +142,7 @@ struct CAARecordTests {
       "digicert.com",
       "sectigo.com",
       "amazon.com",
-      "google.com"
+      "google.com",
     ]
 
     for tag in ["issue", "issuewild"] {
@@ -171,7 +171,7 @@ struct CAARecordTests {
       ".invalid.domain",
       "invalid.domain.",
       "invalid@domain.com",
-      "http://example.com"
+      "http://example.com",
     ]
 
     for tag in ["issue", "issuewild"] {
@@ -191,7 +191,7 @@ struct CAARecordTests {
       "security@example.com",  // Plain email address
       "http://example.com/security",
       "https://example.com/caa-report",
-      "https://security.example.com/report"
+      "https://security.example.com/report",
     ]
 
     for value in validValues {
@@ -217,7 +217,7 @@ struct CAARecordTests {
       "mailto:invalid-email",  // Invalid email format
       "http://",  // Empty URL
       "https://",  // Empty URL
-      "invalid-url"  // Not a URL
+      "invalid-url",  // Not a URL
     ]
 
     for value in invalidValues {

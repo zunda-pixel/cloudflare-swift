@@ -21,7 +21,7 @@ struct DNSRecordListingTests {
       "success": true,
       "errors": [],
       "messages": [],
-      "result": records
+      "result": records,
     ]
 
     if let resultInfo = resultInfo {
@@ -36,7 +36,7 @@ struct DNSRecordListingTests {
       "success": false,
       "errors": errors,
       "messages": [],
-      "result": NSNull()
+      "result": NSNull(),
     ]
 
     return try! JSONSerialization.data(withJSONObject: response)
@@ -61,7 +61,7 @@ struct DNSRecordListingTests {
         "proxied": false,
         "locked": false,
         "created_on": "2023-01-01T00:00:00.000000Z",
-        "modified_on": "2023-01-01T00:00:00.000000Z"
+        "modified_on": "2023-01-01T00:00:00.000000Z",
       ],
       [
         "id": "record2",
@@ -75,8 +75,8 @@ struct DNSRecordListingTests {
         "proxied": true,
         "locked": false,
         "created_on": "2023-01-01T00:00:00.000000Z",
-        "modified_on": "2023-01-01T00:00:00.000000Z"
-      ]
+        "modified_on": "2023-01-01T00:00:00.000000Z",
+      ],
     ]
 
     let resultInfo = [
@@ -84,7 +84,7 @@ struct DNSRecordListingTests {
       "per_page": 100,
       "count": 2,
       "total_count": 2,
-      "total_pages": 1
+      "total_pages": 1,
     ]
 
     client.httpClient.mockResponse = (
@@ -129,7 +129,7 @@ struct DNSRecordListingTests {
         "proxied": false,
         "locked": false,
         "created_on": "2023-01-01T00:00:00.000000Z",
-        "modified_on": "2023-01-01T00:00:00.000000Z"
+        "modified_on": "2023-01-01T00:00:00.000000Z",
       ]
     ]
 
@@ -166,7 +166,7 @@ struct DNSRecordListingTests {
         "proxied": false,
         "locked": false,
         "created_on": "2023-01-01T00:00:00.000000Z",
-        "modified_on": "2023-01-01T00:00:00.000000Z"
+        "modified_on": "2023-01-01T00:00:00.000000Z",
       ]
     ]
 
@@ -203,7 +203,7 @@ struct DNSRecordListingTests {
         "proxied": false,
         "locked": false,
         "created_on": "2023-01-01T00:00:00.000000Z",
-        "modified_on": "2023-01-01T00:00:00.000000Z"
+        "modified_on": "2023-01-01T00:00:00.000000Z",
       ]
     ]
 
@@ -212,7 +212,7 @@ struct DNSRecordListingTests {
       "per_page": 50,
       "count": 1,
       "total_count": 100,
-      "total_pages": 2
+      "total_pages": 2,
     ]
 
     client.httpClient.mockResponse = (
@@ -292,7 +292,7 @@ struct DNSRecordListingTests {
     let errors = [
       [
         "code": 1003,
-        "message": "Invalid zone identifier"
+        "message": "Invalid zone identifier",
       ]
     ]
 
@@ -366,7 +366,7 @@ struct DNSRecordListingTests {
         "proxied": false,
         "locked": false,
         "created_on": "2023-01-01T00:00:00.000000Z",
-        "modified_on": "2023-01-01T00:00:00.000000Z"
+        "modified_on": "2023-01-01T00:00:00.000000Z",
       ],
       // AAAA Record
       [
@@ -381,7 +381,7 @@ struct DNSRecordListingTests {
         "proxied": false,
         "locked": false,
         "created_on": "2023-01-01T00:00:00.000000Z",
-        "modified_on": "2023-01-01T00:00:00.000000Z"
+        "modified_on": "2023-01-01T00:00:00.000000Z",
       ],
       // CNAME Record
       [
@@ -396,7 +396,7 @@ struct DNSRecordListingTests {
         "proxied": true,
         "locked": false,
         "created_on": "2023-01-01T00:00:00.000000Z",
-        "modified_on": "2023-01-01T00:00:00.000000Z"
+        "modified_on": "2023-01-01T00:00:00.000000Z",
       ],
       // MX Record
       [
@@ -409,14 +409,14 @@ struct DNSRecordListingTests {
         "priority": 10,
         "data": [
           "priority": 10,
-          "target": "mail.example.com"
+          "target": "mail.example.com",
         ],
         "ttl": 300,
         "proxiable": false,
         "proxied": false,
         "locked": false,
         "created_on": "2023-01-01T00:00:00.000000Z",
-        "modified_on": "2023-01-01T00:00:00.000000Z"
+        "modified_on": "2023-01-01T00:00:00.000000Z",
       ],
       // TXT Record
       [
@@ -431,7 +431,7 @@ struct DNSRecordListingTests {
         "proxied": false,
         "locked": false,
         "created_on": "2023-01-01T00:00:00.000000Z",
-        "modified_on": "2023-01-01T00:00:00.000000Z"
+        "modified_on": "2023-01-01T00:00:00.000000Z",
       ],
       // SRV Record
       [
@@ -448,14 +448,14 @@ struct DNSRecordListingTests {
           "priority": 10,
           "weight": 5,
           "port": 5060,
-          "target": "sip.example.com"
+          "target": "sip.example.com",
         ],
         "ttl": 300,
         "proxiable": false,
         "proxied": false,
         "locked": false,
         "created_on": "2023-01-01T00:00:00.000000Z",
-        "modified_on": "2023-01-01T00:00:00.000000Z"
+        "modified_on": "2023-01-01T00:00:00.000000Z",
       ],
       // CAA Record
       [
@@ -471,14 +471,14 @@ struct DNSRecordListingTests {
         "data": [
           "flags": 0,
           "tag": "issue",
-          "value": "letsencrypt.org"
+          "value": "letsencrypt.org",
         ],
         "ttl": 300,
         "proxiable": false,
         "proxied": false,
         "locked": false,
         "created_on": "2023-01-01T00:00:00.000000Z",
-        "modified_on": "2023-01-01T00:00:00.000000Z"
+        "modified_on": "2023-01-01T00:00:00.000000Z",
       ],
       // NS Record
       [
@@ -493,7 +493,7 @@ struct DNSRecordListingTests {
         "proxied": false,
         "locked": false,
         "created_on": "2023-01-01T00:00:00.000000Z",
-        "modified_on": "2023-01-01T00:00:00.000000Z"
+        "modified_on": "2023-01-01T00:00:00.000000Z",
       ],
       // PTR Record
       [
@@ -508,8 +508,8 @@ struct DNSRecordListingTests {
         "proxied": false,
         "locked": false,
         "created_on": "2023-01-01T00:00:00.000000Z",
-        "modified_on": "2023-01-01T00:00:00.000000Z"
-      ]
+        "modified_on": "2023-01-01T00:00:00.000000Z",
+      ],
     ]
 
     client.httpClient.mockResponse = (
@@ -614,7 +614,7 @@ struct DNSRecordListingTests {
         "proxied": false,
         "locked": false,
         "created_on": "2023-01-01T00:00:00.000000Z",
-        "modified_on": "2023-01-01T00:00:00.000000Z"
+        "modified_on": "2023-01-01T00:00:00.000000Z",
       ]
     ]
 
@@ -663,7 +663,7 @@ struct DNSRecordListingTests {
         "proxied": false,
         "locked": false,
         "created_on": "2023-01-01T00:00:00.000000Z",
-        "modified_on": "2023-01-01T00:00:00.000000Z"
+        "modified_on": "2023-01-01T00:00:00.000000Z",
       ]
     ]
 
@@ -705,7 +705,7 @@ struct DNSRecordListingTests {
         "proxied": false,
         "locked": false,
         "created_on": "2023-01-01T00:00:00.000000Z",
-        "modified_on": "2023-01-01T00:00:00.000000Z"
+        "modified_on": "2023-01-01T00:00:00.000000Z",
       ]
     ]
 

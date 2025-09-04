@@ -45,7 +45,7 @@ struct CNAMERecordTests {
       "example.com.",  // FQDN with trailing dot
       "localhost",
       "test",
-      "a1-b2.example.com"
+      "a1-b2.example.com",
     ]
 
     for domain in validDomains {
@@ -71,7 +71,7 @@ struct CNAMERecordTests {
       "example.com/path",  // Path included
       "example.c_m",  // Underscore (invalid in hostname)
       "192.168.1.1",  // IP address (not a domain name)
-      "2001:db8::1"  // IPv6 address
+      "2001:db8::1",  // IPv6 address
     ]
 
     for domain in invalidDomains {

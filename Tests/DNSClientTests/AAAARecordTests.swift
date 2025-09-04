@@ -65,7 +65,7 @@ struct AAAARecordTests {
       "fe80::1%lo0",  // Link-local (note: % not validated in this simple implementation)
       "2001:0db8:85a3:0000:0000:8a2e:0370:7334",  // Full with leading zeros
       "2001:db8:85a3:0:0:8a2e:370:7334",  // Mixed compression
-      "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"  // All F's
+      "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",  // All F's
     ]
 
     for address in validAddresses {
@@ -97,7 +97,7 @@ struct AAAARecordTests {
       ":2001:db8:85a3:0:0:8a2e:370:7334",  // Leading colon
       "2001.db8.85a3.0.0.8a2e.370.7334",  // Dots instead of colons
       "192.168.1.1",  // IPv4 address
-      "2001:db8:85a3:0:0:8a2e:370:7334/64"  // CIDR notation
+      "2001:db8:85a3:0:0:8a2e:370:7334/64",  // CIDR notation
     ]
 
     for address in invalidAddresses {
@@ -116,7 +116,7 @@ struct AAAARecordTests {
       ("2001:db8:0:0:0:0:0:1", true),  // Could be compressed but isn't
       ("2001:db8::0:0:1", true),  // Partial compression
       ("0:0:0:0:0:0:0:1", true),  // Could be ::1 but isn't
-      ("0000:0000:0000:0000:0000:0000:0000:0001", true)  // Full zeros with leading
+      ("0000:0000:0000:0000:0000:0000:0000:0001", true),  // Full zeros with leading
     ]
 
     for (address, expected) in edgeCases {

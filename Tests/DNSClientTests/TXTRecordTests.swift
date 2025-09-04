@@ -63,7 +63,7 @@ struct TXTRecordTests {
       "Text with numbers 123 and symbols !@#$%^&*()",  // Mixed content
       "Multi\nline\ntext",  // Multiline text
       "Text with \"quotes\" and 'apostrophes'",  // Quoted content
-      "Text with unicode: 🌟 ñ ü ç"  // Unicode characters
+      "Text with unicode: 🌟 ñ ü ç",  // Unicode characters
     ]
 
     for content in validContents {
@@ -101,7 +101,7 @@ struct TXTRecordTests {
       ("\"already quoted\"", "\"already quoted\""),  // Already quoted
       ("", ""),  // Empty string
       ("123", "123"),  // Numbers only
-      ("!@#$%^&*()", "!@#$%^&*()")  // Special chars without spaces
+      ("!@#$%^&*()", "!@#$%^&*()"),  // Special chars without spaces
     ]
 
     for (input, expected) in testCases {
@@ -122,7 +122,7 @@ struct TXTRecordTests {
       ("", ""),  // Empty string
       ("\"\"", ""),  // Empty quoted string
       ("\"single", "\"single"),  // Malformed (missing end quote)
-      ("single\"", "single\"")  // Malformed (missing start quote)
+      ("single\"", "single\""),  // Malformed (missing start quote)
     ]
 
     for (input, expected) in testCases {
@@ -143,7 +143,7 @@ struct TXTRecordTests {
       ("v=DMARC1; p=reject; rua=mailto:dmarc@example.com", true, "DMARC"),
       ("v=dmarc1; p=none; rua=mailto:reports@example.com", true, "DMARC"),
       ("google-site-verification=abc123def456", true, "Google Site Verification"),
-      ("facebook-domain-verification=xyz789abc123", true, "Facebook Domain Verification")
+      ("facebook-domain-verification=xyz789abc123", true, "Facebook Domain Verification"),
     ]
 
     for (content, shouldBeStructured, expectedType) in structuredRecords {
@@ -162,7 +162,7 @@ struct TXTRecordTests {
       "This is not a structured record",
       "spf1 include:example.com",  // Missing v= prefix
       "dkim1 k=rsa p=abc123",  // Missing v= prefix
-      "dmarc1 p=reject"  // Missing v= prefix
+      "dmarc1 p=reject",  // Missing v= prefix
     ]
 
     for content in unstructuredRecords {

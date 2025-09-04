@@ -111,7 +111,7 @@ struct DNSRecordDeletionTests {
     let errors = [
       [
         "code": 81044,
-        "message": "DNS record not found"
+        "message": "DNS record not found",
       ]
     ]
 
@@ -137,7 +137,7 @@ struct DNSRecordDeletionTests {
     let errors = [
       [
         "code": 1003,
-        "message": "Invalid zone identifier"
+        "message": "Invalid zone identifier",
       ]
     ]
 
@@ -163,7 +163,7 @@ struct DNSRecordDeletionTests {
     let errors = [
       [
         "code": 10000,
-        "message": "Invalid API token"
+        "message": "Invalid API token",
       ]
     ]
 
@@ -209,7 +209,7 @@ struct DNSRecordDeletionTests {
     let errors = [
       [
         "code": 99999,
-        "message": "Unknown error occurred"
+        "message": "Unknown error occurred",
       ]
     ]
 
@@ -264,7 +264,7 @@ struct DNSRecordDeletionTests {
       "simple-id",
       "complex-id-with-dashes-123",
       "1234567890abcdef",
-      "record_with_underscores"
+      "record_with_underscores",
     ]
 
     for recordId in testCases {

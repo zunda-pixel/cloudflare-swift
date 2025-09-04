@@ -14,7 +14,7 @@ struct BatchOperationsTests {
     // Test successful initialization
     let records = [
       ARecord(name: "test1.example.com", content: "192.168.1.1", ttl: .seconds(300)),
-      ARecord(name: "test2.example.com", content: "192.168.1.2", ttl: .seconds(300))
+      ARecord(name: "test2.example.com", content: "192.168.1.2", ttl: .seconds(300)),
     ]
 
     let operation = try BatchDNSOperation(records: records)
@@ -60,7 +60,7 @@ struct BatchOperationsTests {
     // Test validation with valid records
     let validRecords = [
       ARecord(name: "test1.example.com", content: "192.168.1.1", ttl: .seconds(300)),
-      ARecord(name: "test2.example.com", content: "192.168.1.2", ttl: .seconds(300))
+      ARecord(name: "test2.example.com", content: "192.168.1.2", ttl: .seconds(300)),
     ]
 
     let operation = try BatchDNSOperation(records: validRecords)
@@ -72,7 +72,7 @@ struct BatchOperationsTests {
     // Test validation with invalid TTL
     let invalidRecords = [
       ARecord(name: "test1.example.com", content: "192.168.1.1", ttl: .seconds(30)),  // Invalid TTL
-      ARecord(name: "test2.example.com", content: "192.168.1.2", ttl: .seconds(300))
+      ARecord(name: "test2.example.com", content: "192.168.1.2", ttl: .seconds(300)),
     ]
 
     let operation = try BatchDNSOperation(records: invalidRecords)
@@ -97,7 +97,7 @@ struct BatchOperationsTests {
     // Test validation with empty name
     let invalidRecords = [
       ARecord(name: "", content: "192.168.1.1", ttl: .seconds(300)),  // Empty name
-      ARecord(name: "test2.example.com", content: "192.168.1.2", ttl: .seconds(300))
+      ARecord(name: "test2.example.com", content: "192.168.1.2", ttl: .seconds(300)),
     ]
 
     let operation = try BatchDNSOperation(records: invalidRecords)
@@ -123,7 +123,7 @@ struct BatchOperationsTests {
   func testBatchDNSResultProperties() {
     let successRecords = [
       ARecord(name: "test1.example.com", content: "192.168.1.1", ttl: .seconds(300)),
-      ARecord(name: "test2.example.com", content: "192.168.1.2", ttl: .seconds(300))
+      ARecord(name: "test2.example.com", content: "192.168.1.2", ttl: .seconds(300)),
     ]
 
     let errors = [
@@ -142,7 +142,7 @@ struct BatchOperationsTests {
   func testBatchDNSResultCompleteSuccess() {
     let successRecords = [
       ARecord(name: "test1.example.com", content: "192.168.1.1", ttl: .seconds(300)),
-      ARecord(name: "test2.example.com", content: "192.168.1.2", ttl: .seconds(300))
+      ARecord(name: "test2.example.com", content: "192.168.1.2", ttl: .seconds(300)),
     ]
 
     let result = BatchDNSResult(success: successRecords, errors: [])
@@ -157,7 +157,7 @@ struct BatchOperationsTests {
   func testBatchDNSResultCompleteFailure() {
     let errors = [
       BatchError(index: 0, error: DNSMessageContent(code: 1004, message: "Invalid record 1")),
-      BatchError(index: 1, error: DNSMessageContent(code: 1004, message: "Invalid record 2"))
+      BatchError(index: 1, error: DNSMessageContent(code: 1004, message: "Invalid record 2")),
     ]
 
     let result = BatchDNSResult<ARecord>(success: [], errors: errors)
@@ -176,7 +176,7 @@ struct BatchOperationsTests {
       AnyDNSRecord(
         ARecord(name: "test1.example.com", content: "192.168.1.1", ttl: .seconds(300))),
       AnyDNSRecord(
-        AAAARecord(name: "test2.example.com", content: "2001:db8::1", ttl: .seconds(300)))
+        AAAARecord(name: "test2.example.com", content: "2001:db8::1", ttl: .seconds(300))),
     ]
 
     let operation = try MixedBatchDNSOperation(records: records)
@@ -190,7 +190,7 @@ struct BatchOperationsTests {
         ARecord(name: "test1.example.com", content: "192.168.1.1", ttl: .seconds(300))),
       AnyDNSRecord(
         CNAMERecord(
-          name: "test2.example.com", content: "target.example.com", ttl: .seconds(300)))
+          name: "test2.example.com", content: "target.example.com", ttl: .seconds(300))),
     ]
 
     let operation = try MixedBatchDNSOperation(records: records)
@@ -265,7 +265,7 @@ struct BatchOperationsTests {
         recordId: "record2-id",
         record: ARecord(
           name: "test2.example.com", content: "192.168.1.2", ttl: .seconds(300))
-      )
+      ),
     ]
 
     let operation = try BatchUpdateOperation(updates: updates)
@@ -336,7 +336,7 @@ struct BatchOperationsTests {
           CNAMERecord(
             name: "test2.example.com", content: "target.example.com", ttl: .seconds(300)
           ))
-      )
+      ),
     ]
 
     let operation = try MixedBatchUpdateOperation(updates: updates)

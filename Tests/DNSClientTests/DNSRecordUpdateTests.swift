@@ -50,7 +50,7 @@ struct DNSRecordUpdateTests {
       "comment": "Updated A record",
       "tags": ["updated", "test"],
       "created_on": "2023-01-01T00:00:00.000000Z",
-      "modified_on": "2023-01-02T00:00:00.000000Z"
+      "modified_on": "2023-01-02T00:00:00.000000Z",
     ]
 
     client.httpClient.mockResponse = (
@@ -111,7 +111,7 @@ struct DNSRecordUpdateTests {
       "proxied": false,
       "locked": false,
       "created_on": "2023-01-01T00:00:00.000000Z",
-      "modified_on": "2023-01-02T00:00:00.000000Z"
+      "modified_on": "2023-01-02T00:00:00.000000Z",
     ]
 
     client.httpClient.mockResponse = (
@@ -165,7 +165,7 @@ struct DNSRecordUpdateTests {
       "comment": "Updated CNAME",
       "tags": ["cname", "updated"],
       "created_on": "2023-01-01T00:00:00.000000Z",
-      "modified_on": "2023-01-02T00:00:00.000000Z"
+      "modified_on": "2023-01-02T00:00:00.000000Z",
     ]
 
     client.httpClient.mockResponse = (
@@ -304,7 +304,7 @@ struct DNSRecordUpdateTests {
     let errors = [
       [
         "code": 81044,
-        "message": "DNS record not found"
+        "message": "DNS record not found",
       ]
     ]
 
@@ -347,7 +347,7 @@ struct DNSRecordUpdateTests {
     let errors = [
       [
         "code": 1007,
-        "message": "Invalid IP address format"
+        "message": "Invalid IP address format",
       ]
     ]
 
@@ -439,7 +439,7 @@ struct DNSRecordUpdateTests {
       "comment": "Partially updated record",
       "tags": ["test"],
       "created_on": "2023-01-01T00:00:00.000000Z",
-      "modified_on": "2023-01-02T00:00:00.000000Z"
+      "modified_on": "2023-01-02T00:00:00.000000Z",
     ]
 
     client.httpClient.mockResponse = (

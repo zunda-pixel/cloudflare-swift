@@ -62,7 +62,7 @@ struct PTRRecordTests {
       "web-server.example.com",
       "1host.example.com",
       "host1.example.com",
-      "localhost.example.com."  // FQDN with trailing dot
+      "localhost.example.com.",  // FQDN with trailing dot
     ]
 
     for target in validTargets {
@@ -90,7 +90,7 @@ struct PTRRecordTests {
       "host@example.com",  // Invalid character
       "host example.com",  // Space
       "host.example.com/path",  // Slash
-      "host.example.com:80"  // Port number
+      "host.example.com:80",  // Port number
     ]
 
     for target in invalidTargets {
@@ -113,7 +113,7 @@ struct PTRRecordTests {
       "254.1.168.192.in-addr.arpa",  // Full reverse
       "0.0.0.0.in-addr.arpa",  // Zero address
       "255.255.255.255.in-addr.arpa",  // Broadcast address
-      "1.0.0.127.in-addr.arpa."  // FQDN with trailing dot
+      "1.0.0.127.in-addr.arpa.",  // FQDN with trailing dot
     ]
 
     for name in validNames {
@@ -145,7 +145,7 @@ struct PTRRecordTests {
       // Partial IPv6 reverse
       "8.b.d.0.1.0.0.2.ip6.arpa",
       // FQDN
-      "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.2.ip6.arpa."
+      "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.2.ip6.arpa.",
     ]
 
     for name in validNames {
@@ -180,7 +180,7 @@ struct PTRRecordTests {
       // Wrong IPv6 suffix
       "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.2.invalid.arpa",
       "..in-addr.arpa",  // Double dot
-      ".1.0.0.127.in-addr.arpa"  // Leading dot
+      ".1.0.0.127.in-addr.arpa",  // Leading dot
     ]
 
     for name in invalidNames {
@@ -206,7 +206,7 @@ struct PTRRecordTests {
       ("1.0.0.127.in-addr.arpa", "127.0.0.1"),
       ("254.1.168.192.in-addr.arpa", "192.168.1.254"),
       ("1.1.1.1.in-addr.arpa", "1.1.1.1"),
-      ("8.8.8.8.in-addr.arpa", "8.8.8.8")
+      ("8.8.8.8.in-addr.arpa", "8.8.8.8"),
     ]
 
     for (reverseName, expectedIP) in ipv4Cases {

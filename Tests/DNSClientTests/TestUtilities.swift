@@ -30,7 +30,7 @@ extension MockHTTPClient {
       "success": true,
       "errors": [],
       "messages": [],
-      "result": try! JSONSerialization.jsonObject(with: JSONEncoder().encode(result))
+      "result": try! JSONSerialization.jsonObject(with: JSONEncoder().encode(result)),
     ]
 
     return try! JSONSerialization.data(withJSONObject: response)
@@ -41,7 +41,7 @@ extension MockHTTPClient {
       "success": true,
       "errors": [],
       "messages": [],
-      "result": dictionary
+      "result": dictionary,
     ]
 
     return try! JSONSerialization.data(withJSONObject: response)
@@ -52,7 +52,7 @@ extension MockHTTPClient {
       "success": false,
       "errors": errors,
       "messages": [],
-      "result": NSNull()
+      "result": NSNull(),
     ]
 
     return try! JSONSerialization.data(withJSONObject: response)

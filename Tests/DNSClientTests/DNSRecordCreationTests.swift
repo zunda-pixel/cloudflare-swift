@@ -50,7 +50,7 @@ struct DNSRecordCreationTests {
       "comment": "Test A record",
       "tags": ["test"],
       "created_on": "2023-01-01T00:00:00.000000Z",
-      "modified_on": "2023-01-01T00:00:00.000000Z"
+      "modified_on": "2023-01-01T00:00:00.000000Z",
     ]
 
     client.httpClient.mockResponse = (

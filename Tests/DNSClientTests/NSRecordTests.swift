@@ -62,7 +62,7 @@ struct NSRecordTests {
       "ns-server.example.com",
       "1ns.example.com",
       "ns1.example.com.",  // FQDN with trailing dot
-      "cloudflare.com"
+      "cloudflare.com",
     ]
 
     for nameServer in validNameServers {
@@ -92,7 +92,7 @@ struct NSRecordTests {
       "ns@example.com",  // Invalid character
       "ns example.com",  // Space
       "ns.example.com/path",  // Slash
-      "ns.example.com:53"  // Port number
+      "ns.example.com:53",  // Port number
     ]
 
     for nameServer in invalidNameServers {
@@ -287,7 +287,7 @@ struct NSRecordTests {
       "dns1.registrar-servers.com",
       "dns2.registrar-servers.com",
       "ns-1.awsdns-00.com",
-      "ns-2.awsdns-01.net"
+      "ns-2.awsdns-01.net",
     ]
 
     for provider in commonProviders {

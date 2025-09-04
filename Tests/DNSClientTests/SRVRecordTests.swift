@@ -192,7 +192,7 @@ struct SRVRecordTests {
       "_pop3._tcp.mail.example.com",
       "_ldap._tcp.directory.example.com",
       "_xmpp-server._tcp.example.com",
-      "_minecraft._tcp.games.example.com"
+      "_minecraft._tcp.games.example.com",
     ]
 
     for serviceName in validServiceNames {
@@ -229,7 +229,7 @@ struct SRVRecordTests {
       "_sip._tcp.",  // Missing domain after dot
       "_sip@tcp.example.com",  // Invalid character
       "_sip._tcp.example..com",  // Double dot in domain
-      "_sip._tcp..example.com"  // Double dot after protocol
+      "_sip._tcp..example.com",  // Double dot after protocol
     ]
 
     for serviceName in invalidServiceNames {
@@ -263,7 +263,7 @@ struct SRVRecordTests {
       "sip-server.example.com",
       "1sip.example.com",
       "sip1.example.com",
-      "."  // Root domain (valid for SRV)
+      ".",  // Root domain (valid for SRV)
     ]
 
     for hostname in validHostnames {
@@ -296,7 +296,7 @@ struct SRVRecordTests {
       "sip@example.com",  // Invalid character
       "sip example.com",  // Space
       "sip.example.com/path",  // Slash
-      "sip.example.com:5060"  // Port number
+      "sip.example.com:5060",  // Port number
     ]
 
     for hostname in invalidHostnames {
@@ -321,7 +321,7 @@ struct SRVRecordTests {
       ("_sip._tcp.example.com", "sip", "tcp", "example.com"),
       ("_http._tcp.web.example.com", "http", "tcp", "web.example.com"),
       ("_xmpp-server._tcp.chat.example.org", "xmpp-server", "tcp", "chat.example.org"),
-      ("_minecraft._tcp.games.example.net", "minecraft", "tcp", "games.example.net")
+      ("_minecraft._tcp.games.example.net", "minecraft", "tcp", "games.example.net"),
     ]
 
     for (fullName, expectedService, expectedProtocol, expectedDomain) in testCases {
@@ -528,7 +528,7 @@ struct SRVRecordTests {
       ("_pop3._tcp.example.com", 110),
       ("_imap._tcp.example.com", 143),
       ("_sip._tcp.example.com", 5060),
-      ("_sips._tcp.example.com", 5061)
+      ("_sips._tcp.example.com", 5061),
     ]
 
     for (serviceName, defaultPort) in commonServices {

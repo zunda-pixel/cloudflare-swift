@@ -75,7 +75,7 @@ extension DNSClient {
 
     var queryItems: [URLQueryItem] = [
       URLQueryItem(name: "page", value: String(page)),
-      URLQueryItem(name: "per_page", value: String(perPage))
+      URLQueryItem(name: "per_page", value: String(perPage)),
     ]
 
     if let type = type {

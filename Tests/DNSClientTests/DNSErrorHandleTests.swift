@@ -150,7 +150,7 @@ struct DNSErrorHandleTests {
   @Test func multipleErrors() {
     let errors = [
       DNSMessageContent(code: 1003, message: "Invalid zone ID"),
-      DNSMessageContent(code: 1004, message: "Invalid record type")
+      DNSMessageContent(code: 1004, message: "Invalid record type"),
     ]
     let result = DNSErrorHandler.handleError(errors: errors)
 
