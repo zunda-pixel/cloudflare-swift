@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-24.04-arm
     container: swift:latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - run: swift build --build-tests
     - run: swift test --skip-build --enable-swift-testing --parallel
       env:
@@ -17,5 +17,5 @@ jobs:
     runs-on: ubuntu-24.04-arm
     container: swift:latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: swift format lint -r -p -s .
