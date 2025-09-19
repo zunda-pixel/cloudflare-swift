@@ -15,7 +15,11 @@ let package = Package(
     .library(
       name: "ImagesClient",
       targets: ["ImagesClient"]
-    )
+    ),
+    .library(
+      name: "DNSClient",
+      targets: ["DNSClient"]
+    ),
   ],
   dependencies: [
     .package(url: "https://github.com/apple/swift-http-types", from: "1.3.0"),
@@ -32,6 +36,14 @@ let package = Package(
         .product(name: "HTTPClient", package: "http-client"),
       ]
     ),
+    .target(
+      name: "DNSClient",
+      dependencies: [
+        .product(name: "HTTPTypes", package: "swift-http-types"),
+        .product(name: "HTTPTypesFoundation", package: "swift-http-types"),
+        .product(name: "HTTPClient", package: "http-client"),
+      ]
+    ),
     .testTarget(
       name: "ImagesClientTests",
       dependencies: [
@@ -39,6 +51,12 @@ let package = Package(
       ],
       resources: [
         .process("Resources")
+      ]
+    ),
+    .testTarget(
+      name: "DNSClientTests",
+      dependencies: [
+        .target(name: "DNSClient")
       ]
     ),
   ]
