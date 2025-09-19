@@ -13,6 +13,8 @@ jobs:
       env:
         IMAGES_API_TOKEN: ${{ secrets.IMAGES_API_TOKEN }}
         ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
+        REALTIMEKIT_ORGANIZATION_ID: ${{ secrets.REALTIMEKIT_ORGANIZATION_ID }}
+        REALTIMEKIT_API_KEY: ${{ secrets.REALTIMEKIT_API_KEY }}
   lint:
     runs-on: ubuntu-24.04-arm
     container: swift:latest
