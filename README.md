@@ -8,6 +8,7 @@ https://developers.cloudflare.com/api
 ## API List
 
 - [x] Cloudflare Images
+- [x] Cloudflare Email Service
 
 ### Cloudflare Images
 
@@ -21,4 +22,29 @@ let uploadedImage = try await client.upload(
 )
 
 print(uploadedImage)
+```
+
+
+### Cloudflare Email Service
+
+```swift
+import EmailServiceClient
+
+let client = EmailServiceClient(
+  apiToken: "1234567890",
+  accountId: "1234567890",
+  httpClient: .urlSession(.shared)
+)
+
+let result = try await client.send(
+  EmailMessage(
+    to: "recipient@example.com",
+    from: "welcome@example.com",
+    subject: "Welcome!",
+    html: "<h1>Hello!</h1>",
+    text: "Hello!"
+  )
+)
+
+print(result.delivered)
 ```

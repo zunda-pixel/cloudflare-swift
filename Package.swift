@@ -15,7 +15,11 @@ let package = Package(
     .library(
       name: "ImagesClient",
       targets: ["ImagesClient"]
-    )
+    ),
+    .library(
+      name: "EmailServiceClient",
+      targets: ["EmailServiceClient"]
+    ),
   ],
   dependencies: [
     .package(url: "https://github.com/apple/swift-http-types", from: "1.3.0"),
@@ -30,6 +34,19 @@ let package = Package(
         .product(name: "HTTPTypesFoundation", package: "swift-http-types"),
         .product(name: "MultipartKit", package: "multipart-kit"),
         .product(name: "HTTPClient", package: "http-client"),
+      ]
+    ),
+    .target(
+      name: "EmailServiceClient",
+      dependencies: [
+        .product(name: "HTTPTypes", package: "swift-http-types"),
+        .product(name: "HTTPClient", package: "http-client"),
+      ]
+    ),
+    .testTarget(
+      name: "EmailServiceClientTests",
+      dependencies: [
+        .target(name: "EmailServiceClient")
       ]
     ),
     .testTarget(
