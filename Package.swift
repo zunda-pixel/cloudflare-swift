@@ -1,4 +1,4 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 6.1
 
 import PackageDescription
 
@@ -13,11 +13,11 @@ let package = Package(
   ],
   products: [
     .library(
-      name: "ImagesClient",
-      targets: ["ImagesClient"]
+      name: "CloudflareImages",
+      targets: ["Images"]
     ),
     .library(
-      name: "EmailService",
+      name: "CloudflareEmailService",
       targets: ["EmailService"]
     ),
   ],
@@ -28,12 +28,21 @@ let package = Package(
   ],
   targets: [
     .target(
-      name: "ImagesClient",
+      name: "Images",
       dependencies: [
         .product(name: "HTTPTypes", package: "swift-http-types"),
         .product(name: "HTTPTypesFoundation", package: "swift-http-types"),
         .product(name: "MultipartKit", package: "multipart-kit"),
         .product(name: "HTTPClient", package: "http-client"),
+      ]
+    ),
+    .testTarget(
+      name: "ImagesTests",
+      dependencies: [
+        .target(name: "Images")
+      ],
+      resources: [
+        .process("Resources")
       ]
     ),
     .target(
@@ -47,15 +56,6 @@ let package = Package(
       name: "EmailServiceTests",
       dependencies: [
         .target(name: "EmailService")
-      ]
-    ),
-    .testTarget(
-      name: "ImagesClientTests",
-      dependencies: [
-        .target(name: "ImagesClient")
-      ],
-      resources: [
-        .process("Resources")
       ]
     ),
   ]

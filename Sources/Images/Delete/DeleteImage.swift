@@ -6,7 +6,7 @@ import HTTPTypesFoundation
   import FoundationNetworking
 #endif
 
-extension ImagesClient {
+extension Client {
   /// Delete Image
   /// https://developers.cloudflare.com/api/operations/cloudflare-images-delete-image
   /// - Parameter imageId: Image ID

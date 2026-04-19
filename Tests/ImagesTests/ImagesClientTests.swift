@@ -1,7 +1,7 @@
 import Foundation
 import HTTPTypes
 import HTTPTypesFoundation
-import ImagesClient
+import Images
 import Testing
 
 #if canImport(FoundationNetworking)
@@ -10,7 +10,7 @@ import Testing
 
 @Suite
 struct ImagesClientTests {
-  let client = ImagesClient(
+  let client = Client(
     apiToken: ProcessInfo.processInfo.environment["IMAGES_API_TOKEN"]!,
     accountId: ProcessInfo.processInfo.environment["ACCOUNT_ID"]!,
     httpClient: .urlSession(.shared)
@@ -167,7 +167,7 @@ struct ImagesClientTests {
       metadatas: metadatas,
       requireSignedURLs: requireSignedURLs
     )
-    let result = try await ImagesClient.upload(
+    let result = try await Client.upload(
       uploadURL: uploadURL,
       imageURL: cloudflareLogoURL,
       httpClient: .urlSession(.shared)
@@ -185,7 +185,7 @@ struct ImagesClientTests {
       metadatas: metadatas,
       requireSignedURLs: requireSignedURLs
     )
-    let result = try await ImagesClient.upload(
+    let result = try await Client.upload(
       uploadURL: uploadURL,
       imageData: samplePng,
       httpClient: .urlSession(.shared)

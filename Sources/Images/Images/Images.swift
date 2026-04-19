@@ -6,7 +6,7 @@ import HTTPTypesFoundation
   import FoundationNetworking
 #endif
 
-extension ImagesClient {
+extension Client {
   /// List Images
   /// https://developers.cloudflare.com/api/operations/cloudflare-images-list-images-v2
   /// - Parameters:
