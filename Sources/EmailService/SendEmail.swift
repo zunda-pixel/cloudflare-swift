@@ -5,7 +5,7 @@ import HTTPTypes
   import FoundationNetworking
 #endif
 
-extension EmailServiceClient {
+extension Client {
   /// Send email via Cloudflare Email Service REST API.
   /// https://developers.cloudflare.com/email-service/api/send-emails/rest-api/
   /// - Parameter email: Email payload.

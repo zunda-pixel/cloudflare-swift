@@ -2,7 +2,7 @@ import Foundation
 import HTTPClient
 import HTTPTypes
 
-public struct EmailServiceClient<HTTPClient: HTTPClientProtocol & Sendable>: Sendable {
+public struct Client<HTTPClient: HTTPClientProtocol & Sendable>: Sendable {
   public let apiToken: String
   public let accountId: String
   public let httpClient: HTTPClient

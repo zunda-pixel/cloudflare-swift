@@ -1,4 +1,4 @@
-extension EmailServiceClient {
+extension Client {
   static func handleError(errors: [MessageContent]) -> RequestError {
     if errors.map(\.code).contains(10000) {
       return .invalidAuthentication

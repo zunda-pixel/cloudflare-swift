@@ -1,4 +1,4 @@
-import EmailServiceClient
+import EmailService
 import Foundation
 import HTTPTypesFoundation
 import Testing
@@ -8,8 +8,8 @@ import Testing
 #endif
 
 @Suite
-struct EmailServiceClientTests {
-  let client = EmailServiceClient(
+struct EmailServiceTests {
+  let client = EmailService.Client(
     apiToken: ProcessInfo.processInfo.environment["EMAIL_SERVICE_API_TOKEN"]!,
     accountId: ProcessInfo.processInfo.environment["ACCOUNT_ID"]!,
     httpClient: .urlSession(.shared)
