@@ -6,25 +6,25 @@ import HTTPTypesFoundation
   import FoundationNetworking
 #endif
 
-extension ImagesClient {
+extension Client {
   /// Image
   /// https://developers.cloudflare.com/api/operations/cloudflare-images-image-details
   /// - Parameter imageId: Image ID
   /// - Returns: ``Image``
-  public func baseImage(id imageId: String) async throws -> Data {
-    let url = self.baseURL.appendingPathComponent("accounts/\(accountId)/images/v1/\(imageId)/blob")
+  public func image(id imageId: String) async throws -> Image {
+    let url = self.baseURL.appendingPathComponent("accounts/\(accountId)/images/v1/\(imageId)")
 
     let request = HTTPRequest(
       method: .get,
       url: url
     )
 
-    let (data, response) = try await self.execute(request)
+    let (data, _) = try await self.execute(request)
 
-    if response.status.code == 200 {
-      return data
+    let response = try JSONDecoder.images.decode(ImagesResponse<Image>.self, from: data)
+    if let result = response.result, response.success {
+      return result
     } else {
-      let response = try JSONDecoder.images.decode(ImagesResponse<EmptyResult>.self, from: data)
       throw Self.handleError(errors: response.errors)
     }
   }

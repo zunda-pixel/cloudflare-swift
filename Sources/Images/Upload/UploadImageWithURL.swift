@@ -7,7 +7,7 @@ import MultipartKit
   import FoundationNetworking
 #endif
 
-extension ImagesClient {
+extension Client {
   /// Upload Image Data to Cloudflare Images with Upload URL
   /// https://developers.cloudflare.com/api/operations/cloudflare-images-create-authenticated-direct-upload-url-v-2
   /// - Parameters:
