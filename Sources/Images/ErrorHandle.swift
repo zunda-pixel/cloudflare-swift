@@ -1,4 +1,4 @@
-extension ImagesClient {
+extension Client {
   static func handleError(errors: [MessageContent]) -> RequestError {
     if errors.map(\.code).contains(5410) {
       return RequestError.privateImageCantSetCustomID

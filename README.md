@@ -13,9 +13,9 @@ https://developers.cloudflare.com/api
 ### Cloudflare Images
 
 ```swift
-import ImagesClient
+import CloudflareImages
 
-let client = ImagesClient(apiToken: "1234567890", accountId: "1234567890")
+let client = CloudflareImages.Client(apiToken: "1234567890", accountId: "1234567890")
 
 let uploadedImage = try await client.upload(
   imageURL: URL(string: "https://path/to/image")!,
@@ -28,9 +28,9 @@ print(uploadedImage)
 ### Cloudflare Email Service
 
 ```swift
-import EmailServiceClient
+import CloudflareEmailService
 
-let client = EmailServiceClient(
+let client = CloudflareEmailService.Client(
   apiToken: "1234567890",
   accountId: "1234567890",
   httpClient: .urlSession(.shared)
