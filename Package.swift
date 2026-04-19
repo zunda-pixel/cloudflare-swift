@@ -17,8 +17,8 @@ let package = Package(
       targets: ["ImagesClient"]
     ),
     .library(
-      name: "EmailServiceClient",
-      targets: ["EmailServiceClient"]
+      name: "EmailService",
+      targets: ["EmailService"]
     ),
   ],
   dependencies: [
@@ -37,16 +37,16 @@ let package = Package(
       ]
     ),
     .target(
-      name: "EmailServiceClient",
+      name: "EmailService",
       dependencies: [
         .product(name: "HTTPTypes", package: "swift-http-types"),
         .product(name: "HTTPClient", package: "http-client"),
       ]
     ),
     .testTarget(
-      name: "EmailServiceClientTests",
+      name: "EmailServiceTests",
       dependencies: [
-        .target(name: "EmailServiceClient")
+        .target(name: "EmailService")
       ]
     ),
     .testTarget(
