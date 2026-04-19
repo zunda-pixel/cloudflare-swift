@@ -21,7 +21,7 @@ let package = Package(
       targets: ["EmailService"]
     ),
     .library(
-      name: "RealtimeKit",
+      name: "CloudflareRealtimeKit",
       targets: ["RealtimeKit"]
     ),
   ],
