@@ -10,8 +10,8 @@ import Testing
 @Suite
 struct EmailServiceTests {
   let client = EmailService.Client(
-    apiToken: ProcessInfo.processInfo.environment["EMAIL_SERVICE_API_TOKEN"]!,
     accountId: ProcessInfo.processInfo.environment["ACCOUNT_ID"]!,
+    apiToken: ProcessInfo.processInfo.environment["EMAIL_SERVICE_API_TOKEN"]!,
     httpClient: .urlSession(.shared)
   )
 

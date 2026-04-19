@@ -11,8 +11,8 @@ import Testing
 @Suite
 struct ImagesClientTests {
   let client = Client(
-    apiToken: ProcessInfo.processInfo.environment["IMAGES_API_TOKEN"]!,
     accountId: ProcessInfo.processInfo.environment["ACCOUNT_ID"]!,
+    apiToken: ProcessInfo.processInfo.environment["IMAGES_API_TOKEN"]!,
     httpClient: .urlSession(.shared)
   )
 
