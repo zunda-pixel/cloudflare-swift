@@ -1,11 +1,14 @@
 import Foundation
+import MemberwiseInit
 
+@MemberwiseInit(.public)
 public struct EmailResponse: Sendable, Codable, Hashable {
   public var result: Result?
   public var success: Bool
   public var errors: [MessageContent]
   public var messages: [MessageContent]
 
+  @MemberwiseInit(.public)
   public struct Result: Sendable, Codable, Hashable {
     public var delivered: [String]
     public var permanentBounces: [String]

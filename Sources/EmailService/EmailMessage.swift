@@ -1,40 +1,18 @@
 import Foundation
+import MemberwiseInit
 
+@MemberwiseInit(.public)
 public struct EmailMessage: Sendable, Codable, Hashable {
   public var to: RecipientList
-  public var cc: [String]?
-  public var bcc: [String]?
+  public var cc: [String]? = nil
+  public var bcc: [String]? = nil
   public var from: Sender
-  public var replyTo: String?
+  public var replyTo: String? = nil
   public var subject: String
-  public var html: String?
-  public var text: String?
-  public var attachments: [Attachment]?
-  public var headers: [String: String]?
-
-  public init(
-    to: RecipientList,
-    cc: [String]? = nil,
-    bcc: [String]? = nil,
-    from: Sender,
-    replyTo: String? = nil,
-    subject: String,
-    html: String? = nil,
-    text: String? = nil,
-    attachments: [Attachment]? = nil,
-    headers: [String: String]? = nil
-  ) {
-    self.to = to
-    self.cc = cc
-    self.bcc = bcc
-    self.from = from
-    self.replyTo = replyTo
-    self.subject = subject
-    self.html = html
-    self.text = text
-    self.attachments = attachments
-    self.headers = headers
-  }
+  public var html: String? = nil
+  public var text: String? = nil
+  public var attachments: [Attachment]? = nil
+  public var headers: [String: String]? = nil
 
   public init(
     to: String,
@@ -128,21 +106,10 @@ public enum Sender: Sendable, Codable, Hashable {
   }
 }
 
+@MemberwiseInit(.public)
 public struct Attachment: Sendable, Codable, Hashable {
   public var content: String
   public var filename: String
   public var type: String
-  public var disposition: String?
-
-  public init(
-    content: String,
-    filename: String,
-    type: String,
-    disposition: String? = nil
-  ) {
-    self.content = content
-    self.filename = filename
-    self.type = type
-    self.disposition = disposition
-  }
+  public var disposition: String? = nil
 }
