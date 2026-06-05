@@ -1,22 +1,14 @@
 import Foundation
 import HTTPClient
 import HTTPTypes
+import MemberwiseInit
 
+@MemberwiseInit(.public)
 public struct Client<HTTPClient: HTTPClientProtocol & Sendable>: Sendable {
   public var accountId: String
   public var apiToken: String
   public var httpClient: HTTPClient
-  public var baseURL = URL(string: "https://api.cloudflare.com/client/v4")!
-
-  public init(
-    accountId: String,
-    apiToken: String,
-    httpClient: HTTPClient
-  ) {
-    self.apiToken = apiToken
-    self.accountId = accountId
-    self.httpClient = httpClient
-  }
+  public var baseURL: URL = URL(string: "https://api.cloudflare.com/client/v4")!
 
   func execute(_ request: HTTPRequest, body: Data? = nil) async throws -> (Data, HTTPResponse) {
     var request = request
