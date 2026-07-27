@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vapor/multipart-kit",
       "state" : {
-        "revision" : "481a44661dae96a609fc30f6ddad8d6f35c51947",
-        "version" : "5.0.0-alpha.5"
+        "revision" : "fb04cffa1d56dcd90a9a30bb300c2608e4b38000",
+        "version" : "5.0.0-beta.1"
       }
     },
     {
