@@ -11,7 +11,7 @@ jobs:
     container: swift:latest
     steps:
     - uses: actions/checkout@v7.0.1
-    - run: swift test --only-use-versions-from-resolved-file --enable-swift-testing --parallel --filter OfflineTests
+    - run: swift test --only-use-versions-from-resolved-file --parallel --filter OfflineTests
   lint:
     runs-on: ubuntu-24.04-arm
     container: swift:latest
