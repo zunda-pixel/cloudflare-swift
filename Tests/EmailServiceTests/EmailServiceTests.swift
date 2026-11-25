@@ -29,7 +29,10 @@ struct EmailServiceTests {
     #expect(result.delivered.isEmpty)
     #expect(result.queued.isEmpty)
   }
+}
 
+@Suite
+struct OfflineTests {
   @Test
   func decodeSendEmailResult() throws {
     let payload = """
